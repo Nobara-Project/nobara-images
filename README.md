@@ -12,7 +12,7 @@ $ sudo setenforce 0
 Transfer flat kickstart file to mock build environment:
 -----------
 
-cp flat-nobara-live-gnome.ks /var/lib/mock/nobara-35-x86_64/root/builddir/
+cp ISO-ready-flattened-kickstarts/flat-nobara-live-gnome.ks /var/lib/mock/nobara-35-x86_64/root/builddir/
 
 -----------
 
