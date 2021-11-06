@@ -2,8 +2,8 @@ Set up mock build environment:
 ```
 $ sudo dnf install mock
 $ sudo usermod -a -G mock <user>
-$ mock -r nobara-35-x86_64 --init
-$ mock -r nobara-35-x86_64 --install lorax-lmc-novirt vim-minimal pykickstart
+$ mock -r ./nobara-35-x86_64.cfg --init
+$ mock -r ./nobara-35-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart
 $ sudo setenforce 0
 ```
 
@@ -14,7 +14,7 @@ cp ISO-ready-flattened-kickstarts/flat-nobara-live-gnome.ks /var/lib/mock/nobara
 
 Enter mock environment:
 ```
-$ mock -r nobara-35-x86_64 --shell --old-chroot --enable-network
+$ mock -r ./nobara-35-x86_64 --shell --old-chroot --enable-network
 ```
 
 From within mock environment:
