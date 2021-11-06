@@ -130,6 +130,9 @@ gstreamer1-plugins-ugly-free.i686
 gstreamer1-libav.i686
 wine
 winetricks
+openssl
+openssl-libs.i686
+zenity
 
 # mangohud/goverlay
 goverlay

@@ -439,6 +439,7 @@ EOF
 @printing
 @workstation-product
 aajohan-comfortaa-fonts
+akmod-nvidia
 alsa-lib-devel.i686
 alsa-plugins-pulseaudio.i686
 anaconda
@@ -562,6 +563,7 @@ tcp_wrappers-libs.i686
 unixODBC.i686
 wine
 winetricks
+xorg-x11-drv-nvidia-cuda
 zenity
 zlib-devel.i686
 -@dial-up

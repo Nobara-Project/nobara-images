@@ -44,3 +44,17 @@ Finished!
 Note: instructions pulled from official Fedora documentation:
 
 https://fedoraproject.org/wiki/Livemedia-creator-_How_to_create_and_use_a_Live_CD
+
+Note 2:
+
+How to re-flatten kickstarts after modifications:
+
+Gnome:
+```
+# ksflatten --config base-kickstarts/nobara-live-gnome.ks -o ISO-ready-flattened-kickstarts/flat-nobara-live-gnome.ks --version F35
+```
+
+Gnome-nvidia:
+```
+# ksflatten --config base-kickstarts/nobara-live-gnome-nv.ks -o ISO-ready-flattened-kickstarts/flat-nobara-live-gnome-nv.ks --version F35
+```
