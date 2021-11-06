@@ -9,7 +9,7 @@ $ sudo setenforce 0
 
 Transfer flat kickstart file to mock build environment:
 ```
-cp ISO-ready-flattened-kickstarts/flat-nobara-live-gnome.ks /var/lib/mock/nobara-35-x86_64/root/builddir/
+$ cp ISO-ready-flattened-kickstarts/flat-nobara-live-gnome.ks /var/lib/mock/nobara-35-x86_64/root/builddir/
 ```
 
 Enter mock environment:
@@ -29,12 +29,13 @@ Exit mock environment when build completes:
 
 Move built ISO from mock location to whatever location you want:
 ```
-mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/*.iso $HOME
+$ sudo mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/Nobara-Workstation-35.iso $HOME/
+$ sudo chown <user>:<user> $HOME/Nobara-Workstation-35.iso
 ```
 
 Clean up mock environment:
 ```
-$ mock -r nobara-35-x86_64 --clean
+$ mock -r ./nobara-35-x86_64.cfg --clean
 $ sudo setenforce 1
 ```
 
