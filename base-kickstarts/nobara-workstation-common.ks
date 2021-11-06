@@ -134,6 +134,10 @@ openssl
 openssl-libs.i686
 zenity
 
+# additional tools
+vim
+dnfdragora
+
 # mangohud/goverlay
 goverlay
 mangohud

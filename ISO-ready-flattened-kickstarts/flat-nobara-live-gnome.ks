@@ -446,6 +446,7 @@ anaconda-install-env-deps
 anaconda-live
 chkconfig
 cups-devel.i686
+dnfdragora
 dracut-live
 fedora-repos
 flac-libs.i686
@@ -560,6 +561,7 @@ steam
 syslinux
 tcp_wrappers-libs.i686
 unixODBC.i686
+vim
 wine
 winetricks
 zenity
