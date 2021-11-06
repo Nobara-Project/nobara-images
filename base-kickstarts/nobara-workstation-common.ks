@@ -128,6 +128,8 @@ gstreamer1-plugins-bad-freeworld.i686
 gstreamer1-plugins-ugly.i686
 gstreamer1-plugins-ugly-free.i686
 gstreamer1-libav.i686
+wine
+winetricks
 
 # mangohud/goverlay
 goverlay

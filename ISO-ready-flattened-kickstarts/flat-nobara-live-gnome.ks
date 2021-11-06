@@ -558,6 +558,8 @@ steam
 syslinux
 tcp_wrappers-libs.i686
 unixODBC.i686
+wine
+winetricks
 zlib-devel.i686
 -@dial-up
 -@input-methods
