@@ -53,8 +53,3 @@ Gnome:
 ```
 # ksflatten --config base-kickstarts/nobara-live-gnome.ks -o ISO-ready-flattened-kickstarts/flat-nobara-live-gnome.ks --version F35
 ```
-
-Gnome-nvidia:
-```
-# ksflatten --config base-kickstarts/nobara-live-gnome-nv.ks -o ISO-ready-flattened-kickstarts/flat-nobara-live-gnome-nv.ks --version F35
-```
