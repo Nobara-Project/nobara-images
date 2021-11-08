@@ -46,12 +46,12 @@ Move built ISO from mock location to whatever location you want:
 
 Gnome:
 ```
-$ sudo mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/Nobara-Workstation-35.iso $HOME/
+$ sudo mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/Nobara-Workstation-35.iso .
 ```
 
 KDE:
 ```
-$ sudo mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/Nobara-Workstation-35-KDE.iso $HOME/
+$ sudo mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/Nobara-Workstation-35-KDE.iso .
 ```
 
 Clean up mock environment:
