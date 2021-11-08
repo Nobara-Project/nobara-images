@@ -588,6 +588,7 @@ zlib-devel.i686
 -@admin-tools
 -@input-methods
 -desktop-backgrounds-basic
+-device-mapper-multipath
 -digikam
 -gnome-disk-utility
 -gst-editing-services

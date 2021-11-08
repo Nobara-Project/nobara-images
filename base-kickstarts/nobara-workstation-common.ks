@@ -153,6 +153,9 @@ kdenlive
 -gst-editing-services
 -rygel
 
+# multipath is only for data center usage, it's pointless on a home gaming system
+-device-mapper-multipath
+
 # Exclude unwanted packages from @anaconda-tools group
 -gfs2-utils
 -reiserfs-utils

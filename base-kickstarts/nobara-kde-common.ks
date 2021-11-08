@@ -147,6 +147,9 @@ kdenlive
 -gst-editing-services
 -rygel
 
+# multipath is only for data center usage, it's pointless on a home gaming system
+-device-mapper-multipath
+
 -@admin-tools
 
 ### The KDE-Desktop

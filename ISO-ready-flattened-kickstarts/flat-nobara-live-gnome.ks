@@ -571,6 +571,7 @@ zlib-devel.i686
 -@dial-up
 -@input-methods
 -@standard
+-device-mapper-multipath
 -gfs2-utils
 -gst-editing-services
 -reiserfs-utils
