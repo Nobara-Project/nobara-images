@@ -155,6 +155,7 @@ kdenlive
 
 # multipath is only for data center usage, it's pointless on a home gaming system
 -device-mapper-multipath
+-fcoe-utils
 
 # Exclude unwanted packages from @anaconda-tools group
 -gfs2-utils

@@ -572,6 +572,7 @@ zlib-devel.i686
 -@input-methods
 -@standard
 -device-mapper-multipath
+-fcoe-utils
 -gfs2-utils
 -gst-editing-services
 -reiserfs-utils

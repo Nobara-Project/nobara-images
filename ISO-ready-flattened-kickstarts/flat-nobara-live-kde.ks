@@ -459,6 +459,7 @@ dnfdragora
 dracut-live
 fedora-release-kde
 fedora-repos
+fedora-workstation-repositories
 flac-libs.i686
 fontconfig-devel.i686
 freetype-devel.i686
@@ -590,6 +591,7 @@ zlib-devel.i686
 -desktop-backgrounds-basic
 -device-mapper-multipath
 -digikam
+-fcoe-utils
 -gnome-disk-utility
 -gst-editing-services
 -hplip

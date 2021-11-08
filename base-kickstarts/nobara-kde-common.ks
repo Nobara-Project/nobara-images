@@ -131,6 +131,7 @@ zenity
 # additional tools
 vim
 dnfdragora
+fedora-workstation-repositories
 
 # mangohud/goverlay
 goverlay
@@ -149,6 +150,7 @@ kdenlive
 
 # multipath is only for data center usage, it's pointless on a home gaming system
 -device-mapper-multipath
+-fcoe-utils
 
 -@admin-tools
 
