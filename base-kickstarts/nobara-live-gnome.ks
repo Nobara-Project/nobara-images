@@ -80,6 +80,8 @@ cat > /etc/gdm/custom.conf << FOE
 [daemon]
 AutomaticLoginEnable=True
 AutomaticLogin=liveuser
+WaylandEnable=false
+DefaultSession=gnome-xorg.desktop
 FOE
 
 # Turn off PackageKit-command-not-found while uninstalled
