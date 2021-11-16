@@ -360,7 +360,6 @@ EOF
 # add initscript
 cat >> /etc/rc.d/init.d/livesys << EOF
 
-# are we *not* able to use wayland sessions?
 PLASMA_SESSION_FILE="plasmax11.desktop"
 
 # set up autologin for user liveuser
@@ -449,9 +448,9 @@ alsa-plugins-pulseaudio.i686
 anaconda
 anaconda-install-env-deps
 anaconda-live
+ark
 chkconfig
 cups-devel.i686
-dnfdragora
 dracut-live
 fedora-release-kde
 fedora-repos
@@ -580,6 +579,7 @@ unixODBC.i686
 vim
 wine
 winetricks
+yumex-dnf
 zenity
 zlib-devel.i686
 -@admin-tools

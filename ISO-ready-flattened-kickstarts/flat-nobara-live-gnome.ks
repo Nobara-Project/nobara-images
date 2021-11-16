@@ -448,9 +448,9 @@ alsa-plugins-pulseaudio.i686
 anaconda
 anaconda-install-env-deps
 anaconda-live
+ark
 chkconfig
 cups-devel.i686
-dnfdragora
 dracut-live
 fedora-repos
 flac-libs.i686
@@ -568,6 +568,7 @@ unixODBC.i686
 vim
 wine
 winetricks
+yumex-dnf
 zenity
 zlib-devel.i686
 -@dial-up
