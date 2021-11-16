@@ -129,8 +129,9 @@ openssl-libs.i686
 zenity
 
 # additional tools
+ark
 vim
-dnfdragora
+yumex-dnf
 fedora-workstation-repositories
 
 # mangohud/goverlay

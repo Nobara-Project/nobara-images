@@ -135,8 +135,9 @@ openssl-libs.i686
 zenity
 
 # additional tools
+ark
 vim
-dnfdragora
+yumex-dnf
 
 # mangohud/goverlay
 goverlay
