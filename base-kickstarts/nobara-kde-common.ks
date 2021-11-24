@@ -145,6 +145,9 @@ obs-studio
 # kdenlive for video editing
 kdenlive
 
+# we need a task manager
+ksysguard
+
 # exclude this, it breaks wine prefix creation
 -gst-editing-services
 -rygel
@@ -152,6 +155,9 @@ kdenlive
 # multipath is only for data center usage, it's pointless on a home gaming system
 -device-mapper-multipath
 -fcoe-utils
+
+# okular is stupid and annoying
+-okular
 
 -@admin-tools
 

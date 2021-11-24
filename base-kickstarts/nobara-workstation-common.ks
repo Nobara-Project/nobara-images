@@ -154,6 +154,9 @@ kdenlive
 -gst-editing-services
 -rygel
 
+# okular is stupid and annoying
+-okular
+
 # multipath is only for data center usage, it's pointless on a home gaming system
 -device-mapper-multipath
 -fcoe-utils
