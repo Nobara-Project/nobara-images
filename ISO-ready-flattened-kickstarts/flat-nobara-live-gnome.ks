@@ -35,7 +35,7 @@ repo --name="rpmfusion-nonfree-steam" --mirrorlist=https://mirrors.rpmfusion.org
 # System timezone
 timezone US/Eastern
 # SELinux configuration
-selinux --enforcing
+selinux --disabled
 # System services
 services --disabled="sshd" --enabled="NetworkManager,ModemManager"
 # System bootloader configuration
@@ -578,6 +578,7 @@ zlib-devel.i686
 -fcoe-utils
 -gfs2-utils
 -gst-editing-services
+-okular
 -reiserfs-utils
 -rygel
 
