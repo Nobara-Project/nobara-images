@@ -11,7 +11,7 @@ lang en_US.UTF-8
 keyboard us
 timezone US/Eastern
 authselect --useshadow --passalgo=sha512
-selinux --enforcing
+selinux --disabled
 firewall --enabled --service=mdns
 xconfig --startxonboot
 zerombr
