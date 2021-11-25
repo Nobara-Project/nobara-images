@@ -543,6 +543,7 @@ mesa-libgbm.i686
 mpg123-devel.i686
 mpg123-devel.x86_64
 ncurses-devel.i686
+nobara-login
 nobara-repos
 nss-mdns.i686
 obs-studio

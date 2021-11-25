@@ -18,6 +18,9 @@ libreoffice-math
 
 fedora-release-kde
 
+# nobara login scripts
+nobara-login
+
 # gaming related packages
 steam
 lutris

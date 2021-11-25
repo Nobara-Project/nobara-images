@@ -24,6 +24,9 @@ fedora-repos
 @printing
 @workstation-product
 
+# nobara login scripts
+nobara-login
+
 # gaming related packages
 steam
 lutris
