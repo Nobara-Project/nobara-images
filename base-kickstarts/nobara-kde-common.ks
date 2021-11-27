@@ -16,6 +16,11 @@ fedora-repos
 libreoffice-draw
 libreoffice-math
 
+# some people do actually need printer drivers
+foomatic
+hplip
+hplip-gui
+
 fedora-release-kde
 
 # nobara login scripts

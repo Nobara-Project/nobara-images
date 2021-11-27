@@ -457,6 +457,7 @@ fedora-repos
 fedora-workstation-repositories
 flac-libs.i686
 fontconfig-devel.i686
+foomatic
 freetype-devel.i686
 fuse
 glib2-devel.i686
@@ -483,6 +484,7 @@ gstreamer1-plugins-ugly.x86_64
 gstreamer1.i686
 gstreamer1.x86_64
 gtk3-devel.i686
+hplip-gui
 initscripts
 json-c.i686
 kde-l10n

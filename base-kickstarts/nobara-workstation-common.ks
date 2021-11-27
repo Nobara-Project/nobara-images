@@ -24,6 +24,11 @@ fedora-repos
 @printing
 @workstation-product
 
+# some people do actually need printer drivers
+foomatic
+hplip
+hplip-gui
+
 # nobara login scripts
 nobara-login
 

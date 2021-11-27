@@ -455,6 +455,7 @@ dracut-live
 fedora-repos
 flac-libs.i686
 fontconfig-devel.i686
+foomatic
 freetype-devel.i686
 glib2-devel.i686
 glibc-all-langpacks
@@ -480,6 +481,8 @@ gstreamer1-plugins-ugly.x86_64
 gstreamer1.i686
 gstreamer1.x86_64
 gtk3-devel.i686
+hplip
+hplip-gui
 initscripts
 json-c.i686
 kdenlive
