@@ -566,6 +566,8 @@ opencl-utils-devel.i686
 openldap-devel.i686
 openssl
 openssl-libs.i686
+pavucontrol
+pipewire-codec-aptx
 pulseaudio-libs-devel
 pulseaudio-libs-devel.i686
 pulseaudio-libs.i686

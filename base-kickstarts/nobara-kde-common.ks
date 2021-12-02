@@ -136,6 +136,12 @@ openssl
 openssl-libs.i686
 zenity
 
+# pavucontrol is better than the audio control panel KDE comes with:
+pavucontrol
+
+# install the aptX codec for bluetooth alternative to AAC
+pipewire-codec-aptx
+
 # additional tools
 ark
 vim
