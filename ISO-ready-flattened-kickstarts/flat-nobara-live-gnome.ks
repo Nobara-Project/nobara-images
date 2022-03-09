@@ -24,8 +24,14 @@ repo --name="nobara-mesa-git" --baseurl=https://download.copr.fedorainfracloud.o
 repo --name="nobara-mesa-git-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/mesa-aco/fedora-$releasever-i386/
 repo --name="nobara-kernel-fsync" --baseurl=https://download.copr.fedorainfracloud.org/results/sentry/kernel-fsync/fedora-$releasever-$basearch/
 repo --name="nobara-xow" --baseurl=https://download.copr.fedorainfracloud.org/results/sentry/xow/fedora-$releasever-$basearch/
-repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel*,mesa*,libusb1,libusbx,pciutils,gst-editing-services,rygel,lutris,gdm,gnome-initial-setup"
-repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel*,mesa*,libusb1,libusbx,pciutils,gst-editing-services,rygel,lutris,gdm,gnome-initial-setup"
+repo --name="nobara-glibc" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/glibc/fedora-$releasever-$basearch/
+repo --name="nobara-glibc-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/glibc/fedora-$releasever-i386/
+repo --name="nobara-openal" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/openal-soft/fedora-$releasever-$basearch/
+repo --name="nobara-openal-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/openal-soft/fedora-$releasever-i386/
+repo --name="nobara-gameutils" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/game-utils/fedora-$releasever-$basearch/
+repo --name="nobara-gameutils-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/game-utils/fedora-$releasever-i386/
+repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel*,glibc*,openal-soft*,libnsl*,mesa*,pciutils,libusbx*,libusb1*,gst-editing-services,rygel,lutris,gdm,gnome-initial-setup,setup,sddm,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,wlroots-*"
+repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel*,glibc*,openal-soft*,libnsl*,mesa*,pciutils,libusbx*,libusb1*,gst-editing-services,rygel,lutris,gdm,gnome-initial-setup,setup,sddm,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,wlroots-*"
 repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch
 repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch
 repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch
@@ -444,7 +450,6 @@ EOF
 @workstation-product
 aajohan-comfortaa-fonts
 alsa-lib-devel.i686
-alsa-plugins-pulseaudio.i686
 anaconda
 anaconda-install-env-deps
 anaconda-live
@@ -463,6 +468,8 @@ glibc-devel
 glibc-devel.i686
 gnutls-devel.i686
 goverlay
+vkBasalt
+gamescope
 gsm-devel.i686
 gstreamer1-libav.i686
 gstreamer1-libav.x86_64
