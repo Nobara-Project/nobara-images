@@ -28,12 +28,12 @@ From within mock environment:
 
 Gnome:
 ```
-# livemedia-creator --ks flat-nobara-live-gnome.ks --no-virt --resultdir /var/lmc --project Nobara-Workstation --make-iso --volid Nobara-Workstation-35 --iso-only --iso-name Nobara-Workstation-35.iso --releasever 35 --macboot
+# livemedia-creator --ks flat-nobara-live-gnome.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-35 --iso-only --iso-name Nobara-35-GNOME.iso --releasever 35 --macboot
 ```
 
 KDE:
 ```
-# livemedia-creator --ks flat-nobara-live-kde.ks --no-virt --resultdir /var/lmc --project Nobara-Workstation --make-iso --volid Nobara-Workstation-35 --iso-only --iso-name Nobara-Workstation-35-KDE.iso --releasever 35 --macboot
+# livemedia-creator --ks flat-nobara-live-kde.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-35 --iso-only --iso-name Nobara-35-KDE.iso --releasever 35 --macboot
 ```
 
 
@@ -46,12 +46,12 @@ Move built ISO from mock location to whatever location you want:
 
 Gnome:
 ```
-$ sudo mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/Nobara-Workstation-35.iso .
+$ sudo mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/Nobara-35-GNOME.iso .
 ```
 
 KDE:
 ```
-$ sudo mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/Nobara-Workstation-35-KDE.iso .
+$ sudo mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/Nobara-35-KDE.iso .
 ```
 
 Clean up mock environment:
