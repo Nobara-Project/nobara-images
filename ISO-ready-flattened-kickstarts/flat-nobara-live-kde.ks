@@ -33,8 +33,8 @@ repo --name="nobara-gameutils-i386" --baseurl=https://download.copr.fedorainfrac
 repo --name="nobara-obs-studio" --baseurl=https://www.nobaraproject.org/repo/fedora/$releasever/$basearch/obs-studio-nobara/
 repo --name="nobara-obs-studio-gamecapture" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/obs-studio-gamecapture/fedora-$releasever-$basearch/
 repo --name="nobara-obs-studio-gamecapture-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/obs-studio-gamecapture/fedora-$releasever-i386/
-repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel*,glibc*,openal-soft*,libnsl*,mesa*,pciutils,libusbx*,libusb1*,gst-editing-services,rygel,lutris,gdm,gnome-initial-setup,setup,sddm,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,wlroots-*"
-repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel*,glibc*,openal-soft*,libnsl*,mesa*,pciutils,libusbx*,libusb1*,gst-editing-services,rygel,lutris,gdm,gnome-initial-setup,setup,sddm,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,wlroots-*"
+repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel*,glibc*,openal-soft*,libnsl*,mesa*,pciutils,libusbx*,libusb1*,gst-editing-services,rygel,lutris,gnome-initial-setup,setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,wlroots-*,fedora-workstation-repos"
+repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel*,glibc*,openal-soft*,libnsl*,mesa*,pciutils,libusbx*,libusb1*,gst-editing-services,rygel,lutris,gnome-initial-setup,setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,wlroots-*"
 repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch
@@ -457,6 +457,7 @@ anaconda
 anaconda-install-env-deps
 anaconda-live
 ark
+blender
 chkconfig
 cups-devel.i686
 dracut-live
@@ -567,6 +568,7 @@ mesa-libgbm.i686
 mpg123-devel.i686
 mpg123-devel.x86_64
 ncurses-devel.i686
+neofetch
 nobara-login
 nobara-repos
 nss-mdns.i686
@@ -584,6 +586,7 @@ pipewire-codec-aptx
 pulseaudio-libs-devel
 pulseaudio-libs-devel.i686
 pulseaudio-libs.i686
+rpmfusion-free-release
 samba-common-tools.x86_64
 samba-libs.x86_64
 samba-winbind-clients.x86_64
