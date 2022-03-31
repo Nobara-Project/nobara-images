@@ -56,7 +56,7 @@ $ sudo mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/Nobara-35-KDE.iso .
 
 Clean up mock environment:
 ```
-$ mock -r ./nobara-35-x86_64.cfg --clean
+$ mock -r ./nobara-35-x86_64.cfg --scrub=all
 $ sudo setenforce 1
 ```
 
