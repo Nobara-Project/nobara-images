@@ -474,6 +474,8 @@ gnutls-devel.i686
 goverlay
 vkBasalt
 gamescope
+gamemode
+gamemode.i686
 gsm-devel.i686
 gstreamer1-libav.i686
 gstreamer1-libav.x86_64
