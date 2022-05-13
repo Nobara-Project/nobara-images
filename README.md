@@ -1,9 +1,9 @@
-Set up mock build environment:
+6Set up mock build environment:
 ```
 $ sudo dnf install mock pykickstart
 $ sudo usermod -a -G mock <user>
-$ mock -r ./nobara-35-x86_64.cfg --init
-$ mock -r ./nobara-35-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart
+$ mock -r ./nobara-36-x86_64.cfg --init
+$ mock -r ./nobara-36-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart
 $ sudo setenforce 0
 ```
 
@@ -11,29 +11,29 @@ Transfer flat kickstart file to mock build environment:
 
 Gnome:
 ```
-$ cp ISO-ready-flattened-kickstarts/flat-nobara-live-gnome.ks /var/lib/mock/nobara-35-x86_64/root/builddir/
+$ cp ISO-ready-flattened-kickstarts/flat-nobara-live-gnome-36.ks /var/lib/mock/nobara-36-x86_64/root/builddir/
 ```
 
 KDE:
 ```
-$ cp ISO-ready-flattened-kickstarts/flat-nobara-live-kde.ks /var/lib/mock/nobara-35-x86_64/root/builddir/
+$ cp ISO-ready-flattened-kickstarts/flat-nobara-live-kde-36.ks /var/lib/mock/nobara-36-x86_64/root/builddir/
 ```
 
 Enter mock environment:
 ```
-$ mock -r ./nobara-35-x86_64.cfg --shell --old-chroot --enable-network
+$ mock -r ./nobara-36-x86_64.cfg --shell --old-chroot --enable-network
 ```
 
 From within mock environment:
 
 Gnome:
 ```
-# livemedia-creator --ks flat-nobara-live-gnome.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-35 --iso-only --iso-name Nobara-35-GNOME.iso --releasever 35 --macboot
+# livemedia-creator --ks flat-nobara-live-gnome-36.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-36 --iso-only --iso-name Nobara-36-GNOME.iso --releasever 36 --macboot
 ```
 
 KDE:
 ```
-# livemedia-creator --ks flat-nobara-live-kde.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-35 --iso-only --iso-name Nobara-35-KDE.iso --releasever 35 --macboot
+# livemedia-creator --ks flat-nobara-live-kde-36.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-36 --iso-only --iso-name Nobara-36-KDE.iso --releasever 36 --macboot
 ```
 
 
@@ -46,17 +46,17 @@ Move built ISO from mock location to whatever location you want:
 
 Gnome:
 ```
-$ sudo mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/Nobara-35-GNOME.iso .
+$ sudo mv /var/lib/mock/nobara-36-x86_64/root/var/lmc/Nobara-36-GNOME.iso .
 ```
 
 KDE:
 ```
-$ sudo mv /var/lib/mock/nobara-35-x86_64/root/var/lmc/Nobara-35-KDE.iso .
+$ sudo mv /var/lib/mock/nobara-36-x86_64/root/var/lmc/Nobara-36-KDE.iso .
 ```
 
 Clean up mock environment:
 ```
-$ mock -r ./nobara-35-x86_64.cfg --scrub=all
+$ mock -r ./nobara-36-x86_64.cfg --scrub=all
 $ sudo setenforce 1
 ```
 
@@ -72,10 +72,10 @@ How to re-flatten kickstarts after modifications:
 
 Gnome:
 ```
-# ksflatten --config base-kickstarts/nobara-live-gnome.ks -o ISO-ready-flattened-kickstarts/flat-nobara-live-gnome.ks --version F35
+# ksflatten --config base-kickstarts/nobara-live-gnome.ks -o ISO-ready-flattened-kickstarts/flat-nobara-live-gnome.ks --version F36
 ```
 
 KDE:
 ```
-# ksflatten --config base-kickstarts/nobara-live-kde.ks -o ISO-ready-flattened-kickstarts/flat-nobara-live-kde.ks --version F35
+# ksflatten --config base-kickstarts/nobara-live-kde.ks -o ISO-ready-flattened-kickstarts/flat-nobara-live-kde.ks --version F36
 ```
