@@ -26,8 +26,6 @@ repo --name="nobara-kernel-fsync" --baseurl=https://download.copr.fedorainfraclo
 repo --name="nobara-xow" --baseurl=https://download.copr.fedorainfracloud.org/results/sentry/xow/fedora-$releasever-$basearch/
 repo --name="nobara-glibc" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/glibc/fedora-$releasever-$basearch/
 repo --name="nobara-glibc-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/glibc/fedora-$releasever-i386/
-repo --name="nobara-openal" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/openal-soft/fedora-$releasever-$basearch/
-repo --name="nobara-openal-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/openal-soft/fedora-$releasever-i386/
 repo --name="nobara-gameutils" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/game-utils/fedora-$releasever-$basearch/
 repo --name="nobara-gameutils-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/game-utils/fedora-$releasever-i386/
 repo --name="nobara-obs-studio" --baseurl=https://www.nobaraproject.org/repo/fedora/$releasever/$basearch/obs-studio-nobara/
