@@ -583,7 +583,7 @@ opencl-utils-devel.i686
 openldap-devel.i686
 openssl
 openssl-libs.i686
-pavucontrol
+pavucontrol-qt
 pipewire-codec-aptx
 protonup-qt
 pulseaudio-libs-devel
