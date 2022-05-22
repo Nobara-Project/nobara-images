@@ -1,4 +1,4 @@
-6Set up mock build environment:
+Set up mock build environment:
 ```
 $ sudo dnf install mock pykickstart
 $ sudo usermod -a -G mock <user>

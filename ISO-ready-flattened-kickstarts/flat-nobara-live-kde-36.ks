@@ -33,8 +33,8 @@ repo --name="nobara-gameutils-i386" --baseurl=https://download.copr.fedorainfrac
 repo --name="nobara-obs-studio" --baseurl=https://www.nobaraproject.org/repo/fedora/$releasever/$basearch/obs-studio-nobara/
 repo --name="nobara-obs-studio-gamecapture" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/obs-studio-gamecapture/fedora-$releasever-$basearch/
 repo --name="nobara-obs-studio-gamecapture-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/obs-studio-gamecapture/fedora-$releasever-i386/
-repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel,kernel-modules-extra,glibc*,dnfdaemon*,libnsl,mesa*,pciutils,gst-editing-services,rygel,lutris,gnome-initial-setup,setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,fedora-workstation-repos,flatpak*"
-repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel,kernel-modules-extra,glibc*,dnfdaemon*,libnsl,mesa*,pciutils,gst-editing-services,rygel,lutris,gnome-initial-setup,setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,flatpak*"
+repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,dnfdaemon*,libnsl,mesa*,pciutils,gst-editing-services,rygel,lutris,gnome-initial-setup,setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,fedora-workstation-repos,flatpak*"
+repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,dnfdaemon*,libnsl,mesa*,pciutils,gst-editing-services,rygel,lutris,gnome-initial-setup,setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,flatpak*"
 repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch
@@ -461,6 +461,8 @@ blender
 chkconfig
 cups-devel.i686
 dracut-live
+egl-gbm
+egl-wayland
 fedora-release-kde
 fedora-repos
 fedora-workstation-repositories
