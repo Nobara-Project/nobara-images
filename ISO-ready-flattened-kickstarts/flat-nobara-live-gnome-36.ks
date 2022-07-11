@@ -440,6 +440,7 @@ dracut-live
 egl-gbm
 egl-wayland
 fedora-repos
+ffmpegthumbs
 flac-libs.i686
 foomatic
 gamemode

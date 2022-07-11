@@ -438,6 +438,7 @@ egl-wayland
 fedora-release-kde
 fedora-repos
 fedora-workstation-repositories
+ffmpegthumbs
 flac-libs.i686
 foomatic
 fuse
