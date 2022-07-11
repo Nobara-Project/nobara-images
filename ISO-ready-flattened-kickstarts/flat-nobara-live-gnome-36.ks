@@ -494,10 +494,6 @@ lutris
 mangohud
 mangohud.i686
 memtest86+
-mesa-dri-drivers.i686
-mesa-filesystem.i686
-mesa-libEGL.i686
-mesa-libgbm.i686
 neofetch
 nobara-login
 nobara-login-sysctl
