@@ -21,7 +21,6 @@ repo --name="nobara-base-i386" --baseurl=https://download.copr.fedorainfracloud.
 repo --name="nobara-mesa-git" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/mesa-aco/fedora-$releasever-$basearch/
 repo --name="nobara-mesa-git-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/mesa-aco/fedora-$releasever-i386/
 repo --name="nobara-kernel-fsync" --baseurl=https://download.copr.fedorainfracloud.org/results/sentry/kernel-fsync/fedora-$releasever-$basearch/
-repo --name="nobara-xow" --baseurl=https://download.copr.fedorainfracloud.org/results/sentry/xow/fedora-$releasever-$basearch/
 repo --name="nobara-glibc" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/glibc/fedora-$releasever-$basearch/
 repo --name="nobara-glibc-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/glibc/fedora-$releasever-i386/
 repo --name="nobara-gameutils" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/game-utils/fedora-$releasever-$basearch/
@@ -29,18 +28,19 @@ repo --name="nobara-gameutils-i386" --baseurl=https://download.copr.fedorainfrac
 repo --name="nobara-obs-studio" --baseurl=https://www.nobaraproject.org/repo/fedora/$releasever/$basearch/obs-studio-nobara/
 repo --name="nobara-obs-studio-gamecapture" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/obs-studio-gamecapture/fedora-$releasever-$basearch/
 repo --name="nobara-obs-studio-gamecapture-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/obs-studio-gamecapture/fedora-$releasever-i386/
-repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,dnfdaemon*,libnsl,mesa*,pciutils,gst-editing-services,rygel,lutris,gnome-initial-setup,setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,fedora-workstation-repos,flatpak*,gnome-control-center*,mutter*"
-repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,dnfdaemon*,libnsl,mesa*,pciutils,gst-editing-services,rygel,lutris,gnome-initial-setup,setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,flatpak*,gnome-control-center*,mutter*"
+repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,dnfdaemon*,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks"
+repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,dnfdaemon*,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks"
 repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch --excludepkgs="discord"
 repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="discord"
 repo --name="rpmfusion-nonfree-nvidia" --mirrorlist=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-nvidia-driver-$releasever&arch=$basearch
 repo --name="rpmfusion-nonfree-steam" --mirrorlist=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-steam-$releasever&arch=$basearch
+repo --name="WineHQ-Official" --baseurl=https://dl.winehq.org/wine-builds/fedora/36
 # System timezone
 timezone US/Eastern
 # SELinux configuration
-selinux --disabled
+selinux --permissive
 # System services
 services --disabled="sshd" --enabled="NetworkManager,ModemManager"
 # System bootloader configuration
@@ -446,6 +446,7 @@ gamemode
 gamemode.i686
 gamescope
 glibc-all-langpacks
+gnome-extension-manager
 goverlay
 gstreamer1-libav.i686
 gstreamer1-libav.x86_64
@@ -471,6 +472,8 @@ kdenlive
 kernel
 kernel-modules
 kernel-modules-extra
+libaom
+libaom.i686
 libICE.i686
 libSM.i686
 libXtst.i686
@@ -499,6 +502,7 @@ neofetch
 nobara-login
 nobara-login-sysctl
 nobara-repos
+nobara-controller-config
 nss-mdns.i686
 obs-studio
 obs-studio-gamecapture
@@ -523,10 +527,9 @@ tcp_wrappers-libs.i686
 unixODBC.i686
 vim
 vkBasalt
-wine
+vlc
+winehq-staging
 winetricks
-lpf-xone-firmware
-xpadneo
 yumex-dnf
 zenity
 -@dial-up
@@ -539,5 +542,6 @@ zenity
 -okular
 -reiserfs-utils
 -rygel
+-gnome-shell-extension-gamemode
 
 %end

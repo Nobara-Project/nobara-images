@@ -18,6 +18,7 @@ firewall --enabled --service=mdns
 url --mirrorlist="https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch"
 repo --name="nobara-base" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-$basearch/
 repo --name="nobara-base-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-i386/
+repo --name="nobara-theming" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-theming/fedora-$releasever-$basearch/
 repo --name="nobara-mesa-git" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/mesa-aco/fedora-$releasever-$basearch/
 repo --name="nobara-mesa-git-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/mesa-aco/fedora-$releasever-i386/
 repo --name="nobara-kernel-fsync" --baseurl=https://download.copr.fedorainfracloud.org/results/sentry/kernel-fsync/fedora-$releasever-$basearch/
@@ -33,7 +34,7 @@ repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metal
 repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch --excludepkgs="discord"
-repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch  --excludepkgs="discord"
+repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="discord"
 repo --name="rpmfusion-nonfree-nvidia" --mirrorlist=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-nvidia-driver-$releasever&arch=$basearch
 repo --name="rpmfusion-nonfree-steam" --mirrorlist=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-steam-$releasever&arch=$basearch
 repo --name="WineHQ-Official" --baseurl=https://dl.winehq.org/wine-builds/fedora/36
@@ -281,7 +282,7 @@ EOF
 # work around for poor key import UI in PackageKit
 rm -f /var/lib/rpm/__db*
 echo "Packages within this LiveCD"
-rpm -qa
+rpm -qa --qf '%{size}\t%{name}-%{version}-%{release}.%{arch}\n' |sort -rn
 # Note that running rpm recreates the rpm db files which aren't needed or wanted
 rm -f /var/lib/rpm/__db*
 
@@ -330,78 +331,85 @@ fi
 
 %post
 
-# set default GTK+ theme for root (see #683855, #689070, #808062)
-cat > /root/.gtkrc-2.0 << EOF
-include "/usr/share/themes/Adwaita/gtk-2.0/gtkrc"
-include "/etc/gtk-2.0/gtkrc"
-gtk-theme-name="Adwaita"
-EOF
-mkdir -p /root/.config/gtk-3.0
-cat > /root/.config/gtk-3.0/settings.ini << EOF
-[Settings]
-gtk-theme-name = Adwaita
-EOF
-
-# add initscript
 cat >> /etc/rc.d/init.d/livesys << EOF
 
-PLASMA_SESSION_FILE="plasmax11.desktop"
 
-# set up autologin for user liveuser
-if [ -f /etc/sddm.conf ]; then
-sed -i 's/^#User=.*/User=liveuser/' /etc/sddm.conf
-sed -i "s/^#Session=.*/Session=\${PLASMA_SESSION_FILE}/" /etc/sddm.conf
-else
-cat > /etc/sddm.conf << SDDM_EOF
-[Autologin]
-User=liveuser
-Session=\${PLASMA_SESSION_FILE}
-SDDM_EOF
+# disable gnome-software automatically downloading updates
+cat >> /usr/share/glib-2.0/schemas/org.gnome.software.gschema.override << FOE
+[org.gnome.software]
+download-updates=false
+FOE
+
+# don't autostart gnome-software session service
+rm -f /etc/xdg/autostart/gnome-software-service.desktop
+
+# disable the gnome-software shell search provider
+cat >> /usr/share/gnome-shell/search-providers/org.gnome.Software-search-provider.ini << FOE
+DefaultDisabled=true
+FOE
+
+# don't run gnome-initial-setup
+mkdir ~liveuser/.config
+touch ~liveuser/.config/gnome-initial-setup-done
+
+# suppress anaconda spokes redundant with gnome-initial-setup
+cat >> /etc/sysconfig/anaconda << FOE
+[NetworkSpoke]
+visited=1
+
+[PasswordSpoke]
+visited=1
+
+[UserSpoke]
+visited=1
+FOE
+
+# make the installer show up
+if [ -f /usr/share/applications/liveinst.desktop ]; then
+  # Show harddisk install in shell dash
+  sed -i -e 's/NoDisplay=true/NoDisplay=false/' /usr/share/applications/liveinst.desktop ""
+  # need to move it to anaconda.desktop to make shell happy
+  mv /usr/share/applications/liveinst.desktop /usr/share/applications/anaconda.desktop
+
+  cat >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override << FOE
+[org.gnome.shell]
+favorite-apps=['firefox.desktop', 'org.gnome.Calendar.desktop', 'rhythmbox.desktop', 'org.gnome.Photos.desktop', 'org.gnome.Nautilus.desktop', 'anaconda.desktop']
+FOE
+
+  # Make the welcome screen show up
+  if [ -f /usr/share/anaconda/gnome/fedora-welcome.desktop ]; then
+    mkdir -p ~liveuser/.config/autostart
+    cp /usr/share/anaconda/gnome/fedora-welcome.desktop /usr/share/applications/
+    cp /usr/share/anaconda/gnome/fedora-welcome.desktop ~liveuser/.config/autostart/
+  fi
+
+  # Disable GNOME welcome tour so it doesn't overlap with Fedora welcome screen
+  cat >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override << FOE
+welcome-dialog-last-shown-version='4294967295'
+FOE
+
+  # Copy Anaconda branding in place
+  if [ -d /usr/share/lorax/product/usr/share/anaconda ]; then
+    cp -a /usr/share/lorax/product/* /
+  fi
 fi
 
-# add liveinst.desktop to favorites menu
-mkdir -p /home/liveuser/.config/
-cat > /home/liveuser/.config/kickoffrc << MENU_EOF
-[Favorites]
-FavoriteURLs=/usr/share/applications/firefox.desktop,/usr/share/applications/org.kde.dolphin.desktop,/usr/share/applications/systemsettings.desktop,/usr/share/applications/org.kde.konsole.desktop,/usr/share/applications/liveinst.desktop
-MENU_EOF
+# rebuild schema cache with any overrides we installed
+glib-compile-schemas /usr/share/glib-2.0/schemas
 
-# show liveinst.desktop on desktop and in menu
-sed -i 's/NoDisplay=true/NoDisplay=false/' /usr/share/applications/liveinst.desktop
-# set executable bit disable KDE security warning
-chmod +x /usr/share/applications/liveinst.desktop
-mkdir /home/liveuser/Desktop
-cp -a /usr/share/applications/liveinst.desktop /home/liveuser/Desktop/
+# set up auto-login
+cat > /etc/gdm/custom.conf << FOE
+[daemon]
+AutomaticLoginEnable=True
+AutomaticLogin=liveuser
+WaylandEnable=false
+DefaultSession=gnome-xorg.desktop
+FOE
 
-# Set akonadi backend
-mkdir -p /home/liveuser/.config/akonadi
-cat > /home/liveuser/.config/akonadi/akonadiserverrc << AKONADI_EOF
-[%General]
-Driver=QSQLITE3
-AKONADI_EOF
-
-# "Disable plasma-discover-notifier"
-mkdir -p /home/liveuser/.config/autostart
-cp -a /etc/xdg/autostart/org.kde.discover.notifier.desktop /home/liveuser/.config/autostart/
-echo 'Hidden=true' >> /home/liveuser/.config/autostart/org.kde.discover.notifier.desktop
-
-# Disable baloo
-cat > /home/liveuser/.config/baloofilerc << BALOO_EOF
-[Basic Settings]
-Indexing-Enabled=false
-BALOO_EOF
-
-# Disable kres-migrator
-cat > /home/liveuser/.kde/share/config/kres-migratorrc << KRES_EOF
-[Migration]
-Enabled=false
-KRES_EOF
-
-# Disable kwallet migrator
-cat > /home/liveuser/.config/kwalletrc << KWALLET_EOL
-[Migration]
-alreadyMigrated=true
-KWALLET_EOL
+# Turn off PackageKit-command-not-found while uninstalled
+if [ -f /etc/PackageKit/CommandNotFound.conf ]; then
+  sed -i -e 's/^SoftwareSourceSearch=true/SoftwareSourceSearch=false/' /etc/PackageKit/CommandNotFound.conf
+fi
 
 # make sure to set the right permissions and selinux contexts
 chown -R liveuser:liveuser /home/liveuser/
@@ -412,40 +420,42 @@ EOF
 %end
 
 %packages
-@^kde-desktop-environment
+@^workstation-product-environment
 @anaconda-tools
 @firefox
 @fonts
-@guest-desktop-agents
 @hardware-support
-@kde-apps
-@kde-media
 @libreoffice
 @multimedia
+@networkmanager-submodules
 @printing
-@standard
 @x86-baremetal-tools
 aajohan-comfortaa-fonts
 anaconda
 anaconda-install-env-deps
 anaconda-live
-ark
+file-roller
 blender
 chkconfig
 dracut-live
 egl-gbm
 egl-wayland
-fedora-release-kde
 fedora-repos
-fedora-workstation-repositories
 flac-libs.i686
 foomatic
-fuse
 gamemode
 gamemode.i686
 gamescope
 glibc-all-langpacks
+gnome-extension-manager
+gnome-shell-extension-arc-menu
+gnome-shell-extension-blur-my-shell
+gnome-shell-extension-dash-to-panel
+gnome-shell-extension-pop-shell
+gnome-shell-extension-sound-output-device-chooser
+gnome-shell-nobara-theming
 goverlay
+gsettings-desktop-schemas 
 gstreamer1-libav.i686
 gstreamer1-libav.x86_64
 gstreamer1-plugins-bad-free.i686
@@ -466,12 +476,10 @@ hplip
 hplip-gui
 initscripts
 json-c.i686
-kde-l10n
 kdenlive
 kernel
 kernel-modules
 kernel-modules-extra
-ksysguard
 libaom
 libaom.i686
 libICE.i686
@@ -483,8 +491,6 @@ libexif.i686
 libgcc.i686
 libieee1284.i686
 libogg.i686
-libreoffice-draw
-libreoffice-math
 libsndfile.i686
 libuuid.i686
 libva.i686
@@ -495,19 +501,17 @@ llvm-libs.i686
 lutris
 mangohud
 mangohud.i686
-mariadb-connector-c
-mariadb-embedded
-mariadb-server
-mediawriter
 memtest86+
 mesa-dri-drivers.i686
 mesa-filesystem.i686
 mesa-libEGL.i686
 mesa-libgbm.i686
 neofetch
+nautilus-terminal
 nobara-login
 nobara-login-sysctl
 nobara-repos
+nobara-theming-repos
 nobara-controller-config
 nss-mdns.i686
 obs-studio
@@ -521,42 +525,33 @@ pipewire-codec-aptx
 protonup-qt
 pulseaudio-libs.i686
 rpmfusion-free-release
+samba-common-tools.x86_64
+samba-libs.x86_64
+samba-winbind-clients.x86_64
+samba-winbind-modules.x86_64
+samba-winbind.x86_64
 sane-backends-libs.i686
 steam
 syslinux
-system-config-language
 tcp_wrappers-libs.i686
 unixODBC.i686
 vim
-vlc
 vkBasalt
+vlc
 winehq-staging
 winetricks
 yumex-dnf
 zenity
--@admin-tools
+-@dial-up
 -@input-methods
--desktop-backgrounds-basic
+-@standard
 -device-mapper-multipath
--digikam
 -fcoe-utils
--gnome-disk-utility
+-gfs2-utils
 -gst-editing-services
--iok
--isdn4k-utils
--k3b
--kdeaccessibility*
--kipi-plugins
--krusader
--ktorrent
--mpage
 -okular
+-reiserfs-utils
 -rygel
--scim*
--system-config-printer
--system-config-services
--system-config-users
--xsane
--xsane-gimp
+-gnome-shell-extension-gamemode
 
 %end
