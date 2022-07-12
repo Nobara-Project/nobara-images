@@ -33,7 +33,7 @@ repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metal
 repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch --excludepkgs="discord"
-repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch  --excludepkgs="discord"
+repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="discord"
 repo --name="rpmfusion-nonfree-nvidia" --mirrorlist=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-nvidia-driver-$releasever&arch=$basearch
 repo --name="rpmfusion-nonfree-steam" --mirrorlist=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-steam-$releasever&arch=$basearch
 repo --name="WineHQ-Official" --baseurl=https://dl.winehq.org/wine-builds/fedora/36
@@ -281,7 +281,7 @@ EOF
 # work around for poor key import UI in PackageKit
 rm -f /var/lib/rpm/__db*
 echo "Packages within this LiveCD"
-rpm -qa
+rpm -qa --qf '%{size}\t%{name}-%{version}-%{release}.%{arch}\n' |sort -rn
 # Note that running rpm recreates the rpm db files which aren't needed or wanted
 rm -f /var/lib/rpm/__db*
 
@@ -439,10 +439,11 @@ fedora-release-kde
 fedora-repos
 fedora-workstation-repositories
 ffmpegthumbs
+flac-libs.x86_64
 flac-libs.i686
 foomatic
 fuse
-gamemode
+gamemode.x86_64
 gamemode.i686
 gamescope
 glibc-all-langpacks
@@ -466,6 +467,7 @@ gstreamer1.x86_64
 hplip
 hplip-gui
 initscripts
+json-c.x86_64
 json-c.i686
 kde-l10n
 kdenlive
@@ -473,28 +475,44 @@ kernel
 kernel-modules
 kernel-modules-extra
 ksysguard
-libaom
+libaom.x86_64
 libaom.i686
+libICE.x86_64
 libICE.i686
+libSM.x86_64
 libSM.i686
+libXtst.x86_64
 libXtst.i686
+libasyncns.x86_64
 libasyncns.i686
 liberation-narrow-fonts.noarch
+libexif.x86_64
 libexif.i686
+libgcc.x86_64
 libgcc.i686
+libieee1284.x86_64
 libieee1284.i686
+libogg.x86_64
 libogg.i686
 libreoffice-draw
 libreoffice-math
+libsndfile.x86_64
 libsndfile.i686
+libunity
+libuuid.x86_64
 libuuid.i686
+libva.x86_64
 libva.i686
+libvorbis.x86_64
 libvorbis.i686
+libwayland-client.x86_64
 libwayland-client.i686
+libwayland-server.x86_64
 libwayland-server.i686
+llvm-libs.x86_64
 llvm-libs.i686
 lutris
-mangohud
+mangohud.x86_64
 mangohud.i686
 mariadb-connector-c
 mariadb-embedded
@@ -506,27 +524,40 @@ nobara-login
 nobara-login-sysctl
 nobara-repos
 nobara-controller-config
+nss-mdns.x86_64
 nss-mdns.i686
 obs-studio
-obs-studio-gamecapture
+obs-studio-gamecapture.x86_64
 obs-studio-gamecapture.i686
+ocl-icd.x86_64
 ocl-icd.i686
 openssl
+openssl-libs.x86_64
 openssl-libs.i686
 pavucontrol-qt
 pipewire-codec-aptx
 protonup-qt
+pulseaudio-libs.x86_64
 pulseaudio-libs.i686
 rpmfusion-free-release
+samba-common-tools.x86_64
+samba-libs.x86_64
+samba-winbind-clients.x86_64
+samba-winbind-modules.x86_64
+samba-winbind.x86_64
+sane-backends-libs.x86_64
 sane-backends-libs.i686
 steam
 syslinux
 system-config-language
+tcp_wrappers-libs.x86_64
 tcp_wrappers-libs.i686
+unixODBC.x86_64
 unixODBC.i686
 vim
 vlc
-vkBasalt
+vkBasalt.x86_64
+vkBasalt.i686
 winehq-staging
 winetricks
 yumex-dnf
