@@ -456,6 +456,7 @@ gnome-shell-extension-dash-to-panel
 gnome-shell-extension-pop-shell
 gnome-shell-extension-sound-output-device-chooser
 gnome-shell-extension-application-volume-mixer
+gnome-shell-extension-desktop-icons
 gnome-shell-nobara-theming
 goverlay
 gsettings-desktop-schemas 
