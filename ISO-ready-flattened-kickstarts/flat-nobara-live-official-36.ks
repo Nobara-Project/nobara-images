@@ -441,7 +441,6 @@ dracut-live
 egl-gbm
 egl-wayland
 fedora-repos
-ffmpegthumbs
 flac-libs.x86_64
 flac-libs.i686
 foomatic
@@ -450,6 +449,7 @@ gamemode.i686
 gamescope
 glibc-all-langpacks
 gnome-extension-manager
+gnome-icon-theme
 gnome-shell-extension-arc-menu
 gnome-shell-extension-blur-my-shell
 gnome-shell-extension-dash-to-panel
@@ -546,7 +546,7 @@ ocl-icd.i686
 openssl
 openssl-libs.x86_64
 openssl-libs.i686
-pavucontrol-qt
+pavucontrol
 pipewire-codec-aptx
 protonup-qt
 pulseaudio-libs.x86_64
