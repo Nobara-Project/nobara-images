@@ -558,6 +558,7 @@ vim
 vlc
 vkBasalt.x86_64
 vkBasalt.i686
+vulkan-tools
 winehq-staging
 winetricks
 yumex-dnf
