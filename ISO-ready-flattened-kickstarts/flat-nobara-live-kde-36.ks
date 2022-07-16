@@ -547,6 +547,7 @@ samba-winbind-modules.x86_64
 samba-winbind.x86_64
 sane-backends-libs.x86_64
 sane-backends-libs.i686
+setroubleshoot
 steam
 syslinux
 system-config-language
