@@ -426,6 +426,7 @@ EOF
 @standard
 @x86-baremetal-tools
 aajohan-comfortaa-fonts
+adw-gtk3
 anaconda
 anaconda-install-env-deps
 anaconda-live
