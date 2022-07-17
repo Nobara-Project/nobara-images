@@ -450,6 +450,7 @@ gamescope
 glibc-all-langpacks
 gnome-extension-manager
 gnome-icon-theme
+gnome-tweaks
 gnome-shell-extension-arc-menu
 gnome-shell-extension-blur-my-shell
 gnome-shell-extension-dash-to-panel

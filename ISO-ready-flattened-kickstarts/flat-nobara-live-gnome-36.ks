@@ -449,6 +449,7 @@ gamescope
 glibc-all-langpacks
 gnome-extension-manager
 gnome-icon-theme
+gnome-tweaks
 goverlay
 gstreamer1-libav.i686
 gstreamer1-libav.x86_64
