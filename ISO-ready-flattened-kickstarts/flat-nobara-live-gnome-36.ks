@@ -471,6 +471,7 @@ gstreamer1.x86_64
 hplip
 hplip-gui
 initscripts
+inkscape
 json-c.x86_64
 json-c.i686
 kdenlive
