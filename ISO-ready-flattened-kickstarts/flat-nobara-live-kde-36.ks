@@ -538,6 +538,7 @@ openssl-libs.x86_64
 openssl-libs.i686
 pavucontrol-qt
 pipewire-codec-aptx
+plasma-breeze
 protonup-qt
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686

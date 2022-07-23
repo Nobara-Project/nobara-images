@@ -554,6 +554,7 @@ pipewire-codec-aptx
 protonup-qt
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
+plasma-breeze
 rpmfusion-free-release
 samba-common-tools.x86_64
 samba-libs.x86_64
