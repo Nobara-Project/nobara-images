@@ -569,6 +569,13 @@ winehq-staging
 winetricks
 yumex-dnf
 zenity
+-f36-backgrounds
+-f36-backgrounds-base
+-f36-backgrounds-gnome
+-f36-backgrounds-kde
+-f36-backgrounds-extras-base
+-f36-backgrounds-extras-gnome
+-f36-backgrounds-extras-kde
 -@dial-up
 -@input-methods
 -@standard
