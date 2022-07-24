@@ -569,16 +569,8 @@ yumex-dnf
 zenity
 -@admin-tools
 -@input-methods
--desktop-backgrounds-basic
 -device-mapper-multipath
 -digikam
--f36-backgrounds
--f36-backgrounds-base
--f36-backgrounds-gnome
--f36-backgrounds-kde
--f36-backgrounds-extras-base
--f36-backgrounds-extras-gnome
--f36-backgrounds-extras-kde
 -fcoe-utils
 -gnome-disk-utility
 -gst-editing-services
