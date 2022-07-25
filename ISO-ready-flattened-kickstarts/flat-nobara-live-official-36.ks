@@ -479,6 +479,7 @@ gstreamer1-plugins-ugly.i686
 gstreamer1-plugins-ugly.x86_64
 gstreamer1.i686
 gstreamer1.x86_64
+gstreamer1-vaapi
 hplip
 hplip-gui
 initscripts
