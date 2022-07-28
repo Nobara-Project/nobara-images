@@ -484,6 +484,7 @@ hplip
 hplip-gui
 initscripts
 inkscape
+libva-intel-hybrid-driver
 json-c.x86_64
 json-c.i686
 kdenlive
@@ -594,5 +595,6 @@ zenity
 -reiserfs-utils
 -rygel
 -gnome-shell-extension-gamemode
+-qt5-qtwebengine-freeworld
 
 %end

@@ -470,6 +470,7 @@ hplip
 hplip-gui
 initscripts
 inkscape
+libva-intel-hybrid-driver
 json-c.x86_64
 json-c.i686
 kde-l10n
@@ -592,5 +593,6 @@ zenity
 -system-config-users
 -xsane
 -xsane-gimp
+-qt5-qtwebengine-freeworld
 
 %end
