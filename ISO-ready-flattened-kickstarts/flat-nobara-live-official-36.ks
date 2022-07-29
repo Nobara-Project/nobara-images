@@ -26,6 +26,7 @@ repo --name="nobara-glibc" --baseurl=https://download.copr.fedorainfracloud.org/
 repo --name="nobara-glibc-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/glibc/fedora-$releasever-i386/
 repo --name="nobara-gameutils" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/game-utils/fedora-$releasever-$basearch/
 repo --name="nobara-gameutils-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/game-utils/fedora-$releasever-i386/
+repo --name="nobara-custom" --baseurl=https://www.nobaraproject.org/repo/nobara/$releasever/$basearch/
 repo --name="nobara-obs-studio" --baseurl=https://www.nobaraproject.org/repo/fedora/$releasever/$basearch/obs-studio-nobara/
 repo --name="nobara-obs-studio-gamecapture" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/obs-studio-gamecapture/fedora-$releasever-$basearch/
 repo --name="nobara-obs-studio-gamecapture-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/obs-studio-gamecapture/fedora-$releasever-i386/
