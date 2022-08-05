@@ -549,6 +549,7 @@ protonup-qt
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
 qemu-device-display-qxl
+rocm-opencl
 rpmfusion-free-release
 samba-common-tools.x86_64
 samba-libs.x86_64
