@@ -588,6 +588,7 @@ zenity
 -krusader
 -ktorrent
 -mpage
+-nfs-utils
 -okular
 -rygel
 -scim*

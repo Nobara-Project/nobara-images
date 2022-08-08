@@ -582,6 +582,7 @@ zenity
 -fcoe-utils
 -gfs2-utils
 -gst-editing-services
+-nfs-utils
 -okular
 -reiserfs-utils
 -rygel

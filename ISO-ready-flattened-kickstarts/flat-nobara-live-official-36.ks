@@ -591,6 +591,7 @@ zenity
 -device-mapper-multipath
 -fcoe-utils
 -gfs2-utils
+-nfs-utils
 -gst-editing-services
 -okular
 -reiserfs-utils
