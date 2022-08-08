@@ -375,6 +375,11 @@ chmod +x /usr/share/applications/liveinst.desktop
 mkdir /home/liveuser/Desktop
 cp -a /usr/share/applications/liveinst.desktop /home/liveuser/Desktop/
 
+# Make the liveinst run on login
+mkdir -p ~liveuser/.config/autostart
+cp -a /usr/share/applications/liveinst.desktop ~liveuser/.config/autostart/
+
+
 # Set akonadi backend
 mkdir -p /home/liveuser/.config/akonadi
 cat > /home/liveuser/.config/akonadi/akonadiserverrc << AKONADI_EOF
