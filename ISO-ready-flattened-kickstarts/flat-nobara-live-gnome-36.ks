@@ -546,6 +546,7 @@ protonup-qt
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
 qemu-device-display-qxl
+qt5ct
 rocm-opencl
 rpmfusion-free-release
 samba-common-tools.x86_64
@@ -586,5 +587,7 @@ zenity
 -rygel
 -gnome-shell-extension-gamemode
 -qt5-qtwebengine-freeworld
+-appmenu-qt5-profile.d
+-appmenu-qt5
 
 %end
