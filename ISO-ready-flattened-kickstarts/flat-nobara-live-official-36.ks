@@ -599,6 +599,8 @@ zenity
 -qt5-qtwebengine-freeworld
 -appmenu-qt5-profile.d
 -appmenu-qt5
+-qgnomeplatform-qt5
+-qgnomeplatform-qt6
 
 
 %end
