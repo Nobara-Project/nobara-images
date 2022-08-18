@@ -31,6 +31,7 @@ repo --name="nobara-custom" --baseurl=https://www.nobaraproject.org/repo/nobara/
 repo --name="nobara-obs-studio-gamecapture" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/obs-studio-gamecapture/fedora-$releasever-$basearch/
 repo --name="nobara-obs-studio-gamecapture-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/obs-studio-gamecapture/fedora-$releasever-i386/
 repo --name="nobara-rocm" --baseurl=https://download.copr.fedorainfracloud.org/results/cosmicfusion/ROCm-GFX8P/fedora-$releasever-$basearch/
+repo --name="nobara-onlyoffice" --baseurl=http://download.onlyoffice.com/repo/centos/main/noarch/
 repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,dnfdaemon*,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,rocm*"
 repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,dnfdaemon*,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim*,rocm&"
 repo --name="fedora-cisco-openh264" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-$releasever&arch=$basearch
@@ -425,7 +426,6 @@ EOF
 @firefox
 @fonts
 @hardware-support
-@libreoffice
 @multimedia
 @networkmanager-submodules
 @printing
@@ -501,8 +501,6 @@ libieee1284.x86_64
 libieee1284.i686
 libogg.x86_64
 libogg.i686
-libreoffice-draw
-libreoffice-math
 libsndfile.x86_64
 libsndfile.i686
 libunity
@@ -538,6 +536,7 @@ obs-studio-gamecapture.x86_64
 obs-studio-gamecapture.i686
 ocl-icd.x86_64
 ocl-icd.i686
+onlyoffice-desktopeditors
 openssl
 openssl-libs.x86_64
 openssl-libs.i686
