@@ -534,7 +534,6 @@ mariadb-server
 mediawriter
 memtest86+
 neofetch
-nautilus-terminal
 nobara-login
 nobara-login-sysctl
 nobara-repos
