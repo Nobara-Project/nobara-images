@@ -435,6 +435,7 @@ EOF
 @x86-baremetal-tools
 aajohan-comfortaa-fonts
 adw-gtk3
+alsa-plugins-pulseaudio
 anaconda
 anaconda-install-env-deps
 anaconda-live
