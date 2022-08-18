@@ -548,7 +548,7 @@ pulseaudio-libs.x86_64
 pulseaudio-libs.i686
 qemu-device-display-qxl
 qt5ct
-rocm-opencl
+rocm-opencl-runtime
 rocm-hip-runtime 
 hip-devel
 rpmfusion-free-release

@@ -557,7 +557,7 @@ pulseaudio-libs.i686
 plasma-breeze
 qt5ct
 qemu-device-display-qxl
-rocm-opencl
+rocm-opencl-runtime
 rocm-hip-runtime 
 hip-devel
 rpmfusion-free-release

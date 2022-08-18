@@ -553,7 +553,7 @@ qemu-device-display-qxl
 protonup-qt
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
-rocm-opencl
+rocm-opencl-runtime
 rocm-hip-runtime 
 hip-devel
 rpmfusion-free-release
