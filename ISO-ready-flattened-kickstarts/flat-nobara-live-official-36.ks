@@ -628,6 +628,7 @@ rocm-core
 -libreoffice-xsltfilter
 -libreoffice-filters
 -libreoffice-emailmerge
+-unoconv
 -@dial-up
 -@input-methods
 -@standard

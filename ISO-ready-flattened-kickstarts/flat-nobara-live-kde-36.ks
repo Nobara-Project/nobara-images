@@ -624,6 +624,7 @@ rocm-core
 -libreoffice-xsltfilter
 -libreoffice-filters
 -libreoffice-emailmerge
+-unoconv
 -@admin-tools
 -@input-methods
 -device-mapper-multipath
