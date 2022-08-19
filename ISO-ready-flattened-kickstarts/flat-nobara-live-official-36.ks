@@ -577,7 +577,8 @@ vim
 vlc
 vkBasalt.x86_64
 vkBasalt.i686
-vapoursynth
+python3-vapoursynth
+vapoursynth-tools
 vulkan-tools
 winehq-staging
 winetricks
