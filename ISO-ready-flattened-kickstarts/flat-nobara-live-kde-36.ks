@@ -593,12 +593,12 @@ rocm-hip-runtime-devel
 libquadmath-devel
 gcc-gfortran
 hipsparse
-rocfft
-rocprim
-rocrand
-rocsparse
-rocthrust
 rocm-core
+-rocfft
+-rocprim
+-rocrand
+-rocsparse
+-rocthrust
 -hipcub
 -hipblas
 -rccl
