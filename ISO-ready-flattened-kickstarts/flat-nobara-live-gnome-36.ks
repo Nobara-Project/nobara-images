@@ -587,8 +587,8 @@ rocm-language-runtime
 rocm-hip-runtime-devel
 libquadmath-devel
 gcc-gfortran
-hipsparse
 rocm-core
+-hipsparse
 -rocfft
 -rocprim
 -rocrand
