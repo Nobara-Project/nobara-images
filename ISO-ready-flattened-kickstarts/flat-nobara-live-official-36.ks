@@ -567,6 +567,7 @@ sane-backends-libs.x86_64
 sane-backends-libs.i686
 setroubleshoot
 steam
+steamtinkerlaunch
 syslinux
 system-config-language
 tcp_wrappers-libs.x86_64
