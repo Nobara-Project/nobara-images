@@ -532,6 +532,7 @@ mariadb-embedded
 mariadb-server
 mediawriter
 memtest86+
+mscore-fonts
 neofetch
 nobara-login
 nobara-login-sysctl
