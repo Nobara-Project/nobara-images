@@ -16,20 +16,9 @@ network  --bootproto=dhcp --device=link --activate
 firewall --enabled --service=mdns
 # Use network installation
 url --mirrorlist="https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch"
-repo --name="nobara-base" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-$basearch/
-repo --name="nobara-base-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-i386/
-repo --name="nobara-mesa-git" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/mesa-aco/fedora-$releasever-$basearch/
-repo --name="nobara-mesa-git-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/mesa-aco/fedora-$releasever-i386/
-repo --name="nobara-kernel-fsync" --baseurl=https://download.copr.fedorainfracloud.org/results/sentry/kernel-fsync/fedora-$releasever-$basearch/
-repo --name="nobara-glibc" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/glibc/fedora-$releasever-$basearch/
-repo --name="nobara-glibc-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/glibc/fedora-$releasever-i386/
-repo --name="nobara-gameutils" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/game-utils/fedora-$releasever-$basearch/
-repo --name="nobara-gameutils-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/game-utils/fedora-$releasever-i386/
-repo --name="nobara-obs-studio" --baseurl=https://www.nobaraproject.org/repo/fedora/$releasever/$basearch/obs-studio-nobara/
-repo --name="nobara-custom" --baseurl=https://www.nobaraproject.org/repo/nobara/$releasever/$basearch/
-repo --name="nobara-obs-studio-gamecapture" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/obs-studio-gamecapture/fedora-$releasever-$basearch/
-repo --name="nobara-obs-studio-gamecapture-i386" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/obs-studio-gamecapture/fedora-$releasever-i386/
-repo --name="nobara-rocm" --baseurl=https://download.copr.fedorainfracloud.org/results/cosmicfusion/ROCm-GFX8P/fedora-$releasever-$basearch/
+repo --name="nobara-baseos" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-$basearch/
+repo --name="nobara-baseos-multilib" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-i386/
+repo --name="nobara-appstream" --baseurl=https://www.nobaraproject.org/repo/nobara/$releasever/$basearch/
 repo --name="nobara-onlyoffice" --baseurl=http://download.onlyoffice.com/repo/centos/main/noarch/
 repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,dnfdaemon*,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,kde-settings*,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,rocm*"
 repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,dnfdaemon*,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,dnfdragora,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,kde-settings*,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim*,rocm*"
@@ -38,9 +27,6 @@ repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlis
 repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch --excludepkgs="discord"
 repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="discord"
-repo --name="rpmfusion-nonfree-nvidia" --mirrorlist=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-nvidia-driver-$releasever&arch=$basearch
-repo --name="rpmfusion-nonfree-steam" --mirrorlist=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-steam-$releasever&arch=$basearch
-repo --name="WineHQ-Official" --baseurl=https://dl.winehq.org/wine-builds/fedora/36
 # System timezone
 timezone US/Eastern
 # SELinux configuration
@@ -455,6 +441,7 @@ foomatic
 fuse
 gamemode.x86_64
 gamemode.i686
+ghc-mountpoints
 gamescope
 glibc-all-langpacks
 goverlay
@@ -627,6 +614,8 @@ rocm-core
 -libreoffice-xsltfilter
 -libreoffice-filters
 -libreoffice-emailmerge
+-fedora-repos-modular
+-fedora-workstation-repositories
 -unoconv
 -@admin-tools
 -@input-methods
