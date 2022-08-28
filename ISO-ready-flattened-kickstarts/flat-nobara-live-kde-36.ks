@@ -583,6 +583,7 @@ rocm-hip-runtime-devel
 libquadmath-devel
 gcc-gfortran
 rocm-core
+okular
 -hipsparse
 -rocfft
 -rocprim
@@ -633,7 +634,6 @@ rocm-core
 -ktorrent
 -mpage
 -nfs-utils
--okular
 -rygel
 -scim*
 -system-config-printer

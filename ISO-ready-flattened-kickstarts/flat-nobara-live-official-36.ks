@@ -586,6 +586,7 @@ rocm-hip-runtime-devel
 libquadmath-devel
 gcc-gfortran
 rocm-core
+okular
 -hipsparse
 -rocfft
 -rocprim
@@ -627,7 +628,6 @@ rocm-core
 -gnome-boxes
 -nfs-utils
 -gst-editing-services
--okular
 -reiserfs-utils
 -rygel
 -gnome-shell-extension-gamemode
