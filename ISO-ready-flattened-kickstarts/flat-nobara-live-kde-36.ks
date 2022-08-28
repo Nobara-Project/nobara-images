@@ -670,7 +670,6 @@ kate
 -qtkeychain-qt5
 -libadwaita-qt6
 -qt6-qtdeclarative
--qt6-qtsvg
 -kwrite
 -hipsparse
 -rocfft
