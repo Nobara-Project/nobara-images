@@ -466,6 +466,8 @@ hplip
 hplip-gui
 initscripts
 inkscape
+i2c-tools
+libi2c
 libva-intel-hybrid-driver
 json-c.x86_64
 json-c.i686
