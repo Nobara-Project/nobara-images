@@ -1,7 +1,7 @@
 Set up mock build environment:
 ```
 $ sudo dnf install mock pykickstart
-$ sudo usermod -a -G mock <user>
+$ sudo usermod -a -G mock $(whoami)
 $ mock -r ./nobara-36-x86_64.cfg --init
 $ mock -r ./nobara-36-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart
 $ sudo setenforce 0
