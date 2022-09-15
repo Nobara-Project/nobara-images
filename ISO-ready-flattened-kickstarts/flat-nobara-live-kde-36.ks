@@ -32,7 +32,7 @@ timezone US/Eastern
 # SELinux configuration
 selinux --permissive
 # System services
-services --disabled="sshd" --enabled="NetworkManager,ModemManager"
+services --disabled="sshd" --enabled="NetworkManager,ModemManager,supergfxd"
 # System bootloader configuration
 bootloader --location=none
 # Clear the Master Boot Record
@@ -553,6 +553,8 @@ samba-winbind.x86_64
 sane-backends-libs.x86_64
 sane-backends-libs.i686
 setroubleshoot
+supergfxctl
+supergfxctl-plasmoid
 steam
 steamtinkerlaunch
 syslinux
