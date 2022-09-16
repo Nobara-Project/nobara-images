@@ -548,7 +548,7 @@ sane-backends-libs.x86_64
 sane-backends-libs.i686
 setroubleshoot
 supergfxctl
-supergfxctl-gex
+gnome-shell-extension-supergfxctl-gex
 steam
 steamtinkerlaunch
 syslinux
