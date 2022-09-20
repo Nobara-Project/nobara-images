@@ -512,6 +512,8 @@ mariadb-embedded
 mariadb-server
 mediawriter
 memtest86+
+mesa-libGLU.x86_64
+mesa-libGLU.i686
 mscore-fonts
 mscore-fonts-all
 neofetch
