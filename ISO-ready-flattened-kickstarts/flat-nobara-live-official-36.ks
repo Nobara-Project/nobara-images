@@ -27,6 +27,7 @@ repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlis
 repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch --excludepkgs="discord"
 repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="discord"
+
 # System timezone
 timezone US/Eastern
 # SELinux configuration
@@ -361,17 +362,12 @@ if [ -f /usr/share/applications/liveinst.desktop ]; then
 
   cat >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override << FOE
 [org.gnome.shell]
-favorite-apps=['firefox.desktop',' org.gnome.Nautilus.desktop', 'anaconda.desktop']
+favorite-apps=['org.gnome.Settings.desktop', 'yumex-dnf.desktop', 'org.gnome.Software.desktop', 'org.gnome.Nautilus.desktop', 'firefox.desktop', 'anaconda.desktop']
 FOE
 
   # Make the liveinst run on login
   mkdir -p ~liveuser/.config/autostart
   cp -a /usr/share/applications/anaconda.desktop ~liveuser/.config/autostart/
-
-  # Disable GNOME welcome tour so it doesn't overlap with install screen
-  cat >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override << FOE
-welcome-dialog-last-shown-version='4294967295'
-FOE
 
   # Copy Anaconda branding in place
   if [ -d /usr/share/lorax/product/usr/share/anaconda ]; then
@@ -420,7 +416,6 @@ anaconda
 anaconda-install-env-deps
 anaconda-live
 file-roller
-blender
 chkconfig
 dracut-live
 egl-gbm
@@ -448,25 +443,20 @@ gnome-shell-extension-clipboard-history
 gnome-shell-nobara-theming
 goverlay
 gsettings-desktop-schemas 
-gstreamer1-libav.i686
-gstreamer1-libav.x86_64
+gstreamer1-plugin-libav.i686
+gstreamer1-plugin-libav.x86_64
 gstreamer1-plugins-bad-free.i686
 gstreamer1-plugins-bad-free.x86_64
-gstreamer1-plugins-bad-freeworld.i686
-gstreamer1-plugins-bad-freeworld.x86_64
 gstreamer1-plugins-base.i686
 gstreamer1-plugins-base.x86_64
 gstreamer1-plugins-good.i686
 gstreamer1-plugins-good.x86_64
 gstreamer1-plugins-ugly-free.i686
 gstreamer1-plugins-ugly-free.x86_64
-gstreamer1-plugins-ugly.i686
-gstreamer1-plugins-ugly.x86_64
 gstreamer1.i686
 gstreamer1.x86_64
 gstreamer1-vaapi
 hplip
-hplip-gui
 initscripts
 inkscape
 i2c-tools
@@ -474,7 +464,6 @@ libi2c
 libva-intel-hybrid-driver
 json-c.x86_64
 json-c.i686
-kdenlive
 kernel
 kernel-modules
 kernel-modules-extra
@@ -532,9 +521,6 @@ nobara-theming-repos
 nobara-controller-config
 nss-mdns.x86_64
 nss-mdns.i686
-obs-studio
-obs-studio-gamecapture.x86_64
-obs-studio-gamecapture.i686
 ocl-icd.x86_64
 ocl-icd.i686
 onlyoffice-desktopeditors
@@ -542,11 +528,9 @@ openssl
 openssl-libs.x86_64
 openssl-libs.i686
 pavucontrol
-pipewire-codec-aptx
 protonup-qt
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
-plasma-breeze
 qt5ct
 qemu-device-display-qxl
 rpmfusion-free-release
@@ -569,7 +553,6 @@ tcp_wrappers-libs.i686
 unixODBC.x86_64
 unixODBC.i686
 vim
-vlc
 vkBasalt.x86_64
 vkBasalt.i686
 python3-vapoursynth
@@ -591,7 +574,7 @@ rocm-hip-runtime-devel
 libquadmath-devel
 gcc-gfortran
 rocm-core
-okular
+evince
 dnfdaemon
 yumex-dnf
 nobara-welcome
@@ -602,6 +585,7 @@ gnome-shell-extension-wireless-hid
 gnome-startup-applications
 auto-cpufreq
 papirus-icon-theme
+unrar
 -power-profiles-daemon
 -hipsparse
 -rocfft
@@ -634,6 +618,7 @@ papirus-icon-theme
 -libreoffice-xsltfilter
 -libreoffice-filters
 -libreoffice-emailmerge
+-gnome-tour
 -unoconv
 -@dial-up
 -@input-methods

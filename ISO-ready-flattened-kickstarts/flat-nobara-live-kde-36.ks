@@ -27,6 +27,7 @@ repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlis
 repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch --excludepkgs="discord"
 repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="discord"
+
 # System timezone
 timezone US/Eastern
 # SELinux configuration
@@ -353,7 +354,7 @@ fi
 mkdir -p /home/liveuser/.config/
 cat > /home/liveuser/.config/kickoffrc << MENU_EOF
 [Favorites]
-FavoriteURLs=/usr/share/applications/firefox.desktop,/usr/share/applications/org.kde.dolphin.desktop,/usr/share/applications/systemsettings.desktop,/usr/share/applications/org.kde.konsole.desktop,/usr/share/applications/liveinst.desktop
+FavoriteURLs=/usr/share/applications/systemsettings.desktop,/usr/share/applications/yumex-dnf.desktop,/usr/share/applications/org.kde.discover.desktop,/usr/share/applications/org.kde.dolphin.desktop,/usr/share/applications/firefox.desktop,/usr/share/applications/liveinst.desktop
 MENU_EOF
 
 # show liveinst.desktop on desktop and in menu
@@ -426,7 +427,6 @@ anaconda
 anaconda-install-env-deps
 anaconda-live
 ark
-blender
 chkconfig
 dracut-live
 egl-gbm
@@ -445,25 +445,20 @@ ghc-mountpoints
 gamescope
 glibc-all-langpacks
 goverlay
-gstreamer1-libav.i686
-gstreamer1-libav.x86_64
+gstreamer1-plugin-libav.i686
+gstreamer1-plugin-libav.x86_64
 gstreamer1-plugins-bad-free.i686
 gstreamer1-plugins-bad-free.x86_64
-gstreamer1-plugins-bad-freeworld.i686
-gstreamer1-plugins-bad-freeworld.x86_64
 gstreamer1-plugins-base.i686
 gstreamer1-plugins-base.x86_64
 gstreamer1-plugins-good.i686
 gstreamer1-plugins-good.x86_64
 gstreamer1-plugins-ugly-free.i686
 gstreamer1-plugins-ugly-free.x86_64
-gstreamer1-plugins-ugly.i686
-gstreamer1-plugins-ugly.x86_64
 gstreamer1.i686
 gstreamer1.x86_64
 gstreamer1-vaapi
 hplip
-hplip-gui
 initscripts
 inkscape
 i2c-tools
@@ -472,7 +467,6 @@ libva-intel-hybrid-driver
 json-c.x86_64
 json-c.i686
 kde-l10n
-kdenlive
 kernel
 kernel-modules
 kernel-modules-extra
@@ -530,9 +524,6 @@ nobara-repos
 nobara-controller-config
 nss-mdns.x86_64
 nss-mdns.i686
-obs-studio
-obs-studio-gamecapture.x86_64
-obs-studio-gamecapture.i686
 ocl-icd.x86_64
 ocl-icd.i686
 onlyoffice-desktopeditors
@@ -540,8 +531,6 @@ openssl
 openssl-libs.x86_64
 openssl-libs.i686
 pavucontrol-qt
-pipewire-codec-aptx
-plasma-breeze
 qemu-device-display-qxl
 protonup-qt
 pulseaudio-libs.x86_64
@@ -566,7 +555,6 @@ tcp_wrappers-libs.i686
 unixODBC.x86_64
 unixODBC.i686
 vim
-vlc
 vkBasalt.x86_64
 vkBasalt.i686
 python3-vapoursynth
@@ -594,6 +582,7 @@ dnfdaemon
 yumex-dnf
 nobara-welcome
 auto-cpufreq
+unrar
 -power-profiles-daemon
 -kolourpaint
 -kf5-libksane
