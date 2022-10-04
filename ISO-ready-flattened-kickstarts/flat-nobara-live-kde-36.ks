@@ -547,7 +547,6 @@ setroubleshoot
 supergfxctl
 supergfxctl-plasmoid
 steam
-steamtinkerlaunch
 syslinux
 system-config-language
 tcp_wrappers-libs.x86_64

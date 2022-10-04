@@ -545,7 +545,6 @@ setroubleshoot
 supergfxctl
 gnome-shell-extension-supergfxctl-gex
 steam
-steamtinkerlaunch
 syslinux
 system-config-language
 tcp_wrappers-libs.x86_64
