@@ -16,12 +16,12 @@ network  --bootproto=dhcp --device=link --activate
 firewall --enabled --service=mdns
 # Use network installation
 url --mirrorlist="https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch"
-repo --name="nobara-baseos" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-$basearch/ --excludepkgs="mesa-demos,mesa-libGLU,mesa-libGLU-devel,mesa-libglapi,mesa-libGL,mesa-filesystem,mesa-libgbm,mesa-filesystem,mesa-dri-drivers,mesa-libEGL,mesa-libGL-devel,mesa-libOSMesa,mesa-libxatracker"
-repo --name="nobara-baseos-multilib" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-i386/ --excludepkgs="mesa-demos,mesa-libGLU,mesa-libGLU-devel,mesa-libglapi,mesa-libGL,mesa-filesystem,mesa-libgbm,mesa-filesystem,mesa-dri-drivers,mesa-libEGL,mesa-libGL-devel,mesa-libOSMesa,mesa-libxatracker"
+repo --name="nobara-baseos" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-$basearch/ --excludepkgs="mesa-demos,mesa-libGLU,mesa-libGLU-devel,mesa-libglapi,mesa-libGL,mesa-filesystem,mesa-libgbm,mesa-filesystem,mesa-dri-drivers,mesa-libEGL,mesa-libGL-devel,mesa-libOSMesa,mesa-libxatracker,mesa-libEGL-devel,mesa-libOSMesa-devel,mesa-libOpenCL,mesa-libOpenCL-devel,mesa-libd3d-devel,mesa-libgbm-devel,mesa-libaxtracker-devel,mesa-omx-drivers,mesa-vdpau-drivers"
+repo --name="nobara-baseos-multilib" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-i386/ --excludepkgs="mesa-demos,mesa-libGLU,mesa-libGLU-devel,mesa-libglapi,mesa-libGL,mesa-filesystem,mesa-libgbm,mesa-filesystem,mesa-dri-drivers,mesa-libEGL,mesa-libGL-devel,mesa-libOSMesa,mesa-libxatracker,mesa-libEGL-devel,mesa-libOSMesa-devel,mesa-libOpenCL,mesa-libOpenCL-devel,mesa-libd3d-devel,mesa-libgbm-devel,mesa-libaxtracker-devel,mesa-omx-drivers,mesa-vdpau-drivers"
 repo --name="nobara-appstream" --baseurl=https://www.nobaraproject.org/repo/nobara/$releasever/$basearch/
 repo --name="nobara-onlyoffice" --baseurl=http://download.onlyoffice.com/repo/centos/main/noarch/
-repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim,rocm*,qgnomeplatform*,setroubleshoot*,SDL2*,dnfdaemon amd-gpu-firmware"
-repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim*,rocm*,qgnomeplatform*,setroubleshoot*,SDL2*,dnfdaemon amd-gpu-firmware"
+repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim,rocm*,qgnomeplatform*,setroubleshoot*,SDL2*,dnfdaemon,amd-gpu-firmware,neofetch"
+repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim*,rocm*,qgnomeplatform*,setroubleshoot*,SDL2*,dnfdaemon,amd-gpu-firmware,neofetch"
 repo --name="fedora-cisco-openh264" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-$releasever&arch=$basearch
 repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio"
@@ -442,9 +442,7 @@ gnome-shell-extension-desktop-icons
 gnome-shell-extension-clipboard-history
 gnome-shell-nobara-theming
 goverlay
-gsettings-desktop-schemas 
-gstreamer1-plugin-libav.i686
-gstreamer1-plugin-libav.x86_64
+gsettings-desktop-schemas
 gstreamer1-plugins-bad-free.i686
 gstreamer1-plugins-bad-free.x86_64
 gstreamer1-plugins-base.i686
@@ -586,6 +584,20 @@ gnome-startup-applications
 auto-cpufreq
 papirus-icon-theme
 unrar
+openrgb
+-gstreamer1-plugins-bad-freeworld
+-gstreamer1-plugins-ugly
+-gstreamer1-libav
+-ffmpeg-libs
+-ffmpeg
+-compat-ffmpeg4
+-libavdevice
+-libfreeaptx
+-pipewire-codec-aptx
+-libva-intel-driver
+-intel-media-driver
+-opencore-amr
+-x264-libs
 -power-profiles-daemon
 -hipsparse
 -rocfft
