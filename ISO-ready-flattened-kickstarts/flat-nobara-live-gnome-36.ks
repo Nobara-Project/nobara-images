@@ -20,8 +20,8 @@ repo --name="nobara-baseos" --baseurl=https://download.copr.fedorainfracloud.org
 repo --name="nobara-baseos-multilib" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-i386/
 repo --name="nobara-appstream" --baseurl=https://www.nobaraproject.org/repo/nobara/$releasever/$basearch/
 repo --name="nobara-onlyoffice" --baseurl=http://download.onlyoffice.com/repo/centos/main/noarch/
-repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim*,rocm*,qgnomeplatform*,setroubleshoot*,SDL2*,dnfdaemon,amd-gpu-firmware,neofetch,mesa*"
-repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim*,rocm*,qgnomeplatform*,setroubleshoot*,SDL2*,dnfdaemon,amd-gpu-firmware,neofetch,mesa*"
+repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim,rocm*,plasma-desktop*,plasma-workstation*,SDL2,SDL2-*,sddm,dnfdaemon,amd-gpu-firmware,neofetch,mesa*"
+repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim*,rocm*,plasma-desktop*,plasma-workstation*,SDL2,SDL2-*,sddm,dnfdaemon,amd-gpu-firmware,neofetch,mesa*"
 repo --name="fedora-cisco-openh264" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-$releasever&arch=$basearch
 repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio"
@@ -31,7 +31,7 @@ repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.or
 # System timezone
 timezone US/Eastern
 # SELinux configuration
-selinux --permissive
+selinux --disabled
 # System services
 services --disabled="sshd" --enabled="NetworkManager,ModemManager,supergfxd"
 # System bootloader configuration
@@ -321,8 +321,20 @@ fi
 
 %post
 
-cat >> /etc/rc.d/init.d/livesys << EOF
+# set default GTK+ theme for root (see #683855, #689070, #808062)
+cat > /root/.gtkrc-2.0 << EOF
+include "/usr/share/themes/Adwaita/gtk-2.0/gtkrc"
+include "/etc/gtk-2.0/gtkrc"
+gtk-theme-name="Adwaita"
+EOF
+mkdir -p /root/.config/gtk-3.0
+cat > /root/.config/gtk-3.0/settings.ini << EOF
+[Settings]
+gtk-theme-name = Adwaita
+EOF
 
+# add initscript
+cat >> /etc/rc.d/init.d/livesys << EOF
 
 # disable gnome-software automatically downloading updates
 cat >> /usr/share/glib-2.0/schemas/org.gnome.software.gschema.override << FOE
@@ -355,20 +367,25 @@ visited=1
 FOE
 
 # make the installer show up
-if [ -f /usr/share/applications/liveinst.desktop ]; then
-  # Show harddisk install in shell dash
-  sed -i -e 's/NoDisplay=true/NoDisplay=false/' /usr/share/applications/liveinst.desktop ""
-  # need to move it to anaconda.desktop to make shell happy
-  mv /usr/share/applications/liveinst.desktop /usr/share/applications/anaconda.desktop
+
+if [ -f /usr/share/applications/calamares.desktop ]; then
+
+# Remove anaconda shortcut
+rm /etc/xdg/autostart/liveinst-setup.desktop
+
+# Add calamares installer desktop shortcut
+mkdir -p ~liveuser/Desktop/
+cp /usr/share/applications/calamares.desktop ~liveuser/Desktop/
+
 
   cat >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override << FOE
 [org.gnome.shell]
-favorite-apps=['org.gnome.Settings.desktop', 'yumex-dnf.desktop', 'org.gnome.Software.desktop', 'org.gnome.Nautilus.desktop', 'firefox.desktop', 'anaconda.desktop']
+favorite-apps=['org.gnome.Settings.desktop', 'yumex-dnf.desktop', 'org.gnome.Software.desktop', 'org.gnome.Nautilus.desktop', 'firefox.desktop', 'calamares.desktop']
 FOE
 
   # Make the liveinst run on login
   mkdir -p ~liveuser/.config/autostart
-  cp -a /usr/share/applications/anaconda.desktop ~liveuser/.config/autostart/
+  cp -a /usr/share/applications/calamares.desktop ~liveuser/.config/autostart/
 
   # Copy Anaconda branding in place
   if [ -d /usr/share/lorax/product/usr/share/anaconda ]; then
@@ -398,7 +415,6 @@ chown -R liveuser:liveuser /home/liveuser/
 restorecon -R /home/liveuser/
 
 EOF
-
 %end
 
 %packages
@@ -411,12 +427,15 @@ EOF
 @networkmanager-submodules
 @printing
 @x86-baremetal-tools
+apparmor-utils
+apparmor-parser
 aajohan-comfortaa-fonts
 adw-gtk3
 alsa-plugins-pulseaudio
 anaconda
 anaconda-install-env-deps
 anaconda-live
+calamares
 file-roller
 chkconfig
 dracut-live
@@ -521,8 +540,8 @@ pavucontrol
 protonup-qt
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
-qemu-device-display-qxl
 qt5ct
+qemu-device-display-qxl
 rpmfusion-free-release
 samba-common-tools.x86_64
 samba-libs.x86_64
@@ -531,7 +550,6 @@ samba-winbind-modules.x86_64
 samba-winbind.x86_64
 sane-backends-libs.x86_64
 sane-backends-libs.i686
-setroubleshoot
 supergfxctl
 gnome-shell-extension-supergfxctl-gex
 steam
@@ -561,6 +579,7 @@ rocm-hip-runtime
 rocm-language-runtime
 rocm-hip-runtime-devel
 libquadmath-devel
+timeshift
 gcc-gfortran
 rocm-core
 evince
@@ -572,6 +591,9 @@ gnome-x11-gesture-daemon
 gnome-shell-extension-gesture-improvements
 gnome-shell-extension-wireless-hid
 gnome-startup-applications
+gnome-shell-extension-gsconnect
+nautilus-gsconnect
+webextension-gsconnect
 auto-cpufreq
 papirus-icon-theme
 unrar
@@ -630,10 +652,10 @@ opentabletdriver
 -@standard
 -device-mapper-multipath
 -fcoe-utils
--gnome-boxes
 -gfs2-utils
--gst-editing-services
+-gnome-boxes
 -nfs-utils
+-gst-editing-services
 -reiserfs-utils
 -rygel
 -gnome-shell-extension-gamemode
@@ -642,7 +664,6 @@ opentabletdriver
 -qt5-qtwebengine-freeworld
 -appmenu-qt5-profile.d
 -appmenu-qt5
--qgnomeplatform-qt5
--qgnomeplatform-qt6
+-sushi
 
 %end
