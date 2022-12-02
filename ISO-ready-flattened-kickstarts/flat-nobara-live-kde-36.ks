@@ -44,6 +44,7 @@ clearpart --all
 part / --fstype="ext4" --size=25600
 part / --size=25600
 
+%post
 # FIXME: it'd be better to get this installed from a package
 cat > /etc/rc.d/init.d/livesys << EOF
 #!/bin/bash
