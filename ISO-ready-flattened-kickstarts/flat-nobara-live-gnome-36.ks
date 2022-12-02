@@ -431,7 +431,6 @@ apparmor-utils
 apparmor-parser
 aajohan-comfortaa-fonts
 adw-gtk3
-alsa-plugins-pulseaudio
 anaconda
 anaconda-install-env-deps
 anaconda-live
