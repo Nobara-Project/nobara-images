@@ -539,6 +539,7 @@ sane-backends-libs.x86_64
 sane-backends-libs.i686
 supergfxctl
 supergfxctl-plasmoid
+sddm-kcm
 steam
 syslinux
 system-config-language
