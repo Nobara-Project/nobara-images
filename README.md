@@ -2,38 +2,38 @@ Set up mock build environment:
 ```
 $ sudo dnf install mock pykickstart
 $ sudo usermod -a -G mock $(whoami)
-$ mock -r ./nobara-36-x86_64.cfg --init
-$ mock -r ./nobara-36-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart
+$ mock -r ./nobara-37-x86_64.cfg --init
+$ mock -r ./nobara-37-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart
 $ sudo setenforce 0
 ```
 
 Transfer flat kickstart file to mock build environment:
 
 ```
-$ cp ISO-ready-flattened-kickstarts/flat-nobara-live-*.ks /var/lib/mock/nobara-36-x86_64/root/builddir/
+$ cp ISO-ready-flattened-kickstarts/37/flat-nobara-live-*.ks /var/lib/mock/nobara-37-x86_64/root/builddir/
 ```
 
 Enter mock environment:
 ```
-$ mock -r ./nobara-36-x86_64.cfg --shell --old-chroot --enable-network
+$ mock -r ./nobara-37-x86_64.cfg --shell --old-chroot --enable-network
 ```
 
 From within mock environment:
 
 Official:
 ```
-# livemedia-creator --ks flat-nobara-live-official-36.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-36 --iso-only --iso-name Nobara-36-Official-$(date +%F).iso --releasever 36 --macboot
+# livemedia-creator --ks flat-nobara-live-official-37.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-37 --iso-only --iso-name Nobara-37-Official-$(date +%F).iso --releasever 37 --macboot
 ```
 
 
 Gnome:
 ```
-# livemedia-creator --ks flat-nobara-live-gnome-36.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-36 --iso-only --iso-name Nobara-36-GNOME-$(date +%F).iso --releasever 36 --macboot
+# livemedia-creator --ks flat-nobara-live-gnome-37.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-37 --iso-only --iso-name Nobara-37-GNOME-$(date +%F).iso --releasever 37 --macboot
 ```
 
 KDE:
 ```
-# livemedia-creator --ks flat-nobara-live-kde-36.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-36 --iso-only --iso-name Nobara-36-KDE-$(date +%F).iso --releasever 36 --macboot
+# livemedia-creator --ks flat-nobara-live-kde-37.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-37 --iso-only --iso-name Nobara-37-KDE-$(date +%F).iso --releasever 37 --macboot
 ```
 
 
@@ -45,12 +45,12 @@ Exit mock environment when build completes:
 Move built ISO from mock location to whatever location you want:
 
 ```
-$ sudo mv /var/lib/mock/nobara-36-x86_64/root/var/lmc/Nobara-36-*.iso .
+$ sudo mv /var/lib/mock/nobara-37-x86_64/root/var/lmc/Nobara-37-*.iso .
 ```
 
 Clean up mock environment:
 ```
-$ mock -r ./nobara-36-x86_64.cfg --scrub=all
+$ mock -r ./nobara-37-x86_64.cfg --scrub=all
 $ sudo setenforce 1
 ```
 
