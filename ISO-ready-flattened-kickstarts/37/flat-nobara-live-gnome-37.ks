@@ -377,6 +377,7 @@ rm /etc/xdg/autostart/liveinst-setup.desktop
 # Add calamares installer desktop shortcut
 mkdir -p ~liveuser/Desktop/
 cp /usr/share/applications/calamares.desktop ~liveuser/Desktop/
+chmod +x ~liveuser/Desktop/calamares.desktop
 
   cat >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override << FOE
 [org.gnome.shell]
@@ -587,6 +588,7 @@ papirus-icon-theme
 unrar
 openrgb
 opentabletdriver
+-gnome-shell-extension-background-logo
 -gstreamer1-plugins-bad-freeworld
 -gstreamer1-plugins-ugly
 -gstreamer1-libav
