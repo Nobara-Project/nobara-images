@@ -583,6 +583,7 @@ timeshift
 gcc-gfortran
 evince
 dnfdaemon
+v4l2loopback
 yumex-dnf
 nobara-welcome
 nobara-gnome-layouts

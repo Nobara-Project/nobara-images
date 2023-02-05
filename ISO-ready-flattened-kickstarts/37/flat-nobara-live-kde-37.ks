@@ -562,6 +562,7 @@ gcc-gfortran
 okular
 kate
 dnfdaemon
+v4l2loopback
 yumex-dnf
 nobara-welcome
 auto-cpufreq
