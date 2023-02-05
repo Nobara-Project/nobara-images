@@ -565,7 +565,6 @@ dnfdaemon
 v4l2loopback
 yumex-dnf
 nobara-welcome
-auto-cpufreq
 unrar
 openrgb
 opentabletdriver
@@ -581,7 +580,7 @@ papirus-icon-theme
 -libva-intel-driver
 -intel-media-driver
 -opencore-amr
--power-profiles-daemon
+power-profiles-daemon
 -kolourpaint
 -kf5-libksane
 -kolourpaint-libs

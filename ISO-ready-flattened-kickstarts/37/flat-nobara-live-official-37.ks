@@ -591,7 +591,6 @@ gnome-x11-gesture-daemon
 gnome-shell-extension-gesture-improvements
 gnome-shell-extension-wireless-hid
 gnome-startup-applications
-auto-cpufreq
 papirus-icon-theme
 unrar
 openrgb
@@ -610,7 +609,7 @@ opentabletdriver
 -intel-media-driver
 -opencore-amr
 -x264-libs
--power-profiles-daemon
+power-profiles-daemon
 -libreoffice-opensymbol-fonts
 -libreoffice-ure-common
 -libreoffice-data
