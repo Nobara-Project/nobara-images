@@ -34,7 +34,7 @@ timezone US/Eastern
 # SELinux configuration
 selinux --disabled
 # System services
-services --disabled="sshd" --enabled="NetworkManager,ModemManager,supergfxd"
+services --disabled="sshd,custom-device-pollrates" --enabled="NetworkManager,ModemManager,supergfxd"
 # System bootloader configuration
 bootloader --location=none
 # Clear the Master Boot Record
