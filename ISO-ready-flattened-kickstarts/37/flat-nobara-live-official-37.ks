@@ -553,6 +553,7 @@ pulseaudio-libs.i686
 qt5ct
 qemu-device-display-qxl
 rpmfusion-free-release
+rocm-opencl
 samba-common-tools.x86_64
 samba-libs.x86_64
 samba-winbind-clients.x86_64

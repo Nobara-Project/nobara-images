@@ -529,6 +529,7 @@ plasma-lookandfeel-fedora
 plasma-workspace-wallpapers
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
+rocm-opencl
 rpmfusion-free-release
 samba-common-tools.x86_64
 samba-libs.x86_64
