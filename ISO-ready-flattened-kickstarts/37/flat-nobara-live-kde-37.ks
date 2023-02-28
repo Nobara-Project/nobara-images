@@ -431,6 +431,7 @@ fedora-repos
 fedora-workstation-repositories
 flac-libs.x86_64
 flac-libs.i686
+flatpak
 foomatic
 fuse
 gamemode.x86_64
@@ -527,6 +528,7 @@ protonup-qt
 qemu-device-display-qxl
 plasma-lookandfeel-fedora
 plasma-workspace-wallpapers
+plasma-discover-flatpak
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
 rocm-opencl
