@@ -16,16 +16,16 @@ network  --bootproto=dhcp --device=link --activate
 firewall --enabled --service=mdns
 # Use network installation
 url --mirrorlist="https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch"
-repo --name="nobara-baseos" --baseurl=https://nobara-baseos.nobaraproject.org/$releasever/
-repo --name="nobara-baseos-multilib" --baseurl=https://nobara-baseos-multilib.nobaraproject.org/$releasever/
-repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch
+repo --name="nobara-baseos" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-$basearch/
+repo --name="nobara-baseos-multilib" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara/fedora-$releasever-i386/
+repo --name="nobara-appstream" --baseurl=https://www.nobaraproject.org/repo/nobara/$releasever/$basearch/
 repo --name="nobara-rocm-official" --baseurl=https://repo.radeon.com/rocm/rhel9/5.4.1/main/
 repo --name="nobara-onlyoffice" --baseurl=http://download.onlyoffice.com/repo/centos/main/noarch/
-repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasever/ --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim,rocm*,plasma-desktop*,plasma-workspace*,SDL2,SDL2-*,sddm,dnfdaemon,amd-gpu-firmware,neofetch,mesa*,gsettings-desktop-schemas"
-repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/ --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim*,rocm*,plasma-desktop*,plasma-workspace*,SDL2,SDL2-*,sddm,dnfdaemon,amd-gpu-firmware,neofetch,mesa*,gsettings-desktop-schemas"
+repo --name="fedora" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=fedora-$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim,rocm*,plasma-desktop*,plasma-workspace*,SDL2,SDL2-*,sddm,dnfdaemon,amd-gpu-firmware,neofetch,mesa*,gsettings-desktop-schemas"
+repo --name="fedora-updates" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak*,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim*,rocm*,plasma-desktop*,plasma-workspace*,SDL2,SDL2-*,sddm,dnfdaemon,amd-gpu-firmware,neofetch,mesa*,gsettings-desktop-schemas"
 repo --name="fedora-cisco-openh264" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-$releasever&arch=$basearch
-repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch --excludepkgs="obs-studio,ffmpeg-libs,ffmpeg,x264-libs,libavcodec-freeworld"
-repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio,ffmpeg-libs,ffmpeg,x264-libs,libavcodec-freeworld"
+repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch --excludepkgs="obs-studio"
+repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio"
 repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch --excludepkgs="discord"
 repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="discord"
 
@@ -34,7 +34,7 @@ timezone US/Eastern
 # SELinux configuration
 selinux --disabled
 # System services
-services --disabled="sshd,custom-device-pollrates" --enabled="NetworkManager,ModemManager,supergfxd"
+services --disabled="sshd" --enabled="NetworkManager,ModemManager,supergfxd"
 # System bootloader configuration
 bootloader --location=none
 # Clear the Master Boot Record
@@ -337,82 +337,96 @@ EOF
 # add initscript
 cat >> /etc/rc.d/init.d/livesys << EOF
 
-PLASMA_SESSION_FILE="plasmax11.desktop"
+# disable gnome-software automatically downloading updates
+cat >> /usr/share/glib-2.0/schemas/org.gnome.software.gschema.override << FOE
+[org.gnome.software]
+download-updates=false
+FOE
 
-# set up autologin for user liveuser
-if [ -f /etc/sddm.conf ]; then
-sed -i 's/^#User=.*/User=liveuser/' /etc/sddm.conf
-sed -i "s/^#Session=.*/Session=\${PLASMA_SESSION_FILE}/" /etc/sddm.conf
-else
-cat > /etc/sddm.conf << SDDM_EOF
-[Autologin]
-User=liveuser
-Session=\${PLASMA_SESSION_FILE}
-SDDM_EOF
+# don't autostart gnome-software session service
+rm -f /etc/xdg/autostart/gnome-software-service.desktop
+
+# disable the gnome-software shell search provider
+cat >> /usr/share/gnome-shell/search-providers/org.gnome.Software-search-provider.ini << FOE
+DefaultDisabled=true
+FOE
+
+# don't run gnome-initial-setup
+mkdir ~liveuser/.config
+touch ~liveuser/.config/gnome-initial-setup-done
+
+# suppress anaconda spokes redundant with gnome-initial-setup
+cat >> /etc/sysconfig/anaconda << FOE
+[NetworkSpoke]
+visited=1
+
+[PasswordSpoke]
+visited=1
+
+[UserSpoke]
+visited=1
+FOE
+
+# make the installer show up
+
+if [ -f /usr/share/applications/calamares.desktop ]; then
+
+# Remove anaconda shortcut
+rm /etc/xdg/autostart/liveinst-setup.desktop
+
+# Add calamares installer desktop shortcut
+mkdir -p ~liveuser/Desktop/
+cp /usr/share/applications/calamares.desktop ~liveuser/Desktop/
+chmod +x ~liveuser/Desktop/calamares.desktop
+
+  cat >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override << FOE
+[org.gnome.shell]
+favorite-apps=['org.gnome.Settings.desktop', 'yumex-dnf.desktop', 'org.gnome.Software.desktop', 'org.gnome.Nautilus.desktop', 'firefox.desktop', 'calamares.desktop']
+FOE
+
+  # Make the liveinst run on login
+  mkdir -p ~liveuser/.config/autostart
+  cp -a /usr/share/applications/calamares.desktop ~liveuser/.config/autostart/
+
+  # Copy Anaconda branding in place
+  if [ -d /usr/share/lorax/product/usr/share/anaconda ]; then
+    cp -a /usr/share/lorax/product/* /
+  fi
 fi
 
-# show liveinst.desktop on desktop and in menu
-sed -i 's/NoDisplay=true/NoDisplay=false/' /usr/share/applications/liveinst.desktop
-# set executable bit disable KDE security warning
-chmod +x /usr/share/applications/calamares.desktop
-mkdir /home/liveuser/Desktop
-cp -a /usr/share/applications/calamares.desktop /home/liveuser/Desktop/
+# rebuild schema cache with any overrides we installed
+glib-compile-schemas /usr/share/glib-2.0/schemas
 
-# Make the liveinst run on login
-mkdir -p ~liveuser/.config/autostart
-cp -a /usr/share/applications/calamares.desktop ~liveuser/.config/autostart/
+# set up auto-login
+cat > /etc/gdm/custom.conf << FOE
+[daemon]
+AutomaticLoginEnable=True
+AutomaticLogin=liveuser
+WaylandEnable=false
+DefaultSession=gnome-xorg.desktop
+FOE
 
-
-# Set akonadi backend
-mkdir -p /home/liveuser/.config/akonadi
-cat > /home/liveuser/.config/akonadi/akonadiserverrc << AKONADI_EOF
-[%General]
-Driver=QSQLITE3
-AKONADI_EOF
-
-# "Disable plasma-discover-notifier"
-mkdir -p /home/liveuser/.config/autostart
-cp -a /etc/xdg/autostart/org.kde.discover.notifier.desktop /home/liveuser/.config/autostart/
-echo 'Hidden=true' >> /home/liveuser/.config/autostart/org.kde.discover.notifier.desktop
-
-# Disable baloo
-cat > /home/liveuser/.config/baloofilerc << BALOO_EOF
-[Basic Settings]
-Indexing-Enabled=false
-BALOO_EOF
-
-# Disable kres-migrator
-cat > /home/liveuser/.kde/share/config/kres-migratorrc << KRES_EOF
-[Migration]
-Enabled=false
-KRES_EOF
-
-# Disable kwallet migrator
-cat > /home/liveuser/.config/kwalletrc << KWALLET_EOL
-[Migration]
-alreadyMigrated=true
-KWALLET_EOL
+# Turn off PackageKit-command-not-found while uninstalled
+if [ -f /etc/PackageKit/CommandNotFound.conf ]; then
+  sed -i -e 's/^SoftwareSourceSearch=true/SoftwareSourceSearch=false/' /etc/PackageKit/CommandNotFound.conf
+fi
 
 # make sure to set the right permissions and selinux contexts
 chown -R liveuser:liveuser /home/liveuser/
 restorecon -R /home/liveuser/
 
 EOF
-
 %end
 
 %packages
-@^kde-desktop-environment
+@^workstation-product-environment
 @anaconda-tools
 @firefox
 @fonts
-@guest-desktop-agents
 @hardware-support
-@kde-apps
-@kde-media
 @multimedia
+@networkmanager-submodules
 @printing
-@standard
 apparmor-utils
 apparmor-parser
 aajohan-comfortaa-fonts
@@ -421,25 +435,26 @@ anaconda
 anaconda-install-env-deps
 anaconda-live
 calamares
-ark
+file-roller
 chkconfig
 dracut-live
 egl-gbm
 egl-wayland
-fedora-release-kde
 fedora-repos
-fedora-workstation-repositories
 flac-libs.x86_64
 flac-libs.i686
-flatpak
 foomatic
 fuse
-gamemode.x86_64
+gamemode
 gamemode.i686
 ghc-mountpoints
 gamescope
 glibc-all-langpacks
+gnome-extension-manager
+gnome-icon-theme
+gnome-tweaks
 goverlay
+gsettings-desktop-schemas
 gstreamer1-plugins-bad-free.i686
 gstreamer1-plugins-bad-free.x86_64
 gstreamer1-plugins-base.i686
@@ -450,16 +465,16 @@ gstreamer1-plugins-ugly-free.i686
 gstreamer1-plugins-ugly-free.x86_64
 gstreamer1.i686
 gstreamer1.x86_64
+gstreamer1-vaapi
+gedit
 hplip
 initscripts
 inkscape
-kde-runtime
 i2c-tools
 libi2c
 libva-intel-hybrid-driver
 json-c.x86_64
 json-c.i686
-kde-l10n
 kernel
 kernel-modules
 kernel-modules-extra
@@ -522,15 +537,12 @@ onlyoffice-desktopeditors
 openssl
 openssl-libs.x86_64
 openssl-libs.i686
-pavucontrol-qt
+pavucontrol
 protonup-qt
-qemu-device-display-qxl
-plasma-lookandfeel-fedora
-plasma-workspace-wallpapers
-plasma-discover-flatpak
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
-rocm-opencl
+qt5ct
+qemu-device-display-qxl
 rpmfusion-free-release
 samba-common-tools.x86_64
 samba-libs.x86_64
@@ -540,8 +552,7 @@ samba-winbind.x86_64
 sane-backends-libs.x86_64
 sane-backends-libs.i686
 supergfxctl
-supergfxctl-plasmoid
-sddm-kcm
+gnome-shell-extension-supergfxctl-gex
 steam
 syslinux
 system-config-language
@@ -561,20 +572,29 @@ zenity
 numactl
 timeshift
 gcc-gfortran
-okular
-kate
+evince
 dnfdaemon
 v4l2loopback
 yumex-dnf
 nobara-welcome
+nobara-gnome-layouts
+gnome-x11-gesture-daemon
+gnome-shell-extension-gesture-improvements
+gnome-shell-extension-wireless-hid
+gnome-shell-extension-user-theme
+gnome-shell-extension-custom-accent-colors
+gnome-startup-applications
+auto-cpufreq
+papirus-icon-theme
 unrar
 openrgb
 opentabletdriver
-papirus-icon-theme
+-gnome-shell-extension-background-logo
 -gstreamer1-plugins-bad-freeworld
 -gstreamer1-plugins-ugly
 -gstreamer1-libav
--ffmpegthumbs
+-ffmpeg-libs
+-ffmpeg
 -compat-ffmpeg4
 -libavdevice
 -libfreeaptx
@@ -582,92 +602,8 @@ papirus-icon-theme
 -libva-intel-driver
 -intel-media-driver
 -opencore-amr
-power-profiles-daemon
--kolourpaint
--kf5-libksane
--kolourpaint-libs
--akregator
--kontact
--konversation
--krdc
--krfb
--akregator-libs
--kf5-syndication
--grantlee-editor
--grantlee-editor-libs
--kf5-kross-core
--kmail
--kmail-account-wizard
--kmail-libs
--kontact-libs
--korganizer
--korganizer-libs
--pim-data-exporter
--pim-data-exporter-libs
--pim-sieve-editor
--freerdp
--freerdp-libs
--krdc-libs
--libwinpr
--krfb-libs
--kmahjongg
--kmines
--kpat
--freecell-solver-data
--libblack-hole-solver1
--libfreecell-solver
--libkdegames
--libkmahjongg
--libkmahjongg-data
--dragon
--kaddressbook
--akonadi-import-wizard
--cyrus-sasl-md5
--kaddressbook-libs
--kdepim-addons
--kdepim-runtime
--kdepim-runtime-libs
--kdiagram
--kf5-akonadi-calendar
--kf5-akonadi-mime
--kf5-akonadi-notes
--kf5-akonadi-search
--kf5-calendarsupport
--kf5-eventviews
--kf5-incidenceeditor
--kf5-kcalendarcore
--kf5-kcalendarutils
--kf5-kdav
--kf5-kidentitymanagement
--kf5-kimap
--kf5-kitinerary
--kf5-kldap
--kf5-kmailtransport
--kf5-kmailtransport-akonadi
--kf5-kmbox
--kf5-kontactinterface
--kf5-kpimtextedit
--kf5-kpkpass
--kf5-ksmtp
--kf5-ktnef
--kf5-libgravatar
--kf5-libkdepim
--kf5-libkleo
--kf5-libksieve
--kf5-mailcommon
--kf5-mailimporter
--kf5-mailimporter-akonadi
--kf5-messagelib
--kf5-pimcommon
--kf5-pimcommon-akonadi
--libical
--kio-gdrive
--libkgapi
--libkolabxml
--libphonenumber
--qgpgme
--qtkeychain-qt5
--kwrite
+-x264-libs
+-power-profiles-daemon
 -libreoffice-opensymbol-fonts
 -libreoffice-ure-common
 -libreoffice-data
@@ -687,33 +623,26 @@ power-profiles-daemon
 -libreoffice-xsltfilter
 -libreoffice-filters
 -libreoffice-emailmerge
+-gnome-tour
+-gnome-text-editor
+-unoconv
+-@dial-up
+-@input-methods
+-@standard
+-device-mapper-multipath
+-fcoe-utils
+-gfs2-utils
+-gnome-boxes
+-nfs-utils
+-gst-editing-services
+-reiserfs-utils
+-rygel
+gnome-shell-extension-gamemode
 -fedora-repos-modular
 -fedora-workstation-repositories
--unoconv
--@admin-tools
--@input-methods
--device-mapper-multipath
--digikam
--fcoe-utils
--gnome-disk-utility
--gst-editing-services
--iok
--isdn4k-utils
--k3b
--kdeaccessibility*
--kipi-plugins
--krusader
--ktorrent
--mpage
--nfs-utils
--rygel
--scim*
--system-config-printer
--system-config-services
--system-config-users
--xsane
--xsane-gimp
 -qt5-qtwebengine-freeworld
+-appmenu-qt5-profile.d
+-appmenu-qt5
 -sushi
 
 %end
