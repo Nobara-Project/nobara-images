@@ -454,6 +454,7 @@ hplip
 initscripts
 inkscape
 kde-runtime
+kf5-kimageformats
 i2c-tools
 libi2c
 libva-intel-hybrid-driver
