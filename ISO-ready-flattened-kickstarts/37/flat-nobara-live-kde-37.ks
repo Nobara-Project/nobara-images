@@ -572,6 +572,7 @@ unrar
 openrgb
 opentabletdriver
 papirus-icon-theme
+-plasma-welcome
 -gstreamer1-plugins-bad-freeworld
 -gstreamer1-plugins-ugly
 -gstreamer1-libav
