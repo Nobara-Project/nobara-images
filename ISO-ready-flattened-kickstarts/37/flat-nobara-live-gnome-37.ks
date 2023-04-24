@@ -525,6 +525,7 @@ mesa-libGLU.i686
 mscore-fonts
 mscore-fonts-all
 neofetch
+nautilus-admin
 nobara-login
 nobara-login-sysctl
 nobara-repos
