@@ -20,7 +20,6 @@ repo --name="nobara-baseos" --baseurl=https://nobara-baseos.nobaraproject.org/$r
 repo --name="nobara-baseos-multilib" --baseurl=https://nobara-baseos-multilib.nobaraproject.org/$releasever/
 repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch
 repo --name="nobara-rocm-official" --baseurl=https://repo.radeon.com/rocm/rhel9/5.4.1/main/
-repo --name="nobara-onlyoffice" --baseurl=http://download.onlyoffice.com/repo/centos/main/noarch/
 repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasever/ --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim,rocm*,plasma-desktop*,plasma-workspace*,SDL2,SDL2-*,sddm,dnfdaemon,neofetch,mesa*,gsettings-desktop-schemas"
 repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/ --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,mesa*,nautilus*,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,libliftoff*,blender*,fedora-workstation-repositories,flatpak,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,anaconda*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,desktop-backgrounds*,firefox*,firefox,xorg-x11-server-Xwayland,shim*,rocm*,plasma-desktop*,plasma-workspace*,SDL2,SDL2-*,sddm,dnfdaemon,neofetch,mesa*,gsettings-desktop-schemas"
 repo --name="fedora-cisco-openh264" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-$releasever&arch=$basearch
@@ -519,7 +518,7 @@ nss-mdns.x86_64
 nss-mdns.i686
 ocl-icd.x86_64
 ocl-icd.i686
-onlyoffice-desktopeditors
+libreoffice
 openssl
 openssl-libs.x86_64
 openssl-libs.i686
@@ -670,25 +669,6 @@ power-profiles-daemon
 -qgpgme
 -qtkeychain-qt5
 -kwrite
--libreoffice-opensymbol-fonts
--libreoffice-ure-common
--libreoffice-data
--libreoffice-help-en
--libreoffice-langpack-en
--libreoffice-gtk3
--libreoffice-ure
--libreoffice-x11
--libreoffice-core
--libreoffice-pyuno
--libreoffice-pdfimport
--libreoffice-writer
--libreoffice-graphicfilter
--libreoffice-calc
--libreoffice-ogltrans
--libreoffice-impress
--libreoffice-xsltfilter
--libreoffice-filters
--libreoffice-emailmerge
 -fedora-repos-modular
 -fedora-workstation-repositories
 -unoconv
