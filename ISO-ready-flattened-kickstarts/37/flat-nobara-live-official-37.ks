@@ -632,5 +632,7 @@ gnome-shell-extension-gamemode
 -appmenu-qt5-profile.d
 -appmenu-qt5
 -sushi
+-abrt
+-gnome-abrt
 
 %end

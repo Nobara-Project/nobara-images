@@ -696,5 +696,7 @@ power-profiles-daemon
 -xsane-gimp
 -qt5-qtwebengine-freeworld
 -sushi
+-abrt
+-gnome-abrt
 
 %end
