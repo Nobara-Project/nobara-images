@@ -699,5 +699,8 @@ power-profiles-daemon
 -sushi
 -abrt
 -gnome-abrt
+-abrt-desktop
+-abrt-java-connector
+-abrt-cli
 
 %end

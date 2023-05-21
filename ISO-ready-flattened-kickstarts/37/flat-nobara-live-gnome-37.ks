@@ -627,5 +627,8 @@ gnome-shell-extension-gamemode
 -sushi
 -abrt
 -gnome-abrt
+-abrt-desktop
+-abrt-java-connector
+-abrt-cli
 
 %end
