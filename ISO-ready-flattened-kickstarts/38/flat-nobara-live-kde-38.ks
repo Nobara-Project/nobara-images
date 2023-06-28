@@ -419,6 +419,9 @@ adw-gtk3
 anaconda
 anaconda-install-env-deps
 anaconda-live
+apr
+apr-util
+mesa-libOpenCL
 calamares
 ark
 chkconfig
@@ -659,6 +662,7 @@ power-profiles-daemon
 -kf5-messagelib
 -kf5-pimcommon
 -kf5-pimcommon-akonadi
+-f38-backgrounds-kde
 -libical
 -kio-gdrive
 -libkgapi

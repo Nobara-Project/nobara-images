@@ -433,6 +433,9 @@ adw-gtk3
 anaconda
 anaconda-install-env-deps
 anaconda-live
+apr
+apr-util
+mesa-libOpenCL
 calamares
 file-roller
 chkconfig
