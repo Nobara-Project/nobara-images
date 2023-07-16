@@ -10,7 +10,7 @@ $ sudo setenforce 0
 Transfer flat kickstart file to mock build environment:
 
 ```
-$ cp ISO-ready-flattened-kickstarts/38/flat-nobara-live-*.ks /var/lib/mock/nobara-38-x86_64/root/builddir/
+$ cp ISO-ready-flattened-kickstarts/38/*.ks /var/lib/mock/nobara-38-x86_64/root/builddir/
 ```
 
 Enter mock environment:
@@ -25,7 +25,6 @@ Official:
 # livemedia-creator --ks flat-nobara-live-official-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-Official-$(date +%F).iso --releasever 38 --macboot
 ```
 
-
 Gnome:
 ```
 # livemedia-creator --ks flat-nobara-live-gnome-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-GNOME-$(date +%F).iso --releasever 38 --macboot
@@ -34,6 +33,26 @@ Gnome:
 KDE:
 ```
 # livemedia-creator --ks flat-nobara-live-kde-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-KDE-$(date +%F).iso --releasever 38 --macboot
+```
+
+Nvidia Official:
+```
+# livemedia-creator --ks nv-flat-nobara-live-official-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-Official-Nvidia-$(date +%F).iso --releasever 38 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=0"
+```
+
+Nvidia Gnome:
+```
+# livemedia-creator --ks nv-flat-nobara-live-gnome-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-GNOME-Nvidia-$(date +%F).iso --releasever 38 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=0"
+```
+
+Nvidia KDE:
+```
+# livemedia-creator --ks nv-flat-nobara-live-kde-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-KDE-Nvidia-$(date +%F).iso --releasever 38 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=0"
+```
+
+SteamDeck:
+```
+# livemedia-creator --ks flat-nobara-live-steamdeck-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-SteamDeck-$(date +%F).iso --releasever 38 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=0"
 ```
 
 

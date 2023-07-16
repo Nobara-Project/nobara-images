@@ -336,96 +336,88 @@ EOF
 # add initscript
 cat >> /etc/rc.d/init.d/livesys << EOF
 
-# disable gnome-software automatically downloading updates
-cat >> /usr/share/glib-2.0/schemas/org.gnome.software.gschema.override << FOE
-[org.gnome.software]
-download-updates=false
-FOE
+PLASMA_SESSION_FILE="plasmax11.desktop"
 
-# don't autostart gnome-software session service
-rm -f /etc/xdg/autostart/gnome-software-service.desktop
-
-# disable the gnome-software shell search provider
-cat >> /usr/share/gnome-shell/search-providers/org.gnome.Software-search-provider.ini << FOE
-DefaultDisabled=true
-FOE
-
-# don't run gnome-initial-setup
-mkdir ~liveuser/.config
-touch ~liveuser/.config/gnome-initial-setup-done
-
-# suppress anaconda spokes redundant with gnome-initial-setup
-cat >> /etc/sysconfig/anaconda << FOE
-[NetworkSpoke]
-visited=1
-
-[PasswordSpoke]
-visited=1
-
-[UserSpoke]
-visited=1
-FOE
-
-# make the installer show up
-
-if [ -f /usr/share/applications/calamares.desktop ]; then
-
-# Remove anaconda shortcut
-rm /etc/xdg/autostart/liveinst-setup.desktop
-
-# Add calamares installer desktop shortcut
-mkdir -p ~liveuser/Desktop/
-cp /usr/share/applications/calamares.desktop ~liveuser/Desktop/
-chmod +x ~liveuser/Desktop/calamares.desktop
-
-  cat >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override << FOE
-[org.gnome.shell]
-favorite-apps=['org.gnome.Settings.desktop', 'yumex-dnf.desktop', 'org.gnome.Software.desktop', 'org.gnome.Nautilus.desktop', 'firefox.desktop', 'calamares.desktop']
-FOE
-
-  # Make the liveinst run on login
-  mkdir -p ~liveuser/.config/autostart
-  cp -a /usr/share/applications/calamares.desktop ~liveuser/.config/autostart/
-
-  # Copy Anaconda branding in place
-  if [ -d /usr/share/lorax/product/usr/share/anaconda ]; then
-    cp -a /usr/share/lorax/product/* /
-  fi
+# set up autologin for user liveuser
+if [ -f /etc/sddm.conf ]; then
+sed -i 's/^#User=.*/User=liveuser/' /etc/sddm.conf
+sed -i "s/^#Session=.*/Session=\${PLASMA_SESSION_FILE}/" /etc/sddm.conf
+else
+cat > /etc/sddm.conf << SDDM_EOF
+[Autologin]
+User=liveuser
+Session=\${PLASMA_SESSION_FILE}
+SDDM_EOF
 fi
 
-# rebuild schema cache with any overrides we installed
-glib-compile-schemas /usr/share/glib-2.0/schemas
+# show liveinst.desktop on desktop and in menu
+sed -i 's/NoDisplay=true/NoDisplay=false/' /usr/share/applications/liveinst.desktop
+# set executable bit disable KDE security warning
+chmod +x /usr/share/applications/calamares.desktop
+mkdir /home/liveuser/Desktop
+cp -a /usr/share/applications/calamares.desktop /home/liveuser/Desktop/
 
-# set up auto-login
-cat > /etc/gdm/custom.conf << FOE
-[daemon]
-AutomaticLoginEnable=True
-AutomaticLogin=liveuser
-WaylandEnable=false
-DefaultSession=gnome-xorg.desktop
-FOE
+# Make the liveinst run on login
+mkdir -p ~liveuser/.config/autostart
+cp -a /usr/share/applications/calamares.desktop ~liveuser/.config/autostart/
 
-# Turn off PackageKit-command-not-found while uninstalled
-if [ -f /etc/PackageKit/CommandNotFound.conf ]; then
-  sed -i -e 's/^SoftwareSourceSearch=true/SoftwareSourceSearch=false/' /etc/PackageKit/CommandNotFound.conf
-fi
+
+# Set akonadi backend
+mkdir -p /home/liveuser/.config/akonadi
+cat > /home/liveuser/.config/akonadi/akonadiserverrc << AKONADI_EOF
+[%General]
+Driver=QSQLITE3
+AKONADI_EOF
+
+# "Disable plasma-discover-notifier"
+mkdir -p /home/liveuser/.config/autostart
+cp -a /etc/xdg/autostart/org.kde.discover.notifier.desktop /home/liveuser/.config/autostart/
+echo 'Hidden=true' >> /home/liveuser/.config/autostart/org.kde.discover.notifier.desktop
+
+# Disable baloo
+cat > /home/liveuser/.config/baloofilerc << BALOO_EOF
+[Basic Settings]
+Indexing-Enabled=false
+BALOO_EOF
+
+# Disable kres-migrator
+cat > /home/liveuser/.kde/share/config/kres-migratorrc << KRES_EOF
+[Migration]
+Enabled=false
+KRES_EOF
+
+# Disable kwallet migrator
+cat > /home/liveuser/.config/kwalletrc << KWALLET_EOL
+[Migration]
+alreadyMigrated=true
+KWALLET_EOL
 
 # make sure to set the right permissions and selinux contexts
 chown -R liveuser:liveuser /home/liveuser/
 restorecon -R /home/liveuser/
 
 EOF
+
+%end
+
+#workaround for successful nvidia graphics driver installation
+%pre-install
+mkdir -p /mnt/sysimage/etc/default
+touch /mnt/sysimage/etc/default/grub
 %end
 
 %packages
-@^workstation-product-environment
+@^kde-desktop-environment
 @anaconda-tools
 @firefox
 @fonts
+@guest-desktop-agents
 @hardware-support
+@kde-apps
+@kde-media
 @multimedia
-@networkmanager-submodules
 @printing
+@standard
 apparmor-utils
 apparmor-parser
 aajohan-comfortaa-fonts
@@ -437,27 +429,25 @@ apr
 apr-util
 mesa-libOpenCL
 calamares
-file-roller
+ark
 chkconfig
 dracut-live
 egl-gbm
 egl-wayland
+fedora-release-kde
 fedora-repos
+fedora-workstation-repositories
 flac-libs.x86_64
 flac-libs.i686
 flatpak
 foomatic
 fuse
-gamemode
+gamemode.x86_64
 gamemode.i686
 ghc-mountpoints
 gamescope
 glibc-all-langpacks
-gnome-extension-manager
-gnome-icon-theme
-gnome-tweaks
 goverlay
-gsettings-desktop-schemas
 gstreamer1-plugins-bad-free.i686
 gstreamer1-plugins-bad-free.x86_64
 gstreamer1-plugins-base.i686
@@ -468,15 +458,17 @@ gstreamer1-plugins-ugly-free.i686
 gstreamer1-plugins-ugly-free.x86_64
 gstreamer1.i686
 gstreamer1.x86_64
-gedit
 hplip
 initscripts
 inkscape
+kde-runtime
+kf5-kimageformats
 i2c-tools
 libi2c
 libva-intel-hybrid-driver
 json-c.x86_64
 json-c.i686
+kde-l10n
 kernel
 kernel-modules
 kernel-modules-extra
@@ -527,11 +519,18 @@ mesa-libGLU.i686
 mscore-fonts
 mscore-fonts-all
 neofetch
-nautilus-admin
 nobara-login
 nobara-login-sysctl
 nobara-repos
 nobara-controller-config
+nvidia-driver
+akmod-nvidia
+nvidia-settings
+nvidia-driver-cuda
+nvidia-kmod-common
+nvidia-driver-libs.i686
+nvidia-driver-cuda-libs.i686
+nvidia-gpu-firmware
 nss-mdns.x86_64
 nss-mdns.i686
 ocl-icd.x86_64
@@ -540,12 +539,14 @@ libreoffice
 openssl
 openssl-libs.x86_64
 openssl-libs.i686
-pavucontrol
+pavucontrol-qt
 protonup-qt
+qemu-device-display-qxl
+plasma-lookandfeel-fedora
+plasma-workspace-wallpapers
+plasma-discover-flatpak
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
-qt5ct
-qemu-device-display-qxl
 rpmfusion-free-release
 samba-common-tools.x86_64
 samba-libs.x86_64
@@ -555,7 +556,8 @@ samba-winbind.x86_64
 sane-backends-libs.x86_64
 sane-backends-libs.i686
 supergfxctl
-gnome-shell-extension-supergfxctl-gex
+supergfxctl-plasmoid
+sddm-kcm
 steam
 syslinux
 system-config-language
@@ -575,22 +577,16 @@ zenity
 numactl
 timeshift
 gcc-gfortran
-evince
+okular
+kate
 dnfdaemon
 v4l2loopback
 yumex
 nobara-welcome
-nobara-gnome-layouts
-gnome-x11-gesture-daemon
-gnome-shell-extension-gesture-improvements
-gnome-shell-extension-wireless-hid
-gnome-shell-extension-user-theme
-gnome-shell-extension-custom-accent-colors
-gnome-startup-applications
-papirus-icon-theme
 unrar
 openrgb
 opentabletdriver
+papirus-icon-theme
 libavcodec-free
 libavdevice-free
 libavfilter-free
@@ -600,40 +596,130 @@ libpostproc-free
 libswscale-free
 libswresample-free
 -dnfdragora
--gnome-shell-extension-background-logo
+-plasma-welcome
 -gstreamer1-plugins-bad-freeworld
 -gstreamer1-plugins-ugly
 -gstreamer1-libav
--ffmpeg-libs
--ffmpeg
+-ffmpegthumbs
 -compat-ffmpeg4
 -libavdevice
 -libfreeaptx
 -pipewire-codec-aptx
 -libva-intel-driver
 -intel-media-driver
--x264-libs
 power-profiles-daemon
--gnome-tour
--gnome-text-editor
--unoconv
--@dial-up
--@input-methods
--@standard
--device-mapper-multipath
--fcoe-utils
--gfs2-utils
--gnome-boxes
--nfs-utils
--gst-editing-services
--reiserfs-utils
--rygel
-gnome-shell-extension-gamemode
+-kolourpaint
+-kf5-libksane
+-kolourpaint-libs
+-akregator
+-kontact
+-konversation
+-krdc
+-krfb
+-akregator-libs
+-grantlee-editor
+-grantlee-editor-libs
+-kf5-kross-core
+-kmail
+-kmail-account-wizard
+-kmail-libs
+-kontact-libs
+-korganizer
+-korganizer-libs
+-pim-data-exporter
+-pim-data-exporter-libs
+-pim-sieve-editor
+-freerdp
+-freerdp-libs
+-krdc-libs
+-libwinpr
+-krfb-libs
+-kmahjongg
+-kmines
+-kpat
+-freecell-solver-data
+-libblack-hole-solver1
+-libfreecell-solver
+-libkdegames
+-libkmahjongg
+-libkmahjongg-data
+-dragon
+-kaddressbook
+-akonadi-import-wizard
+-cyrus-sasl-md5
+-kaddressbook-libs
+-kdepim-addons
+-kdepim-runtime
+-kdepim-runtime-libs
+-kdiagram
+-kf5-akonadi-calendar
+-kf5-akonadi-mime
+-kf5-akonadi-notes
+-kf5-akonadi-search
+-kf5-calendarsupport
+-kf5-eventviews
+-kf5-incidenceeditor
+-kf5-kcalendarcore
+-kf5-kcalendarutils
+-kf5-kdav
+-kf5-kidentitymanagement
+-kf5-kimap
+-kf5-kitinerary
+-kf5-kldap
+-kf5-kmailtransport
+-kf5-kmailtransport-akonadi
+-kf5-kmbox
+-kf5-kontactinterface
+-kf5-kpimtextedit
+-kf5-kpkpass
+-kf5-ksmtp
+-kf5-ktnef
+-kf5-libgravatar
+-kf5-libkdepim
+-kf5-libkleo
+-kf5-libksieve
+-kf5-mailcommon
+-kf5-mailimporter
+-kf5-mailimporter-akonadi
+-kf5-messagelib
+-kf5-pimcommon
+-kf5-pimcommon-akonadi
+-f38-backgrounds-kde
+-libical
+-kio-gdrive
+-libkgapi
+-libkolabxml
+-libphonenumber
+-qgpgme
+-qtkeychain-qt5
+-kwrite
 -fedora-repos-modular
 -fedora-workstation-repositories
+-unoconv
+-@admin-tools
+-@input-methods
+-device-mapper-multipath
+-digikam
+-fcoe-utils
+-gnome-disk-utility
+-gst-editing-services
+-iok
+-isdn4k-utils
+-k3b
+-kdeaccessibility*
+-kipi-plugins
+-krusader
+-ktorrent
+-mpage
+-nfs-utils
+-rygel
+-scim*
+-system-config-printer
+-system-config-services
+-system-config-users
+-xsane
+-xsane-gimp
 -qt5-qtwebengine-freeworld
--appmenu-qt5-profile.d
--appmenu-qt5
 -sushi
 -abrt
 -gnome-abrt

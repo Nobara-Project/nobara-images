@@ -16,10 +16,10 @@ network  --bootproto=dhcp --device=link --activate
 firewall --enabled --service=mdns
 # Use network installation
 url --mirrorlist="https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch"
-repo --name="nobara-baseos" --baseurl=https://nobara-baseos.nobaraproject.org/$releasever/
-repo --name="nobara-baseos-multilib" --baseurl=https://nobara-baseos-multilib.nobaraproject.org/$releasever/
-repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch
-repo --name="nobara-rocm-official" --baseurl=https://repo.radeon.com/rocm/rhel9/5.4.1/main/
+repo --name="nobara-baseos" --baseurl=https://nobara-baseos.nobaraproject.org/$releasever/ --cost=50
+repo --name="nobara-baseos-multilib" --baseurl=https://nobara-baseos-multilib.nobaraproject.org/$releasever/ --cost=50
+repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=50
+repo --name="nobara-rocm-official" --baseurl=https://repo.radeon.com/rocm/rhel9/5.4.3/main/ --cost=50
 repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasever/ --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,nautilus,nautilus-extensions,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,blender*,fedora-workstation-repositories,flatpak,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,kde-settings*,firefox*,xorg-x11-server-Xwayland,corectrl,rocm*,snapd,snap-confine,ffms2*,setroubleshoot*,plasma-desktop*,plasma-workspace,SDL2,SDL2-*,dnfdaemon,neofetch,mesa*,clang,compiler-rt,lld,lldb,libomp,llvm*,spirv-llvm-translator,grub-customizer*,clang-libs,clang-resource-filesystem,gedit,gnome-shell-extension-blur-my-shell,gnome-shell-extension-pop-shell-shortcut-overrides,gnome-software,gnome-software-rpm-ostree,gstreamer1-plugins-bad-free,gstreamer1-plugins-bad-free-extras,kernel-modules-core,libomp,libomp-devel,llvm-libs,nautilus-extensions,vulkan-headers,vulkan-loader,vulkan-tools"
 repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/ --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,nautilus,nautilus-extensions,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,blender*,fedora-workstation-repositories,flatpak,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,kde-settings*,firefox*,xorg-x11-server-Xwayland,corectrl,rocm*,snapd,snap-confine,ffms2*,setroubleshoot*,plasma-desktop*,plasma-workspace,SDL2,SDL2-*,dnfdaemon,neofetch,mesa*,clang,compiler-rt,lld,lldb,libomp,llvm*,spirv-llvm-translator,grub-customizer*,clang-libs,clang-resource-filesystem,gedit,gnome-shell-extension-blur-my-shell,gnome-shell-extension-pop-shell-shortcut-overrides,gnome-software,gnome-software-rpm-ostree,gstreamer1-plugins-bad-free,gstreamer1-plugins-bad-free-extras,kernel-modules-core,libomp,libomp-devel,llvm-libs,nautilus-extensions,vulkan-headers,vulkan-loader,vulkan-tools"
 repo --name="fedora-cisco-openh264" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-$releasever&arch=$basearch
@@ -33,7 +33,7 @@ timezone US/Eastern
 # SELinux configuration
 selinux --disabled
 # System services
-services --disabled="sshd,custom-device-pollrates" --enabled="NetworkManager,ModemManager,supergfxd"
+services --disabled="sshd,custom-device-pollrates" --enabled="NetworkManager,ModemManager,supergfxd,akmods"
 # System bootloader configuration
 bootloader --location=none
 # Clear the Master Boot Record
@@ -369,14 +369,13 @@ FOE
 # make the installer show up
 
 if [ -f /usr/share/applications/calamares.desktop ]; then
+  # Remove anaconda shortcut
+  rm /etc/xdg/autostart/liveinst-setup.desktop
 
-# Remove anaconda shortcut
-rm /etc/xdg/autostart/liveinst-setup.desktop
-
-# Add calamares installer desktop shortcut
-mkdir -p ~liveuser/Desktop/
-cp /usr/share/applications/calamares.desktop ~liveuser/Desktop/
-chmod +x ~liveuser/Desktop/calamares.desktop
+  # Add calamares installer desktop shortcut
+  mkdir -p ~liveuser/Desktop/
+  cp /usr/share/applications/calamares.desktop ~liveuser/Desktop/
+  chmod +x ~liveuser/Desktop/calamares.desktop
 
   cat >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override << FOE
 [org.gnome.shell]
@@ -415,6 +414,13 @@ chown -R liveuser:liveuser /home/liveuser/
 restorecon -R /home/liveuser/
 
 EOF
+
+%end
+
+#workaround for successful nvidia graphics driver installation
+%pre-install
+mkdir -p /mnt/sysimage/etc/default
+touch /mnt/sysimage/etc/default/grub
 %end
 
 %packages
@@ -456,6 +462,15 @@ glibc-all-langpacks
 gnome-extension-manager
 gnome-icon-theme
 gnome-tweaks
+gnome-shell-extension-arc-menu
+gnome-shell-extension-blur-my-shell
+gnome-shell-extension-dash-to-panel
+gnome-shell-extension-pop-shell
+gnome-shell-extension-desktop-icons
+gnome-shell-extension-clipboard-history
+gnome-shell-extension-user-theme
+gnome-shell-extension-custom-accent-colors
+gnome-shell-nobara-theming
 goverlay
 gsettings-desktop-schemas
 gstreamer1-plugins-bad-free.i686
@@ -532,6 +547,14 @@ nobara-login
 nobara-login-sysctl
 nobara-repos
 nobara-controller-config
+nvidia-driver
+akmod-nvidia
+nvidia-settings
+nvidia-driver-cuda
+nvidia-kmod-common
+nvidia-driver-libs.i686
+nvidia-driver-cuda-libs.i686
+nvidia-gpu-firmware
 nss-mdns.x86_64
 nss-mdns.i686
 ocl-icd.x86_64
@@ -584,8 +607,6 @@ nobara-gnome-layouts
 gnome-x11-gesture-daemon
 gnome-shell-extension-gesture-improvements
 gnome-shell-extension-wireless-hid
-gnome-shell-extension-user-theme
-gnome-shell-extension-custom-accent-colors
 gnome-startup-applications
 papirus-icon-theme
 unrar
@@ -604,6 +625,7 @@ libswresample-free
 -gstreamer1-plugins-bad-freeworld
 -gstreamer1-plugins-ugly
 -gstreamer1-libav
+-gstreamer1-plugin-openh264
 -ffmpeg-libs
 -ffmpeg
 -compat-ffmpeg4

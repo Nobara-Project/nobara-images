@@ -417,6 +417,12 @@ restorecon -R /home/liveuser/
 EOF
 %end
 
+#workaround for successful nvidia graphics driver installation
+%pre-install
+mkdir -p /mnt/sysimage/etc/default
+touch /mnt/sysimage/etc/default/grub
+%end
+
 %packages
 @^workstation-product-environment
 @anaconda-tools
@@ -532,6 +538,14 @@ nobara-login
 nobara-login-sysctl
 nobara-repos
 nobara-controller-config
+nvidia-driver
+akmod-nvidia
+nvidia-settings
+nvidia-driver-cuda
+nvidia-kmod-common
+nvidia-driver-libs.i686
+nvidia-driver-cuda-libs.i686
+nvidia-gpu-firmware
 nss-mdns.x86_64
 nss-mdns.i686
 ocl-icd.x86_64
