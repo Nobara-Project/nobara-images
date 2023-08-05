@@ -409,6 +409,13 @@ if [ -f /etc/PackageKit/CommandNotFound.conf ]; then
   sed -i -e 's/^SoftwareSourceSearch=true/SoftwareSourceSearch=false/' /etc/PackageKit/CommandNotFound.conf
 fi
 
+# Add nvidia kernel boot options to calamares
+echo '    - "echo GRUB_CMDLINE_LINUX=\"rd.driver.blacklist=nouveau modprobe.blacklist=nouveau nvidia-drm.modeset=1\" >> /etc/default/grub"' >> /usr/share/calamares/modules/shellprocess.conf
+sed -i "s|GRUB_CMDLINE_LINUX|\'GRUB_CMDLINE_LINUX|g" /usr/share/calamares/modules/shellprocess.conf
+sed -i "s| >> /etc/default/grub|\' >> /etc/default/grub|g" /usr/share/calamares/modules/shellprocess.conf
+echo '    - command: "/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg"' >> /usr/share/calamares/modules/shellprocess.conf
+echo '      timeout: 3600' >> /usr/share/calamares/modules/shellprocess.conf
+
 # make sure to set the right permissions and selinux contexts
 chown -R liveuser:liveuser /home/liveuser/
 restorecon -R /home/liveuser/
