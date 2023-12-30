@@ -20,13 +20,8 @@ repo --name="nobara-baseos" --baseurl=https://nobara-baseos.nobaraproject.org/$r
 repo --name="nobara-baseos-multilib" --baseurl=https://nobara-baseos-multilib.nobaraproject.org/$releasever/
 repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch
 repo --name="nobara-rocm-official" --baseurl=https://repo.radeon.com/rocm/rhel9/5.4.1/main/
-repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasever/ --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,nautilus,nautilus-extensions,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,blender*,fedora-workstation-repositories,flatpak,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,kde-settings*,firefox*,xorg-x11-server-Xwayland,corectrl,rocm*,snapd,snap-confine,ffms2*,setroubleshoot*,plasma-desktop*,plasma-workspace,SDL2,SDL2-*,dnfdaemon,neofetch,mesa*,clang,compiler-rt,lld,lldb,libomp,llvm*,spirv-llvm-translator,grub-customizer*,clang-libs,clang-resource-filesystem,gedit,gnome-shell-extension-blur-my-shell,gnome-shell-extension-pop-shell-shortcut-overrides,gnome-software,gnome-software-rpm-ostree,gstreamer1-plugins-bad-free,gstreamer1-plugins-bad-free-extras,kernel-modules-core,libomp,libomp-devel,llvm-libs,nautilus-extensions,vulkan-headers,vulkan-loader,vulkan-tools"
-repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/ --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,nautilus,nautilus-extensions,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,blender*,fedora-workstation-repositories,flatpak,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,kde-settings*,firefox*,xorg-x11-server-Xwayland,corectrl,rocm*,snapd,snap-confine,ffms2*,setroubleshoot*,plasma-desktop*,plasma-workspace,SDL2,SDL2-*,dnfdaemon,neofetch,mesa*,clang,compiler-rt,lld,lldb,libomp,llvm*,spirv-llvm-translator,grub-customizer*,clang-libs,clang-resource-filesystem,gedit,gnome-shell-extension-blur-my-shell,gnome-shell-extension-pop-shell-shortcut-overrides,gnome-software,gnome-software-rpm-ostree,gstreamer1-plugins-bad-free,gstreamer1-plugins-bad-free-extras,kernel-modules-core,libomp,libomp-devel,llvm-libs,nautilus-extensions,vulkan-headers,vulkan-loader,vulkan-tools"
-repo --name="fedora-cisco-openh264" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-$releasever&arch=$basearch
-repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch --excludepkgs="obs-studio,ffmpeg-libs,ffmpeg,x264-libs,libavcodec-freeworld"
-repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio,ffmpeg-libs,ffmpeg,x264-libs,libavcodec-freeworld"
-repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch --excludepkgs="discord"
-repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="discord"
+repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasever/ 
+repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/
 
 # System timezone
 timezone US/Eastern
@@ -459,6 +454,7 @@ gstreamer1-plugins-ugly-free.i686
 gstreamer1-plugins-ugly-free.x86_64
 gstreamer1.i686
 gstreamer1.x86_64
+HandyGCCS
 hplip
 initscripts
 inkscape
@@ -534,6 +530,7 @@ nobara-login
 nobara-login-sysctl
 nobara-repos
 nobara-controller-config
+noopenh264
 nss-mdns.x86_64
 nss-mdns.i686
 ocl-icd.x86_64
@@ -568,6 +565,8 @@ tcp_wrappers-libs.x86_64
 tcp_wrappers-libs.i686
 unixODBC.x86_64
 unixODBC.i686
+bsdtar
+chromium
 vim
 vkBasalt.x86_64
 vkBasalt.i686
@@ -586,7 +585,6 @@ dnfdaemon
 v4l2loopback
 yumex
 nobara-welcome
-unrar
 openrgb
 opentabletdriver
 papirus-icon-theme
@@ -603,7 +601,7 @@ libswresample-free
 -gstreamer1-plugins-bad-freeworld
 -gstreamer1-plugins-ugly
 -gstreamer1-libav
--ffmpegthumbs
+ffmpegthumbs
 -compat-ffmpeg4
 -libavdevice
 -libfreeaptx
@@ -705,7 +703,6 @@ power-profiles-daemon
 -digikam
 -fcoe-utils
 -gnome-disk-utility
--gst-editing-services
 -iok
 -isdn4k-utils
 -k3b
@@ -715,7 +712,6 @@ power-profiles-daemon
 -ktorrent
 -mpage
 -nfs-utils
--rygel
 -scim*
 -system-config-printer
 -system-config-services
@@ -729,5 +725,9 @@ power-profiles-daemon
 -abrt-desktop
 -abrt-java-connector
 -abrt-cli
+-ffmpeg
+-ffmpeg-libs
+-qgnomeplatform-qt5
+-qgnomeplatform-qt6
 
 %end

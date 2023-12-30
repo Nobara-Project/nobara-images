@@ -2,57 +2,57 @@ Set up mock build environment:
 ```
 $ sudo dnf install mock pykickstart
 $ sudo usermod -a -G mock $(whoami)
-$ mock -r ./nobara-38-x86_64.cfg --init
-$ mock -r ./nobara-38-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart
+$ mock -r ./nobara-39-x86_64.cfg --init
+$ mock -r ./nobara-39-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart
 $ sudo setenforce 0
 ```
 
 Transfer flat kickstart file to mock build environment:
 
 ```
-$ cp ISO-ready-flattened-kickstarts/38/*.ks /var/lib/mock/nobara-38-x86_64/root/builddir/
+$ cp ISO-ready-flattened-kickstarts/39/*.ks /var/lib/mock/nobara-39-x86_64/root/builddir/
 ```
 
 Enter mock environment:
 ```
-$ mock -r ./nobara-38-x86_64.cfg --shell --old-chroot --enable-network
+$ mock -r ./nobara-39-x86_64.cfg --shell --old-chroot --enable-network
 ```
 
 From within mock environment:
 
 Official:
 ```
-# livemedia-creator --ks flat-nobara-live-official-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-Official-$(date +%F).iso --releasever 38 --macboot
+# livemedia-creator --ks flat-nobara-live-official-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-Official-$(date +%F).iso --releasever 39 --macboot
 ```
 
 Gnome:
 ```
-# livemedia-creator --ks flat-nobara-live-gnome-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-GNOME-$(date +%F).iso --releasever 38 --macboot
+# livemedia-creator --ks flat-nobara-live-gnome-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-GNOME-$(date +%F).iso --releasever 39 --macboot
 ```
 
 KDE:
 ```
-# livemedia-creator --ks flat-nobara-live-kde-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-KDE-$(date +%F).iso --releasever 38 --macboot
+# livemedia-creator --ks flat-nobara-live-kde-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-KDE-$(date +%F).iso --releasever 39 --macboot
 ```
 
 Nvidia Official:
 ```
-# livemedia-creator --ks nv-flat-nobara-live-official-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-Official-Nvidia-$(date +%F).iso --releasever 38 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=0"
+# livemedia-creator --ks nv-flat-nobara-live-official-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-Official-Nvidia-$(date +%F).iso --releasever 39 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=1 fbdev=1"
 ```
 
 Nvidia Gnome:
 ```
-# livemedia-creator --ks nv-flat-nobara-live-gnome-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-GNOME-Nvidia-$(date +%F).iso --releasever 38 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=0"
+# livemedia-creator --ks nv-flat-nobara-live-gnome-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-GNOME-Nvidia-$(date +%F).iso --releasever 39 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=1 fbdev=1"
 ```
 
 Nvidia KDE:
 ```
-# livemedia-creator --ks nv-flat-nobara-live-kde-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-KDE-Nvidia-$(date +%F).iso --releasever 38 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=0"
+# livemedia-creator --ks nv-flat-nobara-live-kde-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-KDE-Nvidia-$(date +%F).iso --releasever 39 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=1 fbdev=1"
 ```
 
 SteamDeck:
 ```
-# livemedia-creator --ks flat-nobara-live-steamdeck-38.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-38 --iso-only --iso-name Nobara-38-SteamDeck-$(date +%F).iso --releasever 38 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=0"
+# livemedia-creator --ks flat-nobara-live-steamdeck-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-SteamDeck-$(date +%F).iso --releasever 39 --macboot
 ```
 
 
@@ -64,12 +64,12 @@ Exit mock environment when build completes:
 Move built ISO from mock location to whatever location you want:
 
 ```
-$ sudo mv /var/lib/mock/nobara-38-x86_64/root/var/lmc/Nobara-38-*.iso .
+$ sudo mv /var/lib/mock/nobara-39-x86_64/root/var/lmc/Nobara-39-*.iso .
 ```
 
 Clean up mock environment:
 ```
-$ mock -r ./nobara-38-x86_64.cfg --scrub=all
+$ mock -r ./nobara-39-x86_64.cfg --scrub=all
 $ sudo setenforce 1
 ```
 

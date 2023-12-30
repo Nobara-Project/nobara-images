@@ -16,17 +16,12 @@ network  --bootproto=dhcp --device=link --activate
 firewall --enabled --service=mdns
 # Use network installation
 url --mirrorlist="https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch"
-repo --name="nobara-baseos" --baseurl=https://nobara-baseos.nobaraproject.org/$releasever/ --cost=50
-repo --name="nobara-baseos-multilib" --baseurl=https://nobara-baseos-multilib.nobaraproject.org/$releasever/ --cost=50
-repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=50
-repo --name="nobara-rocm-official" --baseurl=https://repo.radeon.com/rocm/rhel9/5.4.3/main/ --cost=50
-repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasever/ --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,nautilus,nautilus-extensions,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,blender*,fedora-workstation-repositories,flatpak,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,kde-settings*,firefox*,xorg-x11-server-Xwayland,corectrl,rocm*,snapd,snap-confine,ffms2*,setroubleshoot*,plasma-desktop*,plasma-workspace,SDL2,SDL2-*,dnfdaemon,neofetch,mesa*,clang,compiler-rt,lld,lldb,libomp,llvm*,spirv-llvm-translator,grub-customizer*,clang-libs,clang-resource-filesystem,gedit,gnome-shell-extension-blur-my-shell,gnome-shell-extension-pop-shell-shortcut-overrides,gnome-software,gnome-software-rpm-ostree,gstreamer1-plugins-bad-free,gstreamer1-plugins-bad-free-extras,kernel-modules-core,libomp,libomp-devel,llvm-libs,nautilus-extensions,vulkan-headers,vulkan-loader,vulkan-tools"
-repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/ --excludepkgs="fedora-repos,kernel,kernel-core,kernel-modules,kernel-devel*,kernel-modules-extra,glibc*,dnf,dnf-automatic,dnf-data,python3-dnf,yum,libnsl,nautilus,nautilus-extensions,pciutils,gst-editing-services,rygel,lutris,gnome-shell,gnome-initial-setup,vkBasalt*,mangohud*,gamescope*,blender*,fedora-workstation-repositories,flatpak,setup,mutter*,gnome-control-center*,gnome-shell-extension-sound-output-device-chooser,gnome-extensions-app,wine-desktop,wine-core,wine,winetricks,,gnome-shell-extension-pop-shell,gtk4,fedora-logos,gdm,fedora-release*,dnf-plugins-core,dnf-utils,python3-dnf-plugins-core,python3-dnf-plugin-leaves,python3-dnf-plugin-local,python3-dnf-plugin-modulesync,python3-dnf-plugin-post-transaction-actions,python3-dnf-plugin-show-leaves,python3-dnf-plugin-versionlock,kde-settings*,firefox*,xorg-x11-server-Xwayland,corectrl,rocm*,snapd,snap-confine,ffms2*,setroubleshoot*,plasma-desktop*,plasma-workspace,SDL2,SDL2-*,dnfdaemon,neofetch,mesa*,clang,compiler-rt,lld,lldb,libomp,llvm*,spirv-llvm-translator,grub-customizer*,clang-libs,clang-resource-filesystem,gedit,gnome-shell-extension-blur-my-shell,gnome-shell-extension-pop-shell-shortcut-overrides,gnome-software,gnome-software-rpm-ostree,gstreamer1-plugins-bad-free,gstreamer1-plugins-bad-free-extras,kernel-modules-core,libomp,libomp-devel,llvm-libs,nautilus-extensions,vulkan-headers,vulkan-loader,vulkan-tools"
-repo --name="fedora-cisco-openh264" --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-$releasever&arch=$basearch
-repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch --excludepkgs="obs-studio,ffmpeg-libs,ffmpeg,x264-libs,libavcodec-freeworld"
-repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="obs-studio,ffmpeg-libs,ffmpeg,x264-libs,libavcodec-freeworld"
-repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch --excludepkgs="discord"
-repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch --excludepkgs="discord"
+repo --name="nobara-baseos" --baseurl=https://nobara-baseos.nobaraproject.org/$releasever/
+repo --name="nobara-baseos-multilib" --baseurl=https://nobara-baseos-multilib.nobaraproject.org/$releasever/
+repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch
+repo --name="nobara-rocm-official" --baseurl=https://repo.radeon.com/rocm/rhel9/5.4.1/main/
+repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasever/
+repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/
 
 # System timezone
 timezone US/Eastern
@@ -379,7 +374,7 @@ if [ -f /usr/share/applications/calamares.desktop ]; then
 
   cat >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override << FOE
 [org.gnome.shell]
-favorite-apps=['org.gnome.Settings.desktop', 'yumex-dnf.desktop', 'org.gnome.Software.desktop', 'org.gnome.Nautilus.desktop', 'firefox.desktop', 'calamares.desktop']
+favorite-apps=['org.gnome.Settings.desktop', 'yumex-dnf.desktop', 'org.gnome.Software.desktop', 'org.gnome.Nautilus.desktop', 'chromium-browser.desktop', 'calamares.desktop']
 FOE
 
   # Make the liveinst run on login
@@ -433,7 +428,6 @@ touch /mnt/sysimage/etc/default/grub
 %packages
 @^workstation-product-environment
 @anaconda-tools
-@firefox
 @fonts
 @hardware-support
 @multimedia
@@ -593,6 +587,8 @@ tcp_wrappers-libs.x86_64
 tcp_wrappers-libs.i686
 unixODBC.x86_64
 unixODBC.i686
+bsdtar
+chromium
 vim
 vkBasalt.x86_64
 vkBasalt.i686
@@ -610,13 +606,13 @@ dnfdaemon
 v4l2loopback
 yumex
 nobara-welcome
+noopenh264
 nobara-gnome-layouts
 gnome-x11-gesture-daemon
 gnome-shell-extension-gesture-improvements
 gnome-shell-extension-wireless-hid
 gnome-startup-applications
 papirus-icon-theme
-unrar
 openrgb
 opentabletdriver
 libavcodec-free
@@ -654,9 +650,7 @@ power-profiles-daemon
 -gfs2-utils
 -gnome-boxes
 -nfs-utils
--gst-editing-services
 -reiserfs-utils
--rygel
 gnome-shell-extension-gamemode
 -fedora-repos-modular
 -fedora-workstation-repositories
