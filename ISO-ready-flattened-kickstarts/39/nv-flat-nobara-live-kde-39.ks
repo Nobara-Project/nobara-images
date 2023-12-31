@@ -418,13 +418,8 @@ restorecon -R /home/liveuser/
 EOF
 
 # Add nvidia kernel boot options to calamares
-echo '    - "echo GRUB_CMDLINE_LINUX=\"rd.driver.blacklist=nouveau modprobe.blacklist=nouveau nvidia-drm.modeset=1 fbdev=1\" >> /etc/default/grub"' >> /usr/share/calamares/modules/shellprocess.conf
-sed -i "s|GRUB_CMDLINE_LINUX|\'GRUB_CMDLINE_LINUX|g" /usr/share/calamares/modules/shellprocess.conf
-sed -i "s| >> /etc/default/grub|\' >> /etc/default/grub|g" /usr/share/calamares/modules/shellprocess.conf
-
-# update grub, set sddm theme for nobara official
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
-    - command: "/usr/bin/nvidia-boot-update post"
+    - command: "/usr/sbin/nvidia-boot-update post"
       timeout: 3600
     - command: "sed -i '/\\\[Theme\\\]/a\\\Current=breeze' /etc/sddm.conf"
       timeout: 3600
@@ -558,9 +553,8 @@ mediawriter
 memtest86+
 mesa-libGLU.x86_64
 mesa-libGLU.i686
-musescore
+-musescore
 mscore-fonts
-mscore-fonts-all
 neofetch
 nobara-login
 nobara-login-sysctl
@@ -640,7 +634,6 @@ yumex
 nobara-welcome
 noopenh264
 openrgb
-opentabletdriver
 papirus-icon-theme
 libavcodec-free
 libavdevice-free

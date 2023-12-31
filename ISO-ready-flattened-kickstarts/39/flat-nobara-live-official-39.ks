@@ -552,9 +552,8 @@ mediawriter
 memtest86+
 mesa-libGLU.x86_64
 mesa-libGLU.i686
-musescore
+-musescore
 mscore-fonts
-mscore-fonts-all
 neofetch
 nobara-login
 nobara-login-sysctl
@@ -618,7 +617,6 @@ yumex
 nobara-welcome
 noopenh264
 openrgb
-opentabletdriver
 papirus-icon-theme
 libavcodec-free
 libavdevice-free

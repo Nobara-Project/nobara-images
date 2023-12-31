@@ -533,9 +533,8 @@ mediawriter
 memtest86+
 mesa-libGLU.x86_64
 mesa-libGLU.i686
-musescore
+-musescore
 mscore-fonts
-mscore-fonts-all
 neofetch
 nautilus-admin
 nobara-login
@@ -597,7 +596,6 @@ nobara-welcome
 noopenh264
 papirus-icon-theme
 openrgb
-opentabletdriver
 papirus-icon-theme
 libavcodec-free
 libavdevice-free
