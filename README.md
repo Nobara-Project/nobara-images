@@ -37,17 +37,17 @@ KDE:
 
 Nvidia Official:
 ```
-# livemedia-creator --ks nv-flat-nobara-live-official-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-Official-Nvidia-$(date +%F).iso --releasever 39 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=1 fbdev=1"
+# livemedia-creator --ks nv-flat-nobara-live-official-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-Official-Nvidia-$(date +%F).iso --releasever 39 --macboot --extra-boot-args "modules_load=nvidia"
 ```
 
 Nvidia Gnome:
 ```
-# livemedia-creator --ks nv-flat-nobara-live-gnome-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-GNOME-Nvidia-$(date +%F).iso --releasever 39 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=1 fbdev=1"
+# livemedia-creator --ks nv-flat-nobara-live-gnome-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-GNOME-Nvidia-$(date +%F).iso --releasever 39 --macboot --extra-boot-args "modules_load=nvidia"
 ```
 
 Nvidia KDE:
 ```
-# livemedia-creator --ks nv-flat-nobara-live-kde-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-KDE-Nvidia-$(date +%F).iso --releasever 39 --macboot --extra-boot-args "modules_load=nvidia  nvidia-drm.modeset=1 fbdev=1"
+# livemedia-creator --ks nv-flat-nobara-live-kde-39.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-39 --iso-only --iso-name Nobara-39-KDE-Nvidia-$(date +%F).iso --releasever 39 --macboot --extra-boot-args "modules_load=nvidia"
 ```
 
 SteamDeck:
