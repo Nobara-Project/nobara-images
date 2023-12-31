@@ -411,7 +411,7 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 
 # Add nvidia kernel boot options to calamares
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
-    - command: "/usr/bin/nvidia-update-boot post"
+    - command: "/usr/bin/nvidia-boot-update post"
       timeout: 3600
 EOF
 

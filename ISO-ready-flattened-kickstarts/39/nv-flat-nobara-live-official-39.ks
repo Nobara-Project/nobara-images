@@ -419,7 +419,7 @@ EOF
 
 # Add nvidia kernel boot options to calamares
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
-    - command: "/usr/bin/nvidia-update-boot post"
+    - command: "/usr/bin/nvidia-boot-update post"
       timeout: 3600
     - command: "sed -i '/\\\[Theme\\\]/a\\\Current=nobara' /etc/sddm.conf"
       timeout: 3600

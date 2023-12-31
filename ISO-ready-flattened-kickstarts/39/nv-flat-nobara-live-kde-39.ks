@@ -424,7 +424,7 @@ sed -i "s| >> /etc/default/grub|\' >> /etc/default/grub|g" /usr/share/calamares/
 
 # update grub, set sddm theme for nobara official
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
-    - command: "/usr/bin/nvidia-update-boot post"
+    - command: "/usr/bin/nvidia-boot-update post"
       timeout: 3600
     - command: "sed -i '/\\\[Theme\\\]/a\\\Current=breeze' /etc/sddm.conf"
       timeout: 3600
