@@ -424,6 +424,10 @@ EOF
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
     - command: "/usr/sbin/nvidia-boot-update post"
       timeout: 3600
+    - command: "akmods"
+      timeout: 3600
+    - command: "dracut -f --regenerate-all"
+      timeout: 3600
     - command: "sed -i '/\\\[Theme\\\]/a\\\Current=breeze' /etc/sddm.conf"
       timeout: 3600
 EOF

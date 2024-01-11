@@ -416,6 +416,10 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
     - command: "/usr/sbin/nvidia-boot-update post"
       timeout: 3600
+    - command: "akmods"
+      timeout: 3600
+    - command: "dracut -f --regenerate-all"
+      timeout: 3600
 EOF
 
 # empty tmp files so anaconda doesn't fail when unmounting /tmp due to kernel modules being installed
