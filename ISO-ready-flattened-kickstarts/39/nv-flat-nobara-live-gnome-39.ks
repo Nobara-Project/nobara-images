@@ -343,6 +343,9 @@ chmod +x /home/liveuser/Desktop/
 # Remove anaconda's liveinst.desktop from live install
 rm /etc/xdg/autostart/liveinst-setup.desktop
 
+# Don't automount partitions in live session
+rm /etc/xdg/autostart/nobara-automount.desktop
+
 # Remove steam from live environment autostart
 rm /etc/xdg/autostart/steam.desktop
 rm /etc/skel/Desktop/steam.desktop
