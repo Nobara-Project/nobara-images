@@ -468,6 +468,7 @@ mesa-libOpenCL
 calamares
 ark
 chkconfig
+ds-inhibit
 dracut-live
 egl-gbm
 egl-wayland
