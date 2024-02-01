@@ -460,7 +460,7 @@ touch /mnt/sysimage/etc/default/grub
 @multimedia
 @printing
 @standard
-chromium
+firefox
 apparmor-utils
 apparmor-parser
 aajohan-comfortaa-fonts
@@ -621,7 +621,6 @@ tcp_wrappers-libs.i686
 unixODBC.x86_64
 unixODBC.i686
 bsdtar
-chromium
 vim
 vkBasalt.x86_64
 vkBasalt.i686

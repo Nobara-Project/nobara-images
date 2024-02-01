@@ -406,7 +406,7 @@ FOE
 
 cat >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override << FOE
 [org.gnome.shell]
-favorite-apps=['org.gnome.Settings.desktop', 'yumex-dnf.desktop', 'org.gnome.Software.desktop', 'org.gnome.Nautilus.desktop', 'chromium-browser.desktop', 'calamares.desktop']
+favorite-apps=['org.gnome.Settings.desktop', 'yumex-dnf.desktop', 'org.gnome.Software.desktop', 'org.gnome.Nautilus.desktop', 'firefox.desktop', 'calamares.desktop']
 FOE
 
 # rebuild schema cache with any overrides we installed
@@ -435,7 +435,7 @@ touch /mnt/sysimage/etc/default/grub
 @printing
 @standard
 adwaita-qt5
-chromium
+firefox
 apparmor-utils
 apparmor-parser
 aajohan-comfortaa-fonts
@@ -577,7 +577,6 @@ tcp_wrappers-libs.i686
 unixODBC.x86_64
 unixODBC.i686
 bsdtar
-chromium
 vim
 vkBasalt.x86_64
 vkBasalt.i686
