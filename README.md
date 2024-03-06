@@ -4,7 +4,6 @@ $ sudo dnf install mock pykickstart
 $ sudo usermod -a -G mock $(whoami)
 $ mock -r ./nobara-39-x86_64.cfg --init
 $ mock -r ./nobara-39-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart
-$ sudo setenforce 0
 ```
 
 Transfer flat kickstart file to mock build environment:
@@ -70,7 +69,6 @@ $ sudo mv /var/lib/mock/nobara-39-x86_64/root/var/lmc/Nobara-39-*.iso .
 Clean up mock environment:
 ```
 $ mock -r ./nobara-39-x86_64.cfg --scrub=all
-$ sudo setenforce 1
 ```
 
 Finished!
