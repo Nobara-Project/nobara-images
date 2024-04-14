@@ -22,7 +22,8 @@ repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.
 repo --name="nobara-rocm-official" --baseurl=https://repo.radeon.com/rocm/rhel9/5.6.1/main/ --cost=50
 repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasever/
 repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/
-
+repo --name="nobara-kde6" --baseurl=https://kde6.nobaraproject.org/ --cost=49
+repo --name="nobara-kde6-overrides" --baseurl=https://kde6-overrides.nobaraproject.org/ --cost=49
 # System timezone
 timezone US/Eastern
 # SELinux configuration
