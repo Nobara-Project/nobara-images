@@ -439,6 +439,7 @@ firefox
 apparmor-utils
 apparmor-parser
 aajohan-comfortaa-fonts
+alsa-firmware
 anaconda
 anaconda-install-env-deps
 anaconda-live
