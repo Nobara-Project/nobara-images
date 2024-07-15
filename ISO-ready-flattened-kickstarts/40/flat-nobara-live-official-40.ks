@@ -38,6 +38,12 @@ clearpart --all
 part / --fstype="ext4" --size=25600
 part / --size=25600
 
+#workaround for successful nvidia graphics driver installation
+%pre-install
+mkdir -p /mnt/sysimage/etc/default
+touch /mnt/sysimage/etc/default/grub
+%end
+
 %post
 # Enable livesys services
 systemctl enable livesys.service
@@ -87,10 +93,6 @@ systemctl disable network
 rm -f /etc/machine-id
 touch /etc/machine-id
 
-%end
-
-%post
-
 # set default GTK+ theme for root (see #683855, #689070, #808062)
 cat > /root/.gtkrc-2.0 << EOF
 include "/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc"
@@ -106,12 +108,9 @@ EOF
 # set livesys session type
 sed -i 's/^livesys_session=.*/livesys_session="kde"/' /etc/sysconfig/livesys
 
-# add initscript
-cat >> /etc/rc.d/init.d/livesys << EOF
-
 # Make the liveinst run on login
-mkdir -p ~liveuser/.config/autostart
-cp -a /usr/share/applications/calamares.desktop ~liveuser/.config/autostart/
+mkdir -p /home/liveuser/.config/autostart
+cp -a /usr/share/applications/calamares.desktop /home/liveuser/.config/autostart/
 
 # Add calamares installer desktop shortcut
 mkdir /home/liveuser/Desktop
@@ -120,6 +119,7 @@ chmod a+x /home/liveuser/Desktop/*
 
 # Remove anaconda's liveinst.desktop from live install
 rm /etc/xdg/autostart/liveinst-setup.desktop
+rm /etc/xdg/autostart/liveinst.desktop
 
 # Don't automount partitions in live session
 rm /etc/xdg/autostart/nobara-automount.desktop
@@ -138,65 +138,21 @@ chown -R liveuser:liveuser /home/liveuser/
 restorecon -R /home/liveuser/
 
 # kde specific
-
-PLASMA_SESSION_FILE="plasma.desktop"
-
 # set up autologin
 if [ -f /etc/sddm.conf ]; then
 sed -i 's/^#User=.*/User=liveuser/' /etc/sddm.conf
-sed -i "s/^#Session=.*/Session=\${PLASMA_SESSION_FILE}/" /etc/sddm.conf
+sed -i 's/^#Session=.*/Session=plasma.desktop/' /etc/sddm.conf
 else
-cat > /etc/sddm.conf << SDDM_EOF
+cat << EOF >> /etc/sddm.conf
 [Autologin]
 User=liveuser
-Session=\${PLASMA_SESSION_FILE}
-SDDM_EOF
+Session=plasma.desktop
+EOF
 fi
-
-# Set akonadi backend
-mkdir -p /home/liveuser/.config/akonadi
-cat > /home/liveuser/.config/akonadi/akonadiserverrc << AKONADI_EOF
-[%General]
-Driver=QSQLITE3
-AKONADI_EOF
-
-# "Disable plasma-discover-notifier"
-mkdir -p /home/liveuser/.config/autostart
-cp -a /etc/xdg/autostart/org.kde.discover.notifier.desktop /home/liveuser/.config/autostart/
-echo 'Hidden=true' >> /home/liveuser/.config/autostart/org.kde.discover.notifier.desktop
-
-# Disable baloo
-cat > /home/liveuser/.config/baloofilerc << BALOO_EOF
-[Basic Settings]
-Indexing-Enabled=false
-BALOO_EOF
-
-# Disable kres-migrator
-cat > /home/liveuser/.kde/share/config/kres-migratorrc << KRES_EOF
-[Migration]
-Enabled=false
-KRES_EOF
-
-# Disable kwallet migrator
-cat > /home/liveuser/.config/kwalletrc << KWALLET_EOL
-[Migration]
-alreadyMigrated=true
-KWALLET_EOL
-
-# Disable automount of 'known' devices
-# https://bugzilla.redhat.com/show_bug.cgi?id=2073708
-cat > /home/liveuser/.config/kded_device_automounterrc << AUTOMOUNTER_EOF
-[General]
-AutomountEnabled=false
-AutomountOnLogin=false
-AutomountOnPlugin=false
-AUTOMOUNTER_EOF
 
 # make sure to set the right permissions and selinux contexts
 chown -R liveuser:liveuser /home/liveuser/
 restorecon -R /home/liveuser/
-
-EOF
 
 # Add nvidia kernel boot options to calamares
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
@@ -213,20 +169,12 @@ EOF
 chown -R liveuser:liveuser /home/liveuser/
 sed -i 's|#Current=.*|Current=nobara|g' /etc/sddm.conf
 
-# Remove anaconda's liveinst.desktop from live install
-rm /etc/xdg/autostart/liveinst-setup.desktop
 
 # empty tmp files so anaconda doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
 
-
 %end
 
-#workaround for successful nvidia graphics driver installation
-%pre-install
-mkdir -p /mnt/sysimage/etc/default
-touch /mnt/sysimage/etc/default/grub
-%end
 
 %packages
 @^kde-desktop-environment
