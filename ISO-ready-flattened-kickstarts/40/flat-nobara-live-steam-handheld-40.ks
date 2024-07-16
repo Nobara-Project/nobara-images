@@ -38,12 +38,6 @@ clearpart --all
 part / --fstype="ext4" --size=25600
 part / --size=25600
 
-#workaround for successful nvidia graphics driver installation
-%pre-install
-mkdir -p /mnt/sysimage/etc/default
-touch /mnt/sysimage/etc/default/grub
-%end
-
 %post
 # Enable livesys services
 systemctl enable livesys.service
@@ -149,20 +143,57 @@ Session=plasma.desktop
 EOF
 fi
 
-# nvidia modules, update grub, set sddm theme for nobara official
+# update grub, set sddm to autolog into gamescope
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
-    - command: "/usr/sbin/nvidia-boot-update post"
+    - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
-    - command: "akmods"
+    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
       timeout: 3600
-    - command: "dracut -f --regenerate-all"
-      timeout: 3600
-    - command: "sed -i '/\\\[Theme\\\]/a\\\Current=breeze' /etc/sddm.conf"
+    - command: "sed -i '/\\\[Theme\\\]/a\\\Current=sugar-dark' /etc/sddm.conf"
       timeout: 3600
 EOF
 
-sed -i 's|#Current=.*|Current=breeze|g' /etc/sddm.conf
+sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 
+# steamdeck specific package check
+cat <<'EOF' > /usr/bin/steamdeck-check
+#!/bin/bash
+
+# Check dmesg for the words "Galileo" or "Jupiter"
+if ! dmesg | grep -q -E "Galileo|Jupiter"; then
+  cat << 'EOC' > /usr/share/calamares/modules/shellprocess.conf
+    - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
+      timeout: 3600
+    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
+      timeout: 3600
+    - command: "sed -i '/\\\[Theme\\\]/a\\\Current=sugar-dark' /etc/sddm.conf"
+      timeout: 3600
+    - command: "rpm -e --nodeps steamdeck-dsp"
+      timeout: 3600
+    - command: "rpm -e --nodeps steamdeck-firmware"
+      timeout: 3600
+    - command: "rpm -e --nodeps jupiter-hw-support"
+      timeout: 3600
+    - command: "rpm -e --nodeps jupiter-fan-control"
+      timeout: 3600
+EOC
+fi
+EOF
+
+# Make the script executable
+chmod +x /usr/bin/steamdeck-check
+
+# Create the .desktop file in /etc/xdg/autostart/
+cat <<EOF > /etc/xdg/autostart/steamdeck-check.desktop
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/steamdeck-check
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Steamdeck Check
+Comment=Run steamdeck-check script at startup
+EOF
 
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
@@ -194,6 +225,7 @@ apr
 apr-util
 calamares
 chkconfig
+ds-inhibit
 dracut-live
 fedora-release-kde
 fedora-repos
@@ -208,6 +240,11 @@ gamemode.x86_64
 gamemode.i686
 ghc-mountpoints
 gamescope
+gamescope
+gamescope-session-plus
+gamescope-session-steam
+gamescope-htpc-common
+gamescope-handheld-common
 glibc-all-langpacks
 goverlay
 gstreamer1-plugins-bad-free.i686
@@ -222,6 +259,7 @@ gstreamer1-plugins-ugly-free.i686
 gstreamer1-plugins-ugly-free.x86_64
 gstreamer1.i686
 gstreamer1.x86_64
+HandyGCCS
 hplip
 initscripts
 inkscape
@@ -288,23 +326,6 @@ nobara-login
 nobara-login-sysctl
 nobara-repos
 nobara-controller-config
-akmod-nvidia
-nvidia-driver
-nvidia-driver-NVML
-nvidia-driver-NVML.i686
-nvidia-driver-NvFBCOpenGL
-nvidia-driver-cuda
-nvidia-driver-cuda-libs
-nvidia-driver-cuda-libs.i686
-nvidia-driver-libs
-nvidia-driver-libs.i686
-nvidia-kmod-common
-nvidia-libXNVCtrl
-nvidia-modprobe
-nvidia-persistenced
-nvidia-settings
-nvidia-xconfig
-nvidia-vaapi-driver
 nvidia-gpu-firmware
 nss-mdns.x86_64
 nss-mdns.i686
@@ -318,11 +339,11 @@ pavucontrol-qt
 protonup-qt
 qemu-device-display-qxl
 plasma-workspace-wallpapers
-plasma-discover
-plasma-discover-flatpak
+python3-hid
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
 rpmfusion-free-release
+ryzenadj
 samba-common-tools.x86_64
 samba-libs.x86_64
 samba-winbind-clients.x86_64
@@ -331,7 +352,13 @@ samba-winbind.x86_64
 sane-backends-libs.x86_64
 sane-backends-libs.i686
 sddm-kcm
+sdgyrodsu
 steam
+kde-steamdeck
+steamdeck-dsp
+steamdeck-firmware
+jupiter-hw-support
+jupiter-fan-control
 syslinux
 system-config-language
 tcp_wrappers-libs.x86_64
@@ -500,5 +527,6 @@ power-profiles-daemon
 -ffmpeg-libs
 -qgnomeplatform-qt5
 -qgnomeplatform-qt6
--plasma-discover-packagekit
+-plasma-discover
+-plasma-discover-notifier
 %end

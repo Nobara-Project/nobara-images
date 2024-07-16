@@ -34,24 +34,36 @@ KDE:
 # livemedia-creator --ks flat-nobara-live-kde-40.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-40 --iso-only --iso-name Nobara-40-KDE-$(date +%F).iso --releasever 40 --macboot
 ```
 
+Steam HTPC:
+```
+# livemedia-creator --ks flat-nobara-live-steam-htpc-40.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-40 --iso-only --iso-name Nobara-40-Steam-HTPC-$(date +%F).iso --releasever 40 --macboot
+```
+
+Steam Handheld:
+```
+# livemedia-creator --ks flat-nobara-live-steam-handheld-40.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-40 --iso-only --iso-name Nobara-40-Steam-Handheld-$(date +%F).iso --releasever 40 --macboot
+```
+
+
+
 Nvidia Official:
 ```
-# livemedia-creator --ks nv-flat-nobara-live-official-40.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-40 --iso-only --iso-name Nobara-40-Official-Nvidia-$(date +%F).iso --releasever 40 --macboot --extra-boot-args "modules_load=nvidia"
+# livemedia-creator --ks nv-flat-nobara-live-official-40.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-40 --iso-only --iso-name Nobara-40-Official-NV-$(date +%F).iso --releasever 40 --macboot --extra-boot-args "modules_load=nvidia"
 ```
 
 Nvidia Gnome:
 ```
-# livemedia-creator --ks nv-flat-nobara-live-gnome-40.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-40 --iso-only --iso-name Nobara-40-GNOME-Nvidia-$(date +%F).iso --releasever 40 --macboot --extra-boot-args "modules_load=nvidia"
+# livemedia-creator --ks nv-flat-nobara-live-gnome-40.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-40 --iso-only --iso-name Nobara-40-GNOME-NV-$(date +%F).iso --releasever 40 --macboot --extra-boot-args "modules_load=nvidia"
 ```
 
 Nvidia KDE:
 ```
-# livemedia-creator --ks nv-flat-nobara-live-kde-40.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-40 --iso-only --iso-name Nobara-40-KDE-Nvidia-$(date +%F).iso --releasever 40 --macboot --extra-boot-args "modules_load=nvidia"
+# livemedia-creator --ks nv-flat-nobara-live-kde-40.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-40 --iso-only --iso-name Nobara-40-KDE-NV-$(date +%F).iso --releasever 40 --macboot --extra-boot-args "modules_load=nvidia"
 ```
 
-SteamDeck:
+Nvidia Steam HTPC:
 ```
-# livemedia-creator --ks flat-nobara-live-steamdeck-40.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-40 --iso-only --iso-name Nobara-40-SteamDeck-$(date +%F).iso --releasever 40 --macboot
+# livemedia-creator --ks nv-flat-nobara-live-steam-htpc-40.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-40 --iso-only --iso-name Nobara-40-Steam-HTPC-NV-$(date +%F).iso --releasever 40 --macboot
 ```
 
 

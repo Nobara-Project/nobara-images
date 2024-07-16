@@ -38,16 +38,13 @@ clearpart --all
 part / --fstype="ext4" --size=25600
 part / --size=25600
 
-#workaround for successful nvidia graphics driver installation
-%pre-install
-mkdir -p /mnt/sysimage/etc/default
-touch /mnt/sysimage/etc/default/grub
-%end
-
 %post
 # Enable livesys services
 systemctl enable livesys.service
 systemctl enable livesys-late.service
+
+# add static hostname
+hostnamectl set-hostname "nobara-live"
 
 # enable tmpfs for /tmp
 systemctl enable tmp.mount
@@ -108,7 +105,7 @@ EOF
 # set livesys session type
 sed -i 's/^livesys_session=.*/livesys_session="kde"/' /etc/sysconfig/livesys
 
-# Make the liveinst run on login
+# Make the calamares run on login
 mkdir -p /home/liveuser/.config/autostart
 cp -a /usr/share/applications/calamares.desktop /home/liveuser/.config/autostart/
 
@@ -116,11 +113,6 @@ cp -a /usr/share/applications/calamares.desktop /home/liveuser/.config/autostart
 mkdir /home/liveuser/Desktop
 cp -a /usr/share/applications/calamares.desktop /home/liveuser/Desktop/
 chmod a+x /home/liveuser/Desktop/*
-
-# Remove anaconda's liveinst.desktop from live install
-rm /etc/xdg/autostart/liveinst-setup.desktop
-rm /etc/xdg/autostart/liveinst.desktop
-rm /home/liveuser/Desktop/liveinst.desktop
 
 # Don't automount partitions in live session
 rm /etc/xdg/autostart/nobara-automount.desktop
@@ -151,27 +143,16 @@ Session=plasma.desktop
 EOF
 fi
 
-# make sure to set the right permissions and selinux contexts
-chown -R liveuser:liveuser /home/liveuser/
-restorecon -R /home/liveuser/
-
-# Add nvidia kernel boot options to calamares
+# update grub, set sddm theme for nobara official
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
-    - command: "/usr/sbin/nvidia-boot-update post"
-      timeout: 3600
-    - command: "akmods"
-      timeout: 3600
-    - command: "dracut -f --regenerate-all"
-      timeout: 3600
     - command: "sed -i '/\\\[Theme\\\]/a\\\Current=nobara' /etc/sddm.conf"
       timeout: 3600
 EOF
 
-chown -R liveuser:liveuser /home/liveuser/
 sed -i 's|#Current=.*|Current=nobara|g' /etc/sddm.conf
 
 
-# empty tmp files so anaconda doesn't fail when unmounting /tmp due to kernel modules being installed
+# empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
 
 %end
@@ -194,9 +175,6 @@ rm -Rf /tmp/*
 @standard
 aajohan-comfortaa-fonts
 alsa-firmware
-anaconda
-anaconda-install-env-deps
-anaconda-live
 apparmor-utils
 apparmor-parser
 ark
@@ -236,7 +214,7 @@ hplip
 initscripts
 inkscape
 kde-runtime
-kf5-kimageformats
+kf6-kimageformats
 i2c-tools
 libi2c
 json-c.x86_64
@@ -264,8 +242,6 @@ libieee1284.x86_64
 libieee1284.i686
 libogg.x86_64
 libogg.i686
-libreoffice-draw
-libreoffice-math
 libsndfile.x86_64
 libsndfile.i686
 libunity
@@ -300,23 +276,6 @@ nobara-login
 nobara-login-sysctl
 nobara-repos
 nobara-controller-config
-akmod-nvidia
-nvidia-driver
-nvidia-driver-NVML
-nvidia-driver-NVML.i686
-nvidia-driver-NvFBCOpenGL
-nvidia-driver-cuda
-nvidia-driver-cuda-libs
-nvidia-driver-cuda-libs.i686
-nvidia-driver-libs
-nvidia-driver-libs.i686
-nvidia-kmod-common
-nvidia-libXNVCtrl
-nvidia-modprobe
-nvidia-persistenced
-nvidia-settings
-nvidia-xconfig
-nvidia-vaapi-driver
 nvidia-gpu-firmware
 nss-mdns.x86_64
 nss-mdns.i686
@@ -332,7 +291,6 @@ qemu-device-display-qxl
 plasma-lookandfeel-nobara
 plasma-lookandfeel-nobara-sddm
 plasma-workspace-wallpapers
-plasma-discover-flatpak
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
 rpmfusion-free-release
@@ -513,5 +471,6 @@ power-profiles-daemon
 -ffmpeg-libs
 -qgnomeplatform-qt5
 -qgnomeplatform-qt6
-
+-plasma-discover
+-plasma-discover-notifier
 %end
