@@ -114,17 +114,33 @@ mkdir /home/liveuser/Desktop
 cp -a /usr/share/applications/calamares.desktop /home/liveuser/Desktop/
 chmod a+x /home/liveuser/Desktop/*
 
-# Don't automount partitions in live session
-rm /etc/xdg/autostart/nobara-automount.desktop
+# Create /usr/bin/liveuser_clean script
+cat << 'EOF' > /home/liveuser/liveuser_clean
+#!/bin/bash
 
-# Remove steam from live environment autostart
-rm /etc/xdg/autostart/steam.desktop
-rm /etc/skel/Desktop/steam.desktop
-rm /etc/skel/Desktop/Return.desktop
-rm /etc/skel/Desktop/RemoteHost.desktop
 rm /home/liveuser/Desktop/steam.desktop
 rm /home/liveuser/Desktop/Return.desktop
 rm /home/liveuser/Desktop/RemoteHost.desktop
+rm /home/liveuser/.config/autostart/steam.desktop
+EOF
+
+# Make the script executable
+chmod +x /home/liveuser/liveuser_clean
+
+mkdir /home/liveuser/.config/autostart/
+# Create /etc/xdg/autostart/liveuser_clean.desktop
+cat << 'EOF' > /home/liveuser/.config/autostart/liveuser_clean.desktop
+[Desktop Entry]
+Type=Application
+Exec=/home/liveuser/liveuser_clean
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_US]=Liveuser Clean
+Name=Liveuser Clean
+Comment[en_US]=Clean up desktop files for liveuser
+Comment=Clean up desktop files for liveuser
+EOF
 
 # make sure to set the right permissions and selinux contexts
 chown -R liveuser:liveuser /home/liveuser/
