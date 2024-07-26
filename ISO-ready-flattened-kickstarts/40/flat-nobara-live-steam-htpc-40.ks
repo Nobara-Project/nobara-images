@@ -330,6 +330,7 @@ sane-backends-libs.i686
 sddm-kcm
 sdgyrodsu
 steam
+starship
 kde-steamdeck
 syslinux
 system-config-language

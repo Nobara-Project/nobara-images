@@ -305,6 +305,7 @@ mariadb-server
 mediawriter
 mesa-libOpenCL
 memtest86+
+starship
 mesa-libGLU.x86_64
 mesa-libGLU.i686
 -musescore

@@ -390,6 +390,7 @@ vapoursynth-tools
 vulkan-tools
 winehq-staging
 winetricks
+starship
 zenity
 numactl
 timeshift
