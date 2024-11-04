@@ -14,7 +14,7 @@ repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasev
 repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/
 repo --name="nobara-baseos" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-40/fedora-$releasever-$basearch/ --cost=50
 repo --name="nobara-baseos-multilib" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-40/fedora-$releasever-i386/ --cost=50
-repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=50 --exclude=nobara-resolve-runtime,ffmpeg,ffmpeg-libs,libavcodec-freeworld,libavdevice
+repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=50 --exclude=nobara-resolve-runtime,ffmpeg,ffmpeg-libs,libavcodec-freeworld,libavdevice,mesa-va-drivers-freeworld,mesa-vdpau-drivers-freeworld
 repo --name="nobara-rocm-official" --baseurl=https://repo.radeon.com/rocm/rhel9/5.6.1/main/ --cost=50
 # Root password
 rootpw --iscrypted --lock locked
@@ -168,6 +168,8 @@ if [ -f /etc/PackageKit/CommandNotFound.conf ]; then
   sed -i -e 's/^SoftwareSourceSearch=true/SoftwareSourceSearch=false/' /etc/PackageKit/CommandNotFound.conf
 fi
 
+sed -i 's/"quiet"/"quiet", "amdgpu.ppfeaturemask=0xffffffff"/g' /usr/share/calamares/modules/grubcfg.conf
+
 # disable the gnome-software shell search provider
 cat << EOF >>  /usr/share/gnome-shell/search-providers/org.gnome.Software-search-provider.ini
 DefaultDisabled=true
@@ -196,11 +198,9 @@ rm -Rf /tmp/*
 %packages
 @^workstation-product-environment
 @anaconda-tools
-@firefox
 @fonts
 @guest-desktop-agents
 @hardware-support
-@libreoffice
 @multimedia
 @printing
 @standard
@@ -215,6 +215,7 @@ apr-util
 calamares
 file-roller
 chkconfig
+ds-inhibit
 dracut-live
 fedora-repos
 fedora-workstation-repositories
@@ -233,6 +234,7 @@ gnome-icon-theme
 gnome-tweaks
 gnome-startup-applications
 goverlay
+grubby
 gsettings-desktop-schemas
 gstreamer1-plugins-bad-free.i686
 gstreamer1-plugins-bad-free.x86_64
@@ -321,11 +323,14 @@ openssl-libs.x86_64
 openssl-libs.i686
 pavucontrol
 protonup-qt
-pulseaudio-libs.x86_64
-pulseaudio-libs.i686
 qt5ct
 qemu-device-display-qxl
+plymouth-plugin-script
+python3-hid
+pulseaudio-libs.x86_64
+pulseaudio-libs.i686
 rpmfusion-free-release
+ryzenadj
 samba-common-tools.x86_64
 samba-libs.x86_64
 samba-winbind-clients.x86_64
@@ -334,11 +339,14 @@ samba-winbind.x86_64
 sane-backends-libs.x86_64
 sane-backends-libs.i686
 gnome-backgrounds
+sdgyrodsu
 steam
+starship
 syslinux
 system-config-language
 tcp_wrappers-libs.x86_64
 tcp_wrappers-libs.i686
+umu-launcher
 unixODBC.x86_64
 unixODBC.i686
 bsdtar
@@ -371,6 +379,11 @@ libavformat-free
 libpostproc-free
 libswscale-free
 libswresample-free
+pipewire-jack-audio-connection-kit-libs
+mesa-vdpau-drivers
+mesa-vdpau-drivers.i686
+mesa-va-drivers
+mesa-va-drivers.i686
 -dnfdragora
 -gnome-shell-extension-background-logo
 -gstreamer1-plugins-bad-freeworld
@@ -405,9 +418,6 @@ gnome-shell-extension-gamemode
 -abrt-desktop
 -abrt-java-connector
 -abrt-cli
--ffmpeg
--ffmpeg-libs
 -qgnomeplatform-qt5
 -qgnomeplatform-qt6
-
 %end

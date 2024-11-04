@@ -14,7 +14,7 @@ repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasev
 repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/
 repo --name="nobara-baseos" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-40/fedora-$releasever-$basearch/ --cost=50
 repo --name="nobara-baseos-multilib" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-40/fedora-$releasever-i386/ --cost=50
-repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=50 --exclude=nobara-resolve-runtime,ffmpeg,ffmpeg-libs,libavcodec-freeworld,libavdevice
+repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=50 --exclude=nobara-resolve-runtime,ffmpeg,ffmpeg-libs,libavcodec-freeworld,libavdevice,mesa-va-drivers-freeworld,mesa-vdpau-drivers-freeworld
 repo --name="nobara-rocm-official" --baseurl=https://repo.radeon.com/rocm/rhel9/5.6.1/main/ --cost=50
 # Root password
 rootpw --iscrypted --lock locked
@@ -167,21 +167,40 @@ fi
 
 # nvidia modules, update grub, set sddm to autolog into gamescope
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
-    - command: "/usr/sbin/nvidia-boot-update post"
-      timeout: 3600
-    - command: "akmods"
-      timeout: 3600
-    - command: "dracut -f --regenerate-all"
-      timeout: 3600
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i '/\\\[Theme\\\]/a\\\Current=sugar-dark' /etc/sddm.conf"
       timeout: 3600
+    - command: "sed -i \"s/GRUB_TIMEOUT='5'/GRUB_TIMEOUT='0'/g\" /etc/default/grub"
+      timeout: 3600
+    - command: "echo \"GRUB_TIMEOUT_STYLE='hidden'\" >> /etc/default/grub"
+      timeout: 3600
+    - command: "echo \"GRUB_HIDDEN_TIMEOUT='0'\" >> /etc/default/grub"
+      timeout: 3600
+    - command: "echo \"GRUB_HIDDEN_TIMEOUT_QUIET='true'\" >> /etc/default/grub"
+      timeout: 3600
+    - command: "/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg"
+      timeout: 3600
+    - command: "/usr/sbin/plymouth-set-default-theme steamos"
+      timeout: 3600
+    - command: "/usr/sbin/nvidia-boot-update post"
+      timeout: 3600
+    - command: "akmods"
+      timeout: 3600
+    - command: "/usr/bin/dracut --regenerate-all --force"
+      timeout: 3600
 EOF
 
 sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
+
+# add this regardless, in case user changes gpu from nv to amd
+sed -i 's/"quiet"/"quiet", "amdgpu.ppfeaturemask=0xffffffff"/g' /usr/share/calamares/modules/grubcfg.conf
+
+# nvidia
+akmods
+dracut -f
 
 
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
@@ -193,7 +212,6 @@ rm -Rf /tmp/*
 %packages
 @^kde-desktop-environment
 @anaconda-tools
-@firefox
 @fonts
 @guest-desktop-agents
 @hardware-support
@@ -201,7 +219,6 @@ rm -Rf /tmp/*
 @kde-media
 @kde-pim
 @kde-spin-initial-setup
-@libreoffice
 @multimedia
 @printing
 @standard
@@ -232,9 +249,11 @@ gamescope
 gamescope
 gamescope-session-plus
 gamescope-session-steam
+gamescope-session-common
 gamescope-htpc-common
 glibc-all-langpacks
 goverlay
+grubby
 gstreamer1-plugins-bad-free.i686
 gstreamer1-plugins-bad-free.x86_64
 gstreamer1-plugins-bad-free-extras.x86_64
@@ -247,7 +266,6 @@ gstreamer1-plugins-ugly-free.i686
 gstreamer1-plugins-ugly-free.x86_64
 gstreamer1.i686
 gstreamer1.x86_64
-HandyGCCS
 hplip
 initscripts
 inkscape
@@ -305,7 +323,6 @@ mariadb-server
 mediawriter
 mesa-libOpenCL
 memtest86+
-starship
 mesa-libGLU.x86_64
 mesa-libGLU.i686
 -musescore
@@ -317,9 +334,9 @@ nobara-repos
 nobara-controller-config
 akmod-nvidia
 nvidia-driver
-nvidia-driver-NVML
-nvidia-driver-NVML.i686
-nvidia-driver-NvFBCOpenGL
+libnvidia-ml
+libnvidia-ml.i686
+libnvidia-fbc
 nvidia-driver-cuda
 nvidia-driver-cuda-libs
 nvidia-driver-cuda-libs.i686
@@ -333,6 +350,7 @@ nvidia-settings
 nvidia-xconfig
 nvidia-vaapi-driver
 nvidia-gpu-firmware
+libnvidia-cfg
 nss-mdns.x86_64
 nss-mdns.i686
 ocl-icd.x86_64
@@ -345,6 +363,7 @@ pavucontrol-qt
 protonup-qt
 qemu-device-display-qxl
 plasma-workspace-wallpapers
+plymouth-plugin-script
 python3-hid
 pulseaudio-libs.x86_64
 pulseaudio-libs.i686
@@ -360,11 +379,13 @@ sane-backends-libs.i686
 sddm-kcm
 sdgyrodsu
 steam
+starship
 kde-steamdeck
 syslinux
 system-config-language
 tcp_wrappers-libs.x86_64
 tcp_wrappers-libs.i686
+umu-launcher
 unixODBC.x86_64
 unixODBC.i686
 bsdtar
@@ -390,6 +411,8 @@ nobara-welcome
 noopenh264
 openrgb
 papirus-icon-theme
+inputplumber
+deckyloader
 libavcodec-free
 libavdevice-free
 libavfilter-free
@@ -399,6 +422,11 @@ libpostproc-free
 libswscale-free
 libswresample-free
 xwaylandvideobridge
+pipewire-jack-audio-connection-kit-libs
+mesa-vdpau-drivers
+mesa-vdpau-drivers.i686
+mesa-va-drivers
+mesa-va-drivers.i686
 -dnfdragora
 -plasma-welcome
 -gstreamer1-plugins-bad-freeworld
@@ -525,8 +553,6 @@ power-profiles-daemon
 -abrt-desktop
 -abrt-java-connector
 -abrt-cli
--ffmpeg
--ffmpeg-libs
 -qgnomeplatform-qt5
 -qgnomeplatform-qt6
 -plasma-discover
