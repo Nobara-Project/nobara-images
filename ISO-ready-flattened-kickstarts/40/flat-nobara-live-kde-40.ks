@@ -146,47 +146,28 @@ EOF
 chown -R liveuser:liveuser /home/liveuser/
 restorecon -R /home/liveuser/
 
-# gnome specific
-
-# set up auto-login
-cat << EOF >> /etc/gdm/custom.conf
-[daemon]
-AutomaticLoginEnable=True
-AutomaticLogin=liveuser
-DefaultSession=gnome-wayland.desktop
+# kde specific
+# set up autologin
+if [ -f /etc/sddm.conf ]; then
+sed -i 's/^#User=.*/User=liveuser/' /etc/sddm.conf
+sed -i 's/^#Session=.*/Session=plasma.desktop/' /etc/sddm.conf
+else
+cat << EOF >> /etc/sddm.conf
+[Autologin]
+User=liveuser
+Session=plasma.desktop
 EOF
-
-# don't autostart gnome-software session service
-rm -f /etc/xdg/autostart/gnome-software-service.desktop
-
-# don't run gnome-initial-setup
-mkdir /home/liveuser/.config
-touch /home/liveuser/.config/gnome-initial-setup-done
-
-# Turn off PackageKit-command-not-found while uninstalled
-if [ -f /etc/PackageKit/CommandNotFound.conf ]; then
-  sed -i -e 's/^SoftwareSourceSearch=true/SoftwareSourceSearch=false/' /etc/PackageKit/CommandNotFound.conf
 fi
 
-# disable the gnome-software shell search provider
-cat << EOF >>  /usr/share/gnome-shell/search-providers/org.gnome.Software-search-provider.ini
-DefaultDisabled=true
+# update grub, set sddm theme for nobara official
+cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
+    - command: "sed -i '/\\\[Theme\\\]/a\\\Current=breeze' /etc/sddm.conf"
+      timeout: 3600
 EOF
 
-# disable gnome-software automatically downloading updates
-cat << EOF >> /usr/share/glib-2.0/schemas/org.gnome.software.gschema.override
-[org.gnome.software]
-download-updates=false
-EOF
+sed -i 's|#Current=.*|Current=breeze|g' /etc/sddm.conf
 
-cat << EOF >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override
-[org.gnome.shell]
-favorite-apps=['org.gnome.Settings.desktop', 'yumex-dnf.desktop', 'org.gnome.Software.desktop', 'org.gnome.Nautilus.desktop', 'firefox.desktop', 'calamares.desktop']
-EOF
-
-# rebuild schema cache with any overrides we installed
-glib-compile-schemas /usr/share/glib-2.0/schemas
-
+# add this regardless, in case user changes gpu from nv to amd
 sed -i 's/"quiet"/"quiet", "amdgpu.ppfeaturemask=0xffffffff"/g' /usr/share/calamares/modules/grubcfg.conf
 
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
@@ -196,27 +177,30 @@ rm -Rf /tmp/*
 
 
 %packages
-@^workstation-product-environment
+@^kde-desktop-environment
 @anaconda-tools
 @fonts
 @guest-desktop-agents
 @hardware-support
+@kde-apps
+@kde-media
+@kde-pim
+@kde-spin-initial-setup
 @multimedia
 @printing
 @standard
 aajohan-comfortaa-fonts
-adwaita-qt5
-adw-gtk3
 alsa-firmware
 apparmor-utils
 apparmor-parser
+ark
 apr
 apr-util
 calamares
-file-roller
 chkconfig
 ds-inhibit
 dracut-live
+fedora-release-kde
 fedora-repos
 fedora-workstation-repositories
 ffmpegthumbs
@@ -230,12 +214,8 @@ gamemode.i686
 ghc-mountpoints
 gamescope
 glibc-all-langpacks
-gnome-icon-theme
-gnome-tweaks
-gnome-startup-applications
 goverlay
 grubby
-gsettings-desktop-schemas
 gstreamer1-plugins-bad-free.i686
 gstreamer1-plugins-bad-free.x86_64
 gstreamer1-plugins-bad-free-extras.x86_64
@@ -248,14 +228,16 @@ gstreamer1-plugins-ugly-free.i686
 gstreamer1-plugins-ugly-free.x86_64
 gstreamer1.i686
 gstreamer1.x86_64
-gedit
 hplip
 initscripts
 inkscape
+kde-runtime
+kf6-kimageformats
 i2c-tools
 libi2c
 json-c.x86_64
 json-c.i686
+kde-l10n
 kernel
 kernel-modules
 kernel-modules-extra
@@ -308,7 +290,6 @@ mesa-libGLU.i686
 -musescore
 mscore-fonts
 neofetch
-nautilus-admin
 nobara-login
 nobara-login-sysctl
 nobara-repos
@@ -322,10 +303,14 @@ libreoffice
 openssl
 openssl-libs.x86_64
 openssl-libs.i686
-pavucontrol
+pavucontrol-qt
 protonup-qt
-qt5ct
 qemu-device-display-qxl
+plasma-lookandfeel-nobara
+plasma-lookandfeel-nobara-sddm
+plasma-workspace-wallpapers
+plasma-discover
+plasma-discover-flatpak
 plymouth-plugin-script
 python3-hid
 pulseaudio-libs.x86_64
@@ -339,7 +324,7 @@ samba-winbind-modules.x86_64
 samba-winbind.x86_64
 sane-backends-libs.x86_64
 sane-backends-libs.i686
-gnome-backgrounds
+sddm-kcm
 sdgyrodsu
 steam
 starship
@@ -363,7 +348,8 @@ zenity
 numactl
 timeshift
 gcc-gfortran
-evince
+okular
+kate
 dnfdaemon
 v4l2loopback
 akmod-v4l2loopback
@@ -372,6 +358,7 @@ nobara-welcome
 noopenh264
 openrgb
 papirus-icon-theme
+inputplumber
 libavcodec-free
 libavdevice-free
 libavfilter-free
@@ -380,13 +367,14 @@ libavformat-free
 libpostproc-free
 libswscale-free
 libswresample-free
+xwaylandvideobridge
 pipewire-jack-audio-connection-kit-libs
 mesa-vdpau-drivers
 mesa-vdpau-drivers.i686
 mesa-va-drivers
 mesa-va-drivers.i686
 -dnfdragora
--gnome-shell-extension-background-logo
+-plasma-welcome
 -gstreamer1-plugins-bad-freeworld
 -gstreamer1-plugins-ugly
 -gstreamer1-libav
@@ -397,22 +385,114 @@ mesa-va-drivers.i686
 -libva-intel-driver
 -intel-media-driver
 power-profiles-daemon
--gnome-tour
--gnome-text-editor
+-kolourpaint
+-kf5-libksane
+-kolourpaint-libs
+-akregator
+-kontact
+-konversation
+-krdc
+-krfb
+-akregator-libs
+-grantlee-editor
+-grantlee-editor-libs
+-kf5-kross-core
+-kmail
+-kmail-account-wizard
+-kmail-libs
+-kontact-libs
+-korganizer
+-korganizer-libs
+-pim-data-exporter
+-pim-data-exporter-libs
+-pim-sieve-editor
+-freerdp
+-freerdp-libs
+-krdc-libs
+-libwinpr
+-krfb-libs
+-kmahjongg
+-kmines
+-kpat
+-freecell-solver-data
+-libblack-hole-solver1
+-libfreecell-solver
+-libkdegames
+-libkmahjongg
+-libkmahjongg-data
+-dragon
+-kaddressbook
+-akonadi-import-wizard
+-cyrus-sasl-md5
+-kaddressbook-libs
+-kdepim-addons
+-kdepim-runtime
+-kdepim-runtime-libs
+-kdiagram
+-kf5-akonadi-calendar
+-kf5-akonadi-mime
+-kf5-akonadi-notes
+-kf5-akonadi-search
+-kf5-calendarsupport
+-kf5-eventviews
+-kf5-incidenceeditor
+-kf5-kcalendarcore
+-kf5-kcalendarutils
+-kf5-kdav
+-kf5-kidentitymanagement
+-kf5-kimap
+-kf5-kitinerary
+-kf5-kldap
+-kf5-kmailtransport
+-kf5-kmailtransport-akonadi
+-kf5-kmbox
+-kf5-kontactinterface
+-kf5-kpimtextedit
+-kf5-kpkpass
+-kf5-ksmtp
+-kf5-ktnef
+-kf5-libgravatar
+-kf5-libkdepim
+-kf5-libkleo
+-kf5-libksieve
+-kf5-mailcommon
+-kf5-mailimporter
+-kf5-mailimporter-akonadi
+-kf5-messagelib
+-kf5-pimcommon
+-kf5-pimcommon-akonadi
+-f38-backgrounds-kde
+-kio-gdrive
+-libkgapi
+-libkolabxml
+-libphonenumber
+-qgpgme
+-qtkeychain-qt5
+-kwrite
+-fedora-repos-modular
+-fedora-workstation-repositories
 -unoconv
--@dial-up
+-@admin-tools
 -@input-methods
 -device-mapper-multipath
+-digikam
 -fcoe-utils
--gfs2-utils
--gnome-boxes
+-gnome-disk-utility
+-iok
+-isdn4k-utils
+-k3b
+-kipi-plugins
+-krusader
+-ktorrent
+-mpage
 -nfs-utils
--reiserfs-utils
-gnome-shell-extension-gamemode
--fedora-repos-modular
+-scim*
+-system-config-printer
+-system-config-services
+-system-config-users
+-xsane
+-xsane-gimp
 -qt5-qtwebengine-freeworld
--appmenu-qt5-profile.d
--appmenu-qt5
 -sushi
 -abrt*
 -gnome-abrt
@@ -421,4 +501,5 @@ gnome-shell-extension-gamemode
 -abrt-cli
 -qgnomeplatform-qt5
 -qgnomeplatform-qt6
+-plasma-discover-packagekit
 %end
