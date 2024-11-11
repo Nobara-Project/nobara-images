@@ -219,6 +219,7 @@ ds-inhibit
 dracut-live
 fedora-repos
 fedora-workstation-repositories
+firefox
 ffmpegthumbs
 flac-libs.x86_64
 flac-libs.i686
