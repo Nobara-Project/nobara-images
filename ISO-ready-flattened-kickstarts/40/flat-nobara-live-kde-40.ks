@@ -306,8 +306,6 @@ openssl-libs.i686
 pavucontrol-qt
 protonup-qt
 qemu-device-display-qxl
-plasma-lookandfeel-nobara
-plasma-lookandfeel-nobara-sddm
 plasma-workspace-wallpapers
 plasma-discover
 plasma-discover-flatpak
