@@ -10,8 +10,8 @@ lang en_US.UTF-8
 network  --bootproto=dhcp --device=link --activate
 # Shutdown after installation
 shutdown
-repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasever/
-repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/
+repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasever/ --cost=100
+repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/ --cost=100
 repo --name="nobara-baseos" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-40/fedora-$releasever-$basearch/ --cost=50
 repo --name="nobara-baseos-multilib" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-40/fedora-$releasever-i386/ --cost=50
 repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=50 --exclude=nobara-resolve-runtime,ffmpeg,ffmpeg-libs,libavcodec-freeworld,libavdevice,mesa-va-drivers-freeworld,mesa-vdpau-drivers-freeworld
