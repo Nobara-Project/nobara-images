@@ -10,12 +10,12 @@ lang en_US.UTF-8
 network  --bootproto=dhcp --device=link --activate
 # Shutdown after installation
 shutdown
-repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasever/ --cost=100
-repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/ --cost=100
-repo --name="nobara-baseos" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-40/fedora-$releasever-$basearch/ --cost=50
-repo --name="nobara-baseos-multilib" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-40/fedora-$releasever-i386/ --cost=50
-repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=50 --exclude=nobara-resolve-runtime,ffmpeg,ffmpeg-libs,libavcodec-freeworld,libavdevice,mesa-va-drivers-freeworld,mesa-vdpau-drivers-freeworld
-repo --name="nobara-rocm-official" --baseurl=https://repo.radeon.com/rocm/rhel9/5.6.1/main/ --cost=50
+repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasever/ --cost=99
+repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/ --cost=99
+repo --name="nobara-baseos" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-40/fedora-$releasever-$basearch/ --cost=1
+repo --name="nobara-baseos-multilib" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-40/fedora-$releasever-i386/ --cost=1
+repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=1 --exclude=nobara-resolve-runtime,ffmpeg,ffmpeg-libs,libavcodec-freeworld,libavdevice,mesa-va-drivers-freeworld,mesa-vdpau-drivers-freeworld
+repo --name="nobara-rocm-official" --baseurl=https://repo.radeon.com/rocm/rhel9/5.6.1/main/ --cost=1
 # Root password
 rootpw --iscrypted --lock locked
 # SELinux configuration
