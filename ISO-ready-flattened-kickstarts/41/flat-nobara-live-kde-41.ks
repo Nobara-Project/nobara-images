@@ -304,7 +304,7 @@ openssl
 openssl-libs.x86_64
 openssl-libs.i686
 pavucontrol-qt
-protonup-qt
+protonplus
 qemu-device-display-qxl
 plasma-workspace-wallpapers
 plasma-discover

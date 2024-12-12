@@ -322,7 +322,7 @@ openssl
 openssl-libs.x86_64
 openssl-libs.i686
 pavucontrol
-protonup-qt
+protonplus
 qt5ct
 qemu-device-display-qxl
 plymouth-plugin-script
