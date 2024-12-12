@@ -339,7 +339,7 @@ openssl
 openssl-libs.x86_64
 openssl-libs.i686
 pavucontrol-qt
-protonplus
+protonplus-next
 qemu-device-display-qxl
 plasma-workspace-wallpapers
 plasma-discover
@@ -439,10 +439,6 @@ power-profiles-daemon
 -pim-data-exporter
 -pim-data-exporter-libs
 -pim-sieve-editor
--freerdp
--freerdp-libs
--krdc-libs
--libwinpr
 -krfb-libs
 -kmahjongg
 -kmines
