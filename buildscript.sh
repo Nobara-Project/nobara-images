@@ -26,7 +26,7 @@ livemedia-creator --ks flat-nobara-live-steam-htpc-41.ks --no-virt --resultdir /
 mv /var/lmc/*.iso builds/
 rm -Rf /var/lmc/
 
-livemedia-creator --ks flat-nobara-live-steam-handheld-41.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-41 --iso-only --iso-name Nobara-41-Steam-Handheld-$(date +%F).iso --releasever 41 --macboot
+livemedia-creator --ks flat-nobara-live-steam-handheld-41.ks --no-virt --resultdir /var/lmc --project Nobara --make-iso --volid Nobara-41 --iso-only --iso-name Nobara-41-Steam-Handheld-$(date +%F).iso --releasever 41 --macboot --extra-boot-args "video=efifb fbcon=rotate:1"
 
 mv /var/lmc/*.iso builds/
 rm -Rf /var/lmc/
