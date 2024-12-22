@@ -14,7 +14,7 @@ repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasev
 repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/ --cost=99
 repo --name="nobara-baseos" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-41/fedora-$releasever-$basearch/ --cost=1
 repo --name="nobara-baseos-multilib" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-41/fedora-$releasever-i386/ --cost=1
-repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=1 --exclude=nobara-resolve-runtime,ffmpeg,ffmpeg-libs,libavcodec-freeworld,libavdevice,mesa-va-drivers-freeworld,mesa-vdpau-drivers-freeworld
+repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=1 --exclude=nobara-resolve-runtime,ffmpeg,ffmpeg-libs,libavcodec-freeworld,libavdevice,mesa-va-drivers-freeworld,mesa-vdpau-drivers-freeworld,mesa-libgallium-freeworld
 # Root password
 rootpw --iscrypted --lock locked
 # SELinux configuration

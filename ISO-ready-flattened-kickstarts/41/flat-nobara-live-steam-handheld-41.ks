@@ -14,7 +14,7 @@ repo --name="fedora" --baseurl=https://nobara-fedora.nobaraproject.org/$releasev
 repo --name="fedora-updates" --baseurl=https://nobara-fedora-updates.nobaraproject.org/$releasever/ --cost=99
 repo --name="nobara-baseos" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-41/fedora-$releasever-$basearch/ --cost=1
 repo --name="nobara-baseos-multilib" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/nobara-41/fedora-$releasever-i386/ --cost=1
-repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=1 --exclude=nobara-resolve-runtime,ffmpeg,ffmpeg-libs,libavcodec-freeworld,libavdevice,mesa-va-drivers-freeworld,mesa-vdpau-drivers-freeworld
+repo --name="nobara-appstream" --baseurl=https://nobara-appstream.nobaraproject.org/$releasever/$basearch --cost=1 --exclude=nobara-resolve-runtime,ffmpeg,ffmpeg-libs,libavcodec-freeworld,libavdevice,mesa-va-drivers-freeworld,mesa-vdpau-drivers-freeworld,mesa-libgallium-freeworld
 # Root password
 rootpw --iscrypted --lock locked
 # SELinux configuration
@@ -174,11 +174,15 @@ cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
       timeout: 3600
     - command: "echo \"GRUB_HIDDEN_TIMEOUT_QUIET='true'\" >> /etc/default/grub"
       timeout: 3600
+    - command: "echo \"GRUB_CMDLINE_LINUX='video=efifb fbcon=rotate:1'\" >> /etc/default/grub"
+      timeout: 3600
     - command: "/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg"
       timeout: 3600
     - command: "/usr/sbin/plymouth-set-default-theme steamos"
       timeout: 3600
     - command: "/usr/bin/dracut --regenerate-all --force"
+      timeout: 3600
+    - command: "rm -Rf /etc/xdg/autostart/steamdeck-check.desktop /usr/bin/steamdeck-check /etc/xdg/autostart/ally-check.desktop /usr/bin/ally-check"
       timeout: 3600
 EOF
 
@@ -190,6 +194,50 @@ cat <<'EOF' > /usr/bin/steamdeck-check
 
 # Check dmesg for the words "Galileo" or "Jupiter"
 if ! dmesg | grep -q -E "Galileo|Jupiter"; then
+  cat << 'EOC' > /usr/share/calamares/modules/shellprocess.conf
+    - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
+      timeout: 3600
+    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
+      timeout: 3600
+    - command: "sed -i '/\\\[Theme\\\]/a\\\Current=sugar-dark' /etc/sddm.conf"
+      timeout: 3600
+    - command: "sed -i \"s/GRUB_TIMEOUT='5'/GRUB_TIMEOUT='0'/g\" /etc/default/grub"
+      timeout: 3600
+    - command: "echo \"GRUB_TIMEOUT_STYLE='hidden'\" >> /etc/default/grub"
+      timeout: 3600
+    - command: "echo \"GRUB_HIDDEN_TIMEOUT='0'\" >> /etc/default/grub"
+      timeout: 3600
+    - command: "echo \"GRUB_HIDDEN_TIMEOUT_QUIET='true'\" >> /etc/default/grub"
+      timeout: 3600
+    - command: "echo \"GRUB_CMDLINE_LINUX='video=efifb fbcon=rotate:1'\" >> /etc/default/grub"
+      timeout: 3600
+    - command: "/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg"
+      timeout: 3600
+    - command: "/usr/sbin/plymouth-set-default-theme steamos"
+      timeout: 3600
+    - command: "/usr/bin/dracut --regenerate-all --force"
+      timeout: 3600
+    - command: "rpm -e --nodeps steamdeck-dsp"
+      timeout: 3600
+    - command: "rpm -e --nodeps steamdeck-firmware"
+      timeout: 3600
+    - command: "rpm -e --nodeps jupiter-hw-support"
+      timeout: 3600
+    - command: "rpm -e --nodeps jupiter-fan-control"
+      timeout: 3600
+    - command: "rm -Rf /etc/xdg/autostart/steamdeck-check.desktop /usr/bin/steamdeck-check /etc/xdg/autostart/ally-check.desktop /usr/bin/ally-check"
+      timeout: 3600
+EOC
+fi
+EOF
+
+# Check for native landscape devices and remove rotation if so
+# steamdeck specific package check
+cat <<'EOF' > /usr/bin/ally-check
+#!/bin/bash
+
+# Check dmesg for the words "Ally"
+if dmesg | grep -q -E "ROG Ally"; then
   cat << 'EOC' > /usr/share/calamares/modules/shellprocess.conf
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
@@ -219,6 +267,8 @@ if ! dmesg | grep -q -E "Galileo|Jupiter"; then
       timeout: 3600
     - command: "rpm -e --nodeps jupiter-fan-control"
       timeout: 3600
+    - command: "rm -Rf /etc/xdg/autostart/steamdeck-check.desktop /usr/bin/steamdeck-check /etc/xdg/autostart/ally-check.desktop /usr/bin/ally-check"
+      timeout: 3600
 EOC
 fi
 EOF
@@ -226,8 +276,9 @@ EOF
 sed -i 's/"quiet"/"quiet", "amdgpu.ppfeaturemask=0xffffffff"/g' /usr/share/calamares/modules/grubcfg.conf
 
 
-# Make the script executable
+# Make the scripts executable
 chmod +x /usr/bin/steamdeck-check
+chmod +x /usr/bin/ally-check
 
 # Create the .desktop file in /etc/xdg/autostart/
 cat <<EOF > /etc/xdg/autostart/steamdeck-check.desktop
@@ -239,6 +290,18 @@ NoDisplay=false
 X-GNOME-Autostart-enabled=true
 Name=Steamdeck Check
 Comment=Run steamdeck-check script at startup
+EOF
+
+# Create the .desktop file in /etc/xdg/autostart/
+cat <<EOF > /etc/xdg/autostart/ally-check.desktop
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/ally-check
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Steamdeck Check
+Comment=Run ally-check script at startup
 EOF
 
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
