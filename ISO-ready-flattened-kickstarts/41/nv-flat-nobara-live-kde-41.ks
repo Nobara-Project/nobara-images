@@ -391,6 +391,8 @@ nobara-welcome
 noopenh264
 openrgb
 papirus-icon-theme
+papirus-icon-theme-dark
+papirus-folders
 inputplumber
 libavcodec-free
 libavdevice-free
