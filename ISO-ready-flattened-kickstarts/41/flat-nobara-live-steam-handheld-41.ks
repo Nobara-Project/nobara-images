@@ -189,12 +189,15 @@ EOF
 sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 
 # steamdeck specific package check
-cat <<'EOF' > /usr/bin/steamdeck-check
+cat << EOF >> /usr/bin/steamdeck-check
 #!/bin/bash
 
 # Check dmesg for the words "Galileo" or "Jupiter"
 if ! dmesg | grep -q -E "Galileo|Jupiter"; then
-  cat << 'EOC' > /usr/share/calamares/modules/shellprocess.conf
+  # Not a steamdeck, dont enable steamdeck fan control
+  systemctl disable jupiter-fan-control
+
+  cat << EOC >> /usr/share/calamares/modules/shellprocess.conf
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
@@ -233,12 +236,12 @@ EOF
 
 # Check for native landscape devices and remove rotation if so
 # steamdeck specific package check
-cat <<'EOF' > /usr/bin/ally-check
+cat << EOF >> /usr/bin/ally-check
 #!/bin/bash
 
 # Check dmesg for the words "Ally"
 if dmesg | grep -q -E "ROG Ally"; then
-  cat << 'EOC' > /usr/share/calamares/modules/shellprocess.conf
+  cat << EOC >> /usr/share/calamares/modules/shellprocess.conf
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
@@ -281,7 +284,7 @@ chmod +x /usr/bin/steamdeck-check
 chmod +x /usr/bin/ally-check
 
 # Create the .desktop file in /etc/xdg/autostart/
-cat <<EOF > /etc/xdg/autostart/steamdeck-check.desktop
+cat << EOF >> /etc/xdg/autostart/steamdeck-check.desktop
 [Desktop Entry]
 Type=Application
 Exec=/usr/bin/steamdeck-check
@@ -293,7 +296,7 @@ Comment=Run steamdeck-check script at startup
 EOF
 
 # Create the .desktop file in /etc/xdg/autostart/
-cat <<EOF > /etc/xdg/autostart/ally-check.desktop
+cat << EOF >> /etc/xdg/autostart/ally-check.desktop
 [Desktop Entry]
 Type=Application
 Exec=/usr/bin/ally-check
