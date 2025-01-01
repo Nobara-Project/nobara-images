@@ -467,6 +467,7 @@ sddm-kcm
 sdgyrodsu
 steam
 starship
+sunshine
 kde-steamdeck
 steamdeck-dsp
 steamdeck-firmware
