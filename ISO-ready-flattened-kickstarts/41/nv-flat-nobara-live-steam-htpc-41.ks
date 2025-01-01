@@ -171,6 +171,10 @@ fi
 
 # nvidia modules, update grub, set sddm to autolog into gamescope
 cat > /usr/share/calamares/modules/shellprocess.conf << EOF
+dontChroot: false
+timeout: 10
+verbose: false
+script:
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"

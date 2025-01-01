@@ -200,6 +200,10 @@ cat > /usr/bin/steamdeck-check << EOF
 if ! dmesg | grep -q -E "Galileo|Jupiter"; then
   rm /usr/share/calamares/modules/shellprocess.conf
   cat << EOC >> /usr/share/calamares/modules/shellprocess.conf
+dontChroot: false
+timeout: 10
+verbose: false
+script:
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
@@ -247,6 +251,10 @@ cat > /usr/bin/ally-check << EOF
 if dmesg | grep -q -E "ROG Ally"; then
   rm /usr/share/calamares/modules/shellprocess.conf
   cat << EOC >> /usr/share/calamares/modules/shellprocess.conf
+dontChroot: false
+timeout: 10
+verbose: false
+script:
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
