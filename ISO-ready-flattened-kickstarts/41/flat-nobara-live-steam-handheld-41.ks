@@ -189,14 +189,15 @@ EOF
 
 sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 
+# Don't enable jupiter fan control in live environment
+systemctl disable jupiter-fan-control
+
 # steamdeck specific package check
 cat > /usr/bin/steamdeck-check << EOF
 #!/bin/bash
 
 # Check dmesg for the words "Galileo" or "Jupiter"
 if ! dmesg | grep -q -E "Galileo|Jupiter"; then
-  # Not a steamdeck, dont enable steamdeck fan control
-  systemctl disable jupiter-fan-control
 
   cat << EOC >> /usr/share/calamares/modules/shellprocess.conf
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
