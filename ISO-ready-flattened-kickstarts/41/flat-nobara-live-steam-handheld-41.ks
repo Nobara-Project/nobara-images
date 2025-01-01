@@ -467,7 +467,6 @@ sddm-kcm
 sdgyrodsu
 steam
 starship
-sunshine
 opengamepadui
 kde-steamdeck
 steamdeck-dsp
@@ -517,7 +516,8 @@ libpostproc-free
 libswscale-free
 libswresample-free
 xwaylandvideobridge
-pipewire-jack-audio-connection-kit-libs
+pipewire-jack-audio-connection-kit-libs'
+sunshine
 mesa-vdpau-drivers
 mesa-vdpau-drivers.i686
 mesa-va-drivers
