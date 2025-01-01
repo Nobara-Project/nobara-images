@@ -114,7 +114,7 @@ cp -a /usr/share/applications/calamares.desktop /home/liveuser/Desktop/
 chmod a+x /home/liveuser/Desktop/*
 
 # Create /usr/bin/liveuser_clean script
-cat << 'EOF' > /home/liveuser/liveuser_clean
+cat > /home/liveuser/liveuser_clean << EOF
 #!/bin/bash
 
 rm /home/liveuser/Desktop/steam.desktop
@@ -128,7 +128,7 @@ chmod +x /home/liveuser/liveuser_clean
 
 mkdir /home/liveuser/.config/autostart/
 # Create /etc/xdg/autostart/liveuser_clean.desktop
-cat << 'EOF' > /home/liveuser/.config/autostart/liveuser_clean.desktop
+cat > /home/liveuser/.config/autostart/liveuser_clean.desktop << EOF
 [Desktop Entry]
 Type=Application
 Exec=/home/liveuser/liveuser_clean
@@ -151,7 +151,7 @@ if [ -f /etc/sddm.conf ]; then
 sed -i 's/^#User=.*/User=liveuser/' /etc/sddm.conf
 sed -i 's/^#Session=.*/Session=plasma.desktop/' /etc/sddm.conf
 else
-cat << EOF >> /etc/sddm.conf
+cat > /etc/sddm.conf << EOF
 [Autologin]
 User=liveuser
 Session=plasma.desktop
@@ -159,7 +159,7 @@ EOF
 fi
 
 # update grub, set sddm to autolog into gamescope
-cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
+cat > /usr/share/calamares/modules/shellprocess.conf << EOF
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
@@ -189,7 +189,7 @@ EOF
 sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 
 # steamdeck specific package check
-cat << EOF >> /usr/bin/steamdeck-check
+cat > /usr/bin/steamdeck-check << EOF
 #!/bin/bash
 
 # Check dmesg for the words "Galileo" or "Jupiter"
@@ -236,7 +236,7 @@ EOF
 
 # Check for native landscape devices and remove rotation if so
 # steamdeck specific package check
-cat << EOF >> /usr/bin/ally-check
+cat > /usr/bin/ally-check << EOF
 #!/bin/bash
 
 # Check dmesg for the words "Ally"
@@ -284,7 +284,7 @@ chmod +x /usr/bin/steamdeck-check
 chmod +x /usr/bin/ally-check
 
 # Create the .desktop file in /etc/xdg/autostart/
-cat << EOF >> /etc/xdg/autostart/steamdeck-check.desktop
+cat > /etc/xdg/autostart/steamdeck-check.desktop << EOF
 [Desktop Entry]
 Type=Application
 Exec=/usr/bin/steamdeck-check
@@ -296,7 +296,7 @@ Comment=Run steamdeck-check script at startup
 EOF
 
 # Create the .desktop file in /etc/xdg/autostart/
-cat << EOF >> /etc/xdg/autostart/ally-check.desktop
+cat > /etc/xdg/autostart/ally-check.desktop << EOF
 [Desktop Entry]
 Type=Application
 Exec=/usr/bin/ally-check
@@ -468,6 +468,7 @@ sdgyrodsu
 steam
 starship
 sunshine
+opengamepadui
 kde-steamdeck
 steamdeck-dsp
 steamdeck-firmware
