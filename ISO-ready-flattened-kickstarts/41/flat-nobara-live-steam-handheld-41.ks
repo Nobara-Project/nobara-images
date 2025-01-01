@@ -198,7 +198,7 @@ cat > /usr/bin/steamdeck-check << EOF
 
 # Check dmesg for the words "Galileo" or "Jupiter"
 if ! dmesg | grep -q -E "Galileo|Jupiter"; then
-
+  rm /usr/share/calamares/modules/shellprocess.conf
   cat << EOC >> /usr/share/calamares/modules/shellprocess.conf
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
@@ -233,6 +233,9 @@ if ! dmesg | grep -q -E "Galileo|Jupiter"; then
     - command: "rm -Rf /etc/xdg/autostart/steamdeck-check.desktop /usr/bin/steamdeck-check /etc/xdg/autostart/ally-check.desktop /usr/bin/ally-check"
       timeout: 3600
 EOC
+else
+    # Enable jupiter-fan-control after user session starts
+    systemctl enable --now jupiter-fan-control
 fi
 EOF
 
@@ -240,9 +243,9 @@ EOF
 # steamdeck specific package check
 cat > /usr/bin/ally-check << EOF
 #!/bin/bash
-
 # Check dmesg for the words "Ally"
 if dmesg | grep -q -E "ROG Ally"; then
+  rm /usr/share/calamares/modules/shellprocess.conf
   cat << EOC >> /usr/share/calamares/modules/shellprocess.conf
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
@@ -285,11 +288,11 @@ sed -i 's/"quiet"/"quiet", "amdgpu.ppfeaturemask=0xffffffff"/g' /usr/share/calam
 chmod +x /usr/bin/steamdeck-check
 chmod +x /usr/bin/ally-check
 
-# Create the .desktop file in /etc/xdg/autostart/
-cat > /etc/xdg/autostart/steamdeck-check.desktop << EOF
+# Create the autostart file
+cat > /home/liveuser/.config/autostart/steamdeck-check.desktop << EOF
 [Desktop Entry]
 Type=Application
-Exec=/usr/bin/steamdeck-check
+Exec=sudo /usr/bin/steamdeck-check
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
@@ -297,20 +300,17 @@ Name=Steamdeck Check
 Comment=Run steamdeck-check script at startup
 EOF
 
-# Create the .desktop file in /etc/xdg/autostart/
-cat > /etc/xdg/autostart/ally-check.desktop << EOF
+# Create the autostart file
+cat > /home/liveuser/.config/autostart/ally-check.desktop << EOF
 [Desktop Entry]
 Type=Application
-Exec=/usr/bin/ally-check
+Exec=sudo /usr/bin/ally-check
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
 Name=Steamdeck Check
 Comment=Run ally-check script at startup
 EOF
-
-cp /etc/xdg/autostart/steamdeck-check.desktop /home/liveuser/.config/autostart/
-cp /etc/xdg/autostart/ally-check.desktop /home/liveuser/.config/autostart/
 
 # make sure to set the right permissions and selinux contexts
 chown -R liveuser:liveuser /home/liveuser/
