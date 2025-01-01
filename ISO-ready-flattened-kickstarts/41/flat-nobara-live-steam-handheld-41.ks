@@ -121,6 +121,11 @@ rm /home/liveuser/Desktop/steam.desktop
 rm /home/liveuser/Desktop/Return.desktop
 rm /home/liveuser/Desktop/RemoteHost.desktop
 rm /home/liveuser/.config/autostart/steam.desktop
+
+rm /etc/skel/Desktop/steam.desktop
+rm /etc/skel/Desktop/Return.desktop
+rm /etc/skel/Desktop/RemoteHost.desktop
+rm /etc/xdg/autostart/steam.desktop
 EOF
 
 # Make the script executable
@@ -140,10 +145,6 @@ Name=Liveuser Clean
 Comment[en_US]=Clean up desktop files for liveuser
 Comment=Clean up desktop files for liveuser
 EOF
-
-# make sure to set the right permissions and selinux contexts
-chown -R liveuser:liveuser /home/liveuser/
-restorecon -R /home/liveuser/
 
 # kde specific
 # set up autologin
@@ -306,6 +307,13 @@ X-GNOME-Autostart-enabled=true
 Name=Steamdeck Check
 Comment=Run ally-check script at startup
 EOF
+
+cp /etc/xdg/autostart/steamdeck-check.desktop /home/liveuser/.config/autostart/
+cp /etc/xdg/autostart/ally-check.desktop /home/liveuser/.config/autostart/
+
+# make sure to set the right permissions and selinux contexts
+chown -R liveuser:liveuser /home/liveuser/
+restorecon -R /home/liveuser/
 
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*

@@ -121,6 +121,11 @@ rm /home/liveuser/Desktop/steam.desktop
 rm /home/liveuser/Desktop/Return.desktop
 rm /home/liveuser/Desktop/RemoteHost.desktop
 rm /home/liveuser/.config/autostart/steam.desktop
+
+rm /etc/skel/Desktop/steam.desktop
+rm /etc/skel/Desktop/Return.desktop
+rm /etc/skel/Desktop/RemoteHost.desktop
+rm /etc/xdg/autostart/steam.desktop
 EOF
 
 # Make the script executable
