@@ -208,7 +208,7 @@ script:
       timeout: 3600
     - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
       timeout: 3600
-    - command: "sed -i '/\\[Theme\\]/a\\Current=sugar-dark' /etc/sddm.conf"
+    - command: "sed -i '/\\\[Theme\\]/a\\\Current=sugar-dark' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i \"s/GRUB_TIMEOUT='5'/GRUB_TIMEOUT='0'/g\" /etc/default/grub"
       timeout: 3600
@@ -259,7 +259,7 @@ script:
       timeout: 3600
     - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
       timeout: 3600
-    - command: "sed -i '/\\[Theme\\]/a\\Current=sugar-dark' /etc/sddm.conf"
+    - command: "sed -i '/\\\[Theme\\\]/a\\\Current=sugar-dark' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i \"s/GRUB_TIMEOUT='5'/GRUB_TIMEOUT='0'/g\" /etc/default/grub"
       timeout: 3600
