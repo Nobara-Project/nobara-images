@@ -136,7 +136,7 @@ mkdir /home/liveuser/.config/autostart/
 cat > /home/liveuser/.config/autostart/liveuser_clean.desktop << EOF
 [Desktop Entry]
 Type=Application
-Exec=/home/liveuser/liveuser_clean
+Exec=sudo /home/liveuser/liveuser_clean
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
@@ -163,9 +163,9 @@ fi
 cat > /usr/share/calamares/modules/shellprocess.conf << EOF
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
-    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\\Relogin=true' /etc/sddm.conf"
+    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
       timeout: 3600
-    - command: "sed -i '/\\\\[Theme\\\\]/a\\\\Current=sugar-dark' /etc/sddm.conf"
+    - command: "sed -i '/\\\[Theme\\\]/a\\\Current=sugar-dark' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i \"s/GRUB_TIMEOUT='5'/GRUB_TIMEOUT='0'/g\" /etc/default/grub"
       timeout: 3600
@@ -183,7 +183,7 @@ cat > /usr/share/calamares/modules/shellprocess.conf << EOF
       timeout: 3600
     - command: "/usr/bin/dracut --regenerate-all --force"
       timeout: 3600
-    - command: "rm -Rf /etc/xdg/autostart/steamdeck-check.desktop /usr/bin/steamdeck-check /etc/xdg/autostart/ally-check.desktop /usr/bin/ally-check"
+    - command: "rm -Rf /etc/xdg/autostart/orientation-check.desktop /usr/bin/orientation-check"
       timeout: 3600
 EOF
 
@@ -191,159 +191,138 @@ sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 
 # Don't enable jupiter fan control in live environment
 systemctl disable jupiter-fan-control
+systemctl disable jupiter-controller-update
 
-# steamdeck specific package check
-cat > /usr/bin/steamdeck-check << EOF
+# orientation check
+cat > /usr/bin/orientation-check << EOF
 #!/bin/bash
 
 # Check dmesg for the words "Galileo" or "Jupiter"
-if ! dmesg | grep -q -E "Galileo|Jupiter"; then
-  rm /usr/share/calamares/modules/shellprocess.conf
-  cat << EOC >> /usr/share/calamares/modules/shellprocess.conf
-dontChroot: false
-timeout: 10
-verbose: false
-script:
-    - command: "/bin/kernel-install add $(ls /lib/modules) /lib/modules/$(ls /lib/modules)/vmlinuz"
-      timeout: 3600
-    - command: "/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg"
-      timeout: 3600
-    - command: "/usr/bin/dracut -f"
-      timeout: 3600
-    - "echo \"search --no-floppy --fs-uuid --set=dev $(cat /etc/fstab | grep boot | grep -v efi | cut -d \" \" -f 1 | cut -d \"=\" -f 2)\" > /boot/efi/EFI/fedora/grub.cfg"
-    - "echo \"set prefix=($$dev)/grub2\" >> /boot/efi/EFI/fedora/grub.cfg"
-    - "echo \"export $$prefix\" >> /boot/efi/EFI/fedora/grub.cfg"
-    - "echo \"configfile $$prefix/grub.cfg\" >> /boot/efi/EFI/fedora/grub.cfg"
-    - "echo 'Exec=steam steam://unlockh264' >> /usr/share/applications/steam.desktop"
-    - "echo 'yes' > /etc/nobara/newinstall"
-    - "authselect enable-feature with-fingerprint"
-    - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
-      timeout: 3600
-    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\\Relogin=true' /etc/sddm.conf"
-      timeout: 3600
-    - command: "sed -i '/\\\\[Theme\\]/a\\\\Current=sugar-dark' /etc/sddm.conf"
-      timeout: 3600
-    - command: "sed -i \"s/GRUB_TIMEOUT='5'/GRUB_TIMEOUT='0'/g\" /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_TIMEOUT_STYLE='hidden'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_HIDDEN_TIMEOUT='0'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_HIDDEN_TIMEOUT_QUIET='true'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_CMDLINE_LINUX='video=efifb fbcon=rotate:1'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg"
-      timeout: 3600
-    - command: "/usr/sbin/plymouth-set-default-theme steamos"
-      timeout: 3600
-    - command: "/usr/bin/dracut --regenerate-all --force"
-      timeout: 3600
-    - command: "rpm -e --nodeps steamdeck-dsp"
-      timeout: 3600
-    - command: "rpm -e --nodeps steamdeck-firmware"
-      timeout: 3600
-    - command: "rpm -e --nodeps jupiter-hw-support"
-      timeout: 3600
-    - command: "rpm -e --nodeps jupiter-fan-control"
-      timeout: 3600
-    - command: "rm -Rf /etc/xdg/autostart/steamdeck-check.desktop /usr/bin/steamdeck-check /etc/xdg/autostart/ally-check.desktop /usr/bin/ally-check"
-      timeout: 3600
-EOC
-else
-    # Enable jupiter-fan-control after user session starts
-    systemctl enable --now jupiter-fan-control
-fi
-EOF
 
-# Check for native landscape devices and remove rotation if so
-# steamdeck specific package check
-cat > /usr/bin/ally-check << EOF
-#!/bin/bash
-# Check dmesg for the words "Ally"
-if dmesg | grep -q -E "ROG Ally"; then
-  rm /usr/share/calamares/modules/shellprocess.conf
-  cat << EOC >> /usr/share/calamares/modules/shellprocess.conf
-dontChroot: false
-timeout: 10
-verbose: false
-script:
-    - command: "/bin/kernel-install add $(ls /lib/modules) /lib/modules/$(ls /lib/modules)/vmlinuz"
-      timeout: 3600
-    - command: "/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg"
-      timeout: 3600
-    - command: "/usr/bin/dracut -f"
-      timeout: 3600
-    - "echo \"search --no-floppy --fs-uuid --set=dev $(cat /etc/fstab | grep boot | grep -v efi | cut -d \" \" -f 1 | cut -d \"=\" -f 2)\" > /boot/efi/EFI/fedora/grub.cfg"
-    - "echo \"set prefix=($$dev)/grub2\" >> /boot/efi/EFI/fedora/grub.cfg"
-    - "echo \"export $$prefix\" >> /boot/efi/EFI/fedora/grub.cfg"
-    - "echo \"configfile $$prefix/grub.cfg\" >> /boot/efi/EFI/fedora/grub.cfg"
-    - "echo 'Exec=steam steam://unlockh264' >> /usr/share/applications/steam.desktop"
-    - "echo 'yes' > /etc/nobara/newinstall"
-    - "authselect enable-feature with-fingerprint"
-    - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
-      timeout: 3600
-    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\Relogin=true' /etc/sddm.conf"
-      timeout: 3600
-    - command: "sed -i '/\\[Theme\\]/a\\Current=sugar-dark' /etc/sddm.conf"
-      timeout: 3600
-    - command: "sed -i \"s/GRUB_TIMEOUT='5'/GRUB_TIMEOUT='0'/g\" /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_TIMEOUT_STYLE='hidden'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_HIDDEN_TIMEOUT='0'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_HIDDEN_TIMEOUT_QUIET='true'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg"
-      timeout: 3600
-    - command: "/usr/sbin/plymouth-set-default-theme steamos"
-      timeout: 3600
-    - command: "/usr/bin/dracut --regenerate-all --force"
-      timeout: 3600
-    - command: "rpm -e --nodeps steamdeck-dsp"
-      timeout: 3600
-    - command: "rpm -e --nodeps steamdeck-firmware"
-      timeout: 3600
-    - command: "rpm -e --nodeps jupiter-hw-support"
-      timeout: 3600
-    - command: "rpm -e --nodeps jupiter-fan-control"
-      timeout: 3600
-    - command: "rm -Rf /etc/xdg/autostart/steamdeck-check.desktop /usr/bin/steamdeck-check /etc/xdg/autostart/ally-check.desktop /usr/bin/ally-check"
-      timeout: 3600
-EOC
+if [ -x /usr/libexec/hwsupport/sysid ]; then
+  # If present, use script to clean up hardware with insignificant product name changes, such as the ROG Ally.
+  SYS_ID="$(/usr/libexec/hwsupport/sysid)"
+else
+  SYS_ID="$(cat /sys/devices/virtual/dmi/id/product_name)"
+fi
+CPU_VENDOR="$(lscpu | grep "Vendor ID" | cut -d : -f 2 | xargs)"
+
+# OXP 60Hz Devices
+OXP_LIST="ONE XPLAYER:ONEXPLAYER 1 T08:ONEXPLAYER 1S A08:ONEXPLAYER 1S T08:ONEXPLAYER mini A07:ONEXPLAYER mini GA72:ONEXPLAYER mini GT72:ONEXPLAYER Mini Pro:ONEXPLAYER GUNDAM GA72:ONEXPLAYER 2 ARP23:ONEXPLAYER 2 PRO ARP23H:ONEXPLAYER 2 PRO ARP23P:ONEXPLAYER 2 PRO ARP23P EVA-01"
+AOK_LIST="AOKZOE A1 AR07:AOKZOE A1 Pro"
+if [[ ":$OXP_LIST:" =~ ":$SYS_ID:"  ]] || [[  ":$AOK_LIST:" =~ ":$SYS_ID:"   ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.left /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# OXP 120Hz Devices
+OXP_120_LIST="ONEXPLAYER F1"
+if [[ ":$OXP_120_LIST:" =~ ":$SYS_ID:"  ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.left /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# AYANEO AIR, SLIDE, and FLIP Keyboard Devices
+AIR_LIST="AIR:AIR Pro:AIR Plus:SLIDE:FLIP KB:"
+if [[ ":$AIR_LIST:" =~ ":$SYS_ID:"  ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.left /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# AYANEO FLIP Dual Screen
+if [[ ":FLIP DS:" =~ ":$SYS_ID:" ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.left /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# AYN Loki Devices
+AYN_LIST="Loki Max:Loki Zero:Loki MiniPro"
+if [[ ":$AYN_LIST:" =~ ":$SYS_ID:"  ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.left /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# GDP Win devices
+GDP_LIST="G1619-01:G1621-02:MicroPC:WIN2"
+if [[ ":$GDP_LIST:" =~ ":$SYS_ID:"  ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.right /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# GPD Win 3 specifc quirk to prevent crashing
+  # The GPD Win 3 does not support hardware rotation for 270/90 modes. We need to implement shader rotations to get this working correctly.
+  # 0/180 rotations should work.
+if [[ ":G1618-03:" =~ ":$SYS_ID:"  ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.right /usr/share/calamares/modules/shellprocess.conf
+fi
+
+#GPD Win 4 supports 40-60hz refresh rate changing
+if [[ ":G1618-04:" =~ ":$SYS_ID:"  ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.landscape /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# GPD Win Max 2 supports 40,60hz
+if [[ ":G1619-04:" =~ ":$SYS_ID:"  ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.landscape /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# GPD Win mini
+if [[ ":G1617-01:" =~ ":$SYS_ID:"  ]]; then
+  if ( xrandr --prop 2>$1 | grep -e "1080x1920 " > /dev/null ) ; then
+     cp /usr/share/calamares/modules/shellprocess.conf.right /usr/share/calamares/modules/shellprocess.conf
+  fi
+
+  # 2024 Model w/ VRR
+  if ( xrandr --prop 2>$1 | grep -e "1920x1080 " > /dev/null ) ; then
+     cp /usr/share/calamares/modules/shellprocess.conf.landscape /usr/share/calamares/modules/shellprocess.conf
+  fi
+fi
+
+# Steam Deck (Common)
+if [[ ":Jupiter:Galileo:" =~ ":$SYS_ID:" ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.left /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# Steam Deck (LCD)
+if [[ ":Jupiter:" =~ ":$SYS_ID:" ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.left /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# Steam Deck (OLED)
+if [[ ":Galileo:" =~ ":$SYS_ID:" ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.left /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# ROG Ally & ROG Ally X
+if [[ ":ROG Ally RC71L:ROG Ally X RC72LA:" =~ ":$SYS_ID:" ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.landscape /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# Lenovo Legion Go
+if [[ ":83E1:" =~ ":$SYS_ID:"  ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.left /usr/share/calamares/modules/shellprocess.conf
+fi
+
+# Minisforum V3
+if [[ ":V3:" =~ ":$SYS_ID:"  ]]; then
+  cp /usr/share/calamares/modules/shellprocess.conf.landscape /usr/share/calamares/modules/shellprocess.conf
+fi
+
+if dmesg | grep -q -E "Galileo|Jupiter"; then
+    # Enable jupiter-fan-control after user session starts if steam deck
+    systemctl enable --now jupiter-fan-control
 fi
 EOF
 
 sed -i 's/"quiet"/"quiet", "amdgpu.ppfeaturemask=0xffffffff"/g' /usr/share/calamares/modules/grubcfg.conf
 
-
 # Make the scripts executable
-chmod +x /usr/bin/steamdeck-check
-chmod +x /usr/bin/ally-check
+chmod +x /usr/bin/orientation-check
 
 # Create the autostart file
-cat > /home/liveuser/.config/autostart/steamdeck-check.desktop << EOF
+cat > /home/liveuser/.config/autostart/orientation-check.desktop << EOF
 [Desktop Entry]
 Type=Application
-Exec=sudo /usr/bin/steamdeck-check
+Exec=sudo /usr/bin/orientation-check
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
-Name=Steamdeck Check
-Comment=Run steamdeck-check script at startup
-EOF
-
-# Create the autostart file
-cat > /home/liveuser/.config/autostart/ally-check.desktop << EOF
-[Desktop Entry]
-Type=Application
-Exec=sudo /usr/bin/ally-check
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
-Name=Steamdeck Check
-Comment=Run ally-check script at startup
+Name=Orientation Check
+Comment=Run orientation-check script at startup
 EOF
 
 # make sure to set the right permissions and selinux contexts
