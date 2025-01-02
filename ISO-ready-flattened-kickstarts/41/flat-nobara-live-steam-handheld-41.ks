@@ -204,11 +204,24 @@ dontChroot: false
 timeout: 10
 verbose: false
 script:
+    - command: "/bin/kernel-install add $(ls /lib/modules) /lib/modules/$(ls /lib/modules)/vmlinuz"
+      timeout: 3600
+    - command: "/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg"
+      timeout: 3600
+    - command: "/usr/bin/dracut -f"
+      timeout: 3600
+    - "echo \"search --no-floppy --fs-uuid --set=dev $(cat /etc/fstab | grep boot | grep -v efi | cut -d \" \" -f 1 | cut -d \"=\" -f 2)\" > /boot/efi/EFI/fedora/grub.cfg"
+    - "echo \"set prefix=($$dev)/grub2\" >> /boot/efi/EFI/fedora/grub.cfg"
+    - "echo \"export $$prefix\" >> /boot/efi/EFI/fedora/grub.cfg"
+    - "echo \"configfile $$prefix/grub.cfg\" >> /boot/efi/EFI/fedora/grub.cfg"
+    - "echo 'Exec=steam steam://unlockh264' >> /usr/share/applications/steam.desktop"
+    - "echo 'yes' > /etc/nobara/newinstall"
+    - "authselect enable-feature with-fingerprint"
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
-    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
+    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\Relogin=true' /etc/sddm.conf"
       timeout: 3600
-    - command: "sed -i '/\\\[Theme\\]/a\\\Current=sugar-dark' /etc/sddm.conf"
+    - command: "sed -i '/\\[Theme\\]/a\\Current=sugar-dark' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i \"s/GRUB_TIMEOUT='5'/GRUB_TIMEOUT='0'/g\" /etc/default/grub"
       timeout: 3600
@@ -255,11 +268,24 @@ dontChroot: false
 timeout: 10
 verbose: false
 script:
+    - command: "/bin/kernel-install add $(ls /lib/modules) /lib/modules/$(ls /lib/modules)/vmlinuz"
+      timeout: 3600
+    - command: "/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg"
+      timeout: 3600
+    - command: "/usr/bin/dracut -f"
+      timeout: 3600
+    - "echo \"search --no-floppy --fs-uuid --set=dev $(cat /etc/fstab | grep boot | grep -v efi | cut -d \" \" -f 1 | cut -d \"=\" -f 2)\" > /boot/efi/EFI/fedora/grub.cfg"
+    - "echo \"set prefix=($$dev)/grub2\" >> /boot/efi/EFI/fedora/grub.cfg"
+    - "echo \"export $$prefix\" >> /boot/efi/EFI/fedora/grub.cfg"
+    - "echo \"configfile $$prefix/grub.cfg\" >> /boot/efi/EFI/fedora/grub.cfg"
+    - "echo 'Exec=steam steam://unlockh264' >> /usr/share/applications/steam.desktop"
+    - "echo 'yes' > /etc/nobara/newinstall"
+    - "authselect enable-feature with-fingerprint"
     - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
       timeout: 3600
-    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
+    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\Relogin=true' /etc/sddm.conf"
       timeout: 3600
-    - command: "sed -i '/\\\[Theme\\\]/a\\\Current=sugar-dark' /etc/sddm.conf"
+    - command: "sed -i '/\\[Theme\\]/a\\Current=sugar-dark' /etc/sddm.conf"
       timeout: 3600
     - command: "sed -i \"s/GRUB_TIMEOUT='5'/GRUB_TIMEOUT='0'/g\" /etc/default/grub"
       timeout: 3600
