@@ -35,7 +35,6 @@ zerombr
 clearpart --all
 # Disk partitioning information
 part / --fstype="ext4" --size=25600
-part / --size=25600
 
 %post
 # Enable livesys services

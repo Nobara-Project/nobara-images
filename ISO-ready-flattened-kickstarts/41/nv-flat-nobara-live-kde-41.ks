@@ -35,7 +35,6 @@ zerombr
 clearpart --all
 # Disk partitioning information
 part / --fstype="ext4" --size=25600
-part / --size=25600
 
 #workaround for successful nvidia graphics driver installation
 %pre-install
