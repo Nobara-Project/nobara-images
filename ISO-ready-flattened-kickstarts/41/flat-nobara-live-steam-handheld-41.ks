@@ -528,6 +528,8 @@ papirus-icon-theme
 papirus-icon-theme-dark
 papirus-folders
 inputplumber
+opengamepadui
+isomd5sum
 deckyloader
 libavcodec-free
 libavdevice-free
