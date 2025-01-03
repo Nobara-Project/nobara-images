@@ -252,6 +252,8 @@ gedit
 hplip
 initscripts
 inkscape
+isomd5sum
+opengamepadui
 i2c-tools
 libi2c
 json-c.x86_64

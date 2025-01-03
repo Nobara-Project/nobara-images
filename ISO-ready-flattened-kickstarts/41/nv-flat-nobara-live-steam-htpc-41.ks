@@ -279,6 +279,8 @@ gstreamer1.x86_64
 hplip
 initscripts
 inkscape
+isomd5sum
+opengamepadui
 kde-runtime
 kf6-kimageformats
 i2c-tools
