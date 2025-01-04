@@ -165,8 +165,6 @@ EOF
 
 sed -i 's|#Current=.*|Current=nobara|g' /etc/sddm.conf
 
-sed -i 's/"quiet"/"quiet", "amdgpu.ppfeaturemask=0xffffffff"/g' /usr/share/calamares/modules/grubcfg.conf
-
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
 

@@ -307,6 +307,7 @@ if dmesg | grep -q -E "Galileo|Jupiter"; then
 fi
 EOF
 
+# Enable ppfeaturemask for handhelds
 sed -i 's/"quiet"/"quiet", "amdgpu.ppfeaturemask=0xffffffff"/g' /usr/share/calamares/modules/grubcfg.conf
 
 # Make the scripts executable
