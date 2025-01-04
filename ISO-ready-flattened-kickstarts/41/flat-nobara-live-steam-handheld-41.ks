@@ -423,6 +423,8 @@ libgcc.x86_64
 libgcc.i686
 libieee1284.x86_64
 libieee1284.i686
+libportal
+libportal-gtk4
 libogg.x86_64
 libogg.i686
 libsndfile.x86_64

@@ -230,6 +230,8 @@ hplip
 initscripts
 inkscape
 isomd5sum
+libportal
+libportal-gtk4
 opengamepadui
 kde-runtime
 kf6-kimageformats

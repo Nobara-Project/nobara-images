@@ -266,6 +266,8 @@ libICE.x86_64
 libICE.i686
 libSM.x86_64
 libSM.i686
+libportal
+libportal-gtk4
 libXtst.x86_64
 libXtst.i686
 libasyncns.x86_64

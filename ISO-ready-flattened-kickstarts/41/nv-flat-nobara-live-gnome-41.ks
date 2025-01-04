@@ -273,6 +273,8 @@ hplip
 initscripts
 inkscape
 isomd5sum
+libportal
+libportal-gtk4
 opengamepadui
 i2c-tools
 libi2c
