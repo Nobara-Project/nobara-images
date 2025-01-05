@@ -158,6 +158,8 @@ Session=plasma.desktop
 EOF
 fi
 
+cp /usr/share/calamares/modules/shellprocess.conf.landscape /usr/share/calamares/modules/shellprocess.conf
+
 sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 
 # Don't enable jupiter fan control in live environment
