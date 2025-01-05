@@ -169,37 +169,7 @@ EOF
 fi
 
 # nvidia modules, update grub, set sddm to autolog into gamescope
-rm /usr/share/calamares/modules/shellprocess.conf
-cat > /usr/share/calamares/modules/shellprocess.conf << EOF
-dontChroot: false
-timeout: 10
-verbose: false
-script:
-    - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
-      timeout: 3600
-    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
-      timeout: 3600
-    - command: "sed -i '/\\\[Theme\\\]/a\\\Current=sugar-dark' /etc/sddm.conf"
-      timeout: 3600
-    - command: "sed -i \"s/GRUB_TIMEOUT='5'/GRUB_TIMEOUT='0'/g\" /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_TIMEOUT_STYLE='hidden'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_HIDDEN_TIMEOUT='0'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_HIDDEN_TIMEOUT_QUIET='true'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg"
-      timeout: 3600
-    - command: "/usr/sbin/plymouth-set-default-theme steamos"
-      timeout: 3600
-    - command: "/usr/sbin/nvidia-boot-update post"
-      timeout: 3600
-    - command: "akmods"
-      timeout: 3600
-    - command: "/usr/bin/dracut --regenerate-all --force"
-      timeout: 3600
-EOF
+cp /usr/share/calamares/modules/shellprocess.conf.htpc.nv /usr/share/calamares/modules/shellprocess.conf
 
 sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 

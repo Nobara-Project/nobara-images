@@ -158,34 +158,6 @@ Session=plasma.desktop
 EOF
 fi
 
-# update grub, set sddm to autolog into gamescope
-cat > /usr/share/calamares/modules/shellprocess.conf << EOF
-    - command: "sed -i 's/Session=plasma/Session=gamescope-session-steam.desktop/g' /etc/sddm.conf"
-      timeout: 3600
-    - command: "sed -i '/Session=gamescope-session-steam.desktop/a\\\Relogin=true' /etc/sddm.conf"
-      timeout: 3600
-    - command: "sed -i '/\\\[Theme\\\]/a\\\Current=sugar-dark' /etc/sddm.conf"
-      timeout: 3600
-    - command: "sed -i \"s/GRUB_TIMEOUT='5'/GRUB_TIMEOUT='0'/g\" /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_TIMEOUT_STYLE='hidden'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_HIDDEN_TIMEOUT='0'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_HIDDEN_TIMEOUT_QUIET='true'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "echo \"GRUB_CMDLINE_LINUX='video=efifb fbcon=rotate:1'\" >> /etc/default/grub"
-      timeout: 3600
-    - command: "/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg"
-      timeout: 3600
-    - command: "/usr/sbin/plymouth-set-default-theme steamos"
-      timeout: 3600
-    - command: "/usr/bin/dracut --regenerate-all --force"
-      timeout: 3600
-    - command: "rm -Rf /etc/xdg/autostart/orientation-check.desktop /usr/bin/orientation-check"
-      timeout: 3600
-EOF
-
 sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 
 # Don't enable jupiter fan control in live environment
