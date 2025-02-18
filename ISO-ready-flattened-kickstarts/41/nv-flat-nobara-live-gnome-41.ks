@@ -269,10 +269,11 @@ gedit
 hplip
 initscripts
 inkscape
+inputplumber
+opengamepadui
 isomd5sum
 libportal
 libportal-gtk4
-opengamepadui
 i2c-tools
 libi2c
 json-c.x86_64
@@ -381,7 +382,6 @@ sane-backends-libs.i686
 gnome-backgrounds
 sdgyrodsu
 steam
-starship
 syslinux
 system-config-language
 tcp_wrappers-libs.x86_64

@@ -464,8 +464,6 @@ sane-backends-libs.i686
 sddm-kcm
 sdgyrodsu
 steam
-starship
-opengamepadui
 kde-steamdeck
 steamdeck-dsp
 steamdeck-firmware

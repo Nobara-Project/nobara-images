@@ -252,6 +252,7 @@ hplip
 initscripts
 inkscape
 isomd5sum
+inputplumber
 opengamepadui
 i2c-tools
 libi2c
@@ -344,7 +345,6 @@ sane-backends-libs.i686
 gnome-backgrounds
 sdgyrodsu
 steam
-starship
 syslinux
 system-config-language
 tcp_wrappers-libs.x86_64

@@ -325,7 +325,6 @@ sane-backends-libs.i686
 sddm-kcm
 sdgyrodsu
 steam
-starship
 syslinux
 system-config-language
 tcp_wrappers-libs.x86_64

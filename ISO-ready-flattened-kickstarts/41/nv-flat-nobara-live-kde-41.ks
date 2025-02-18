@@ -247,7 +247,6 @@ inkscape
 isomd5sum
 libportal
 libportal-gtk4
-opengamepadui
 kde-runtime
 kf6-kimageformats
 i2c-tools
@@ -360,7 +359,6 @@ sane-backends-libs.i686
 sddm-kcm
 sdgyrodsu
 steam
-starship
 syslinux
 system-config-language
 tcp_wrappers-libs.x86_64
@@ -394,6 +392,7 @@ papirus-icon-theme
 papirus-icon-theme-dark
 papirus-folders
 inputplumber
+opengamepadui
 libavcodec-free
 libavdevice-free
 libavfilter-free
