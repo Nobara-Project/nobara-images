@@ -256,6 +256,7 @@ kde-l10n
 kernel
 kernel-modules
 kernel-modules-extra
+-kernel-uki-virt
 libaom.x86_64
 libaom.i686
 libICE.x86_64
