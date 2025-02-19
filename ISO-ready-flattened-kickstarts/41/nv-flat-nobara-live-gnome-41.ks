@@ -278,7 +278,6 @@ json-c.x86_64
 json-c.i686
 kernel
 kernel-modules
-kernel-modules-extra
 -kernel-uki-virt
 libaom.x86_64
 libaom.i686
