@@ -245,17 +245,17 @@ fi
 
 # Steam Deck (Common)
 if [[ ":Jupiter:Galileo:" =~ ":$SYS_ID:" ]]; then
-  cp /usr/share/calamares/modules/shellprocess.conf.left /usr/share/calamares/modules/shellprocess.conf
+  cp /usr/share/calamares/modules/shellprocess.conf.sd /usr/share/calamares/modules/shellprocess.conf
 fi
 
 # Steam Deck (LCD)
 if [[ ":Jupiter:" =~ ":$SYS_ID:" ]]; then
-  cp /usr/share/calamares/modules/shellprocess.conf.left /usr/share/calamares/modules/shellprocess.conf
+  cp /usr/share/calamares/modules/shellprocess.conf.sd /usr/share/calamares/modules/shellprocess.conf
 fi
 
 # Steam Deck (OLED)
 if [[ ":Galileo:" =~ ":$SYS_ID:" ]]; then
-  cp /usr/share/calamares/modules/shellprocess.conf.left /usr/share/calamares/modules/shellprocess.conf
+  cp /usr/share/calamares/modules/shellprocess.conf.sd /usr/share/calamares/modules/shellprocess.conf
 fi
 
 # ROG Ally & ROG Ally X
