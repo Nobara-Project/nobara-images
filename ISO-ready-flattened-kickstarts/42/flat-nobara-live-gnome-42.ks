@@ -200,7 +200,6 @@ rm -Rf /tmp/*
 @standard
 @^workstation-product-environment
 aajohan-comfortaa-fonts
-adwaita-qt5
 adw-gtk3
 alsa-firmware
 apparmor-parser
