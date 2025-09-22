@@ -1,5 +1,5 @@
 #!/bin/bash
-cd builds
+cd complete
 
 # Directory containing the files
 DIRECTORY="."
@@ -13,3 +13,5 @@ for FILE in "$DIRECTORY"/*; do
         echo "Generated SHA-256 checksum for $FILE"
     fi
 done
+cd ..
+exit 0

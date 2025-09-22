@@ -39,4 +39,6 @@ livemedia-creator --ks ISO-ready-flattened-kickstarts/${VERSION}/nv-flat-nobara-
 mv ./release/*.iso ./complete
 rm -Rf ./release
 
+./sha256gen.sh
 chmod -R 777 ./complete
+
