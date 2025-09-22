@@ -19,7 +19,7 @@ rootpw --iscrypted --lock locked
 # SELinux configuration
 selinux --disabled
 # System services
-services --disabled="sshd,custom-device-pollrates,NetworkManager-wait-online" --enabled="NetworkManager,ModemManager,inputplumber,powerstation,falcond"
+services --disabled="sshd,custom-device-pollrates,NetworkManager-wait-online,jupiter-fan-control,jupiter-controller-update" --enabled="NetworkManager,ModemManager,inputplumber,powerstation,falcond"
 # System timezone
 timezone US/Eastern
 # Use network installation
@@ -39,6 +39,8 @@ part / --fstype="ext4" --size=25600
 # Enable livesys services
 systemctl enable livesys.service
 systemctl enable livesys-late.service
+
+systemctl mask steamos-automount@.service
 
 # add static hostname
 hostnamectl set-hostname "nobara-live"
@@ -166,10 +168,6 @@ cp /usr/share/calamares/modules/shellprocess.conf.htpc /usr/share/calamares/modu
 
 sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 
-# Don't enable jupiter fan control in live environment
-systemctl disable jupiter-fan-control
-systemctl disable jupiter-controller-update
-
 # orientation check
 cp /usr/share/calamares/orientation-check /usr/bin/orientation-check
 
@@ -189,7 +187,7 @@ Comment=Run orientation-check script at startup
 EOF
 
 # Set steamos boot theme
-/usr/sbin/plymouth-set-default-theme steamos
+/usr/bin/plymouth-set-default-theme steamos
 dracut --regenerate-all --force
 
 # make sure to set the right permissions and selinux contexts
@@ -373,6 +371,7 @@ pavucontrol-qt
 pipewire-jack-audio-connection-kit-libs
 plasma-workspace-wallpapers
 plymouth-plugin-script
+plymouth-scripts
 power-profiles-daemon
 powerstation
 protonplus-next

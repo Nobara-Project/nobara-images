@@ -372,6 +372,7 @@ pavucontrol-qt
 pipewire-jack-audio-connection-kit-libs
 plasma-workspace-wallpapers
 plymouth-plugin-script
+plymouth-scripts
 power-profiles-daemon
 powerstation
 protonplus-next
