@@ -161,6 +161,10 @@ Session=plasma.desktop
 EOF
 fi
 
+# Set steamos boot theme
+/usr/sbin/plymouth-set-default-theme steamos
+dracut --regenerate-all --force
+
 # update grub, set sddm to autolog into gamescope
 cp /usr/share/calamares/modules/shellprocess.conf.htpc /usr/share/calamares/modules/shellprocess.conf
 

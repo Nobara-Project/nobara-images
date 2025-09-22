@@ -188,6 +188,10 @@ Name=Orientation Check
 Comment=Run orientation-check script at startup
 EOF
 
+# Set steamos boot theme
+/usr/sbin/plymouth-set-default-theme steamos
+dracut --regenerate-all --force
+
 # make sure to set the right permissions and selinux contexts
 chown -R liveuser:liveuser /home/liveuser/
 restorecon -R /home/liveuser/

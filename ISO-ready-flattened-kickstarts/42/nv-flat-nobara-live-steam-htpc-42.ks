@@ -174,9 +174,12 @@ cp /usr/share/calamares/modules/shellprocess.conf.htpc.nv /usr/share/calamares/m
 
 sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 
+# Set steamos boot theme
+/usr/sbin/plymouth-set-default-theme steamos
+
 # nvidia
 akmods
-dracut -f
+dracut --regenerate-all --force
 
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
