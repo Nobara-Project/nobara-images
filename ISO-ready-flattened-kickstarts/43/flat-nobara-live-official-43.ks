@@ -14,6 +14,8 @@ repo --name="nobara" --baseurl=https://usw.nobaraproject.org/rolling/fedora --co
 repo --name="nobara-updates" --baseurl=https://usw.nobaraproject.org/rolling/nobara-updates --cost=98
 repo --name="nobara-appstream" --baseurl=https://usw.nobaraproject.org/rolling/appstream
 repo --name="brave" --baseurl=https://brave-browser-rpm-release.s3.brave.com/$basearch
+repo --name="nobara-media" --baseurl=https://rpm.pika-os.com/nobara/media
+repo --name="nobara-rocm" --baseurl=https://use.nobaraproject.org/rolling/rocm/
 # Root password
 rootpw --iscrypted --lock locked
 # SELinux configuration
@@ -576,4 +578,9 @@ winetricks
 xwaylandvideobridge
 yumex
 zenity
+kdenlive
+obs-studio
+blender
+prismlauncher
+
 %end

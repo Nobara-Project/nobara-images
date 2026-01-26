@@ -1,8 +1,9 @@
 Set up mock build environment:
 ```
-mock -r ./nobara-43-x86_64.cfg --clean
-mock -r ./nobara-43-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart
-mock -r ./nobara-43-x86_64.cfg --shell --enable-network
+sudo mock -r ./nobara-43-x86_64.cfg --clean
+sudo mock -r ./nobara-43-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart
+sudo cp ISO-ready-flattened-kickstarts/43/* /var/lib/mock/nobara-43-x86_64/root/builddir/
+sudo mock -r ./nobara-43-x86_64.cfg --shell --enable-network
 ```
 
 From within mock environment:

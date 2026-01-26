@@ -1,0 +1,58 @@
+<%page args="configdir, KERNELDIR, efiarch32, efiarch64, isolabel, extra_boot_args"/>
+<%
+EFIBOOTDIR="EFI/BOOT"
+APPLE_EFI_ICON=inroot+"/usr/share/pixmaps/bootloader/fedora.icns"
+APPLE_EFI_DISKNAME=inroot+"/usr/share/pixmaps/bootloader/fedora-media.vol"
+%>
+
+mkdir ${EFIBOOTDIR}
+mkdir ${EFIBOOTDIR}/fonts/
+%if efiarch64:
+install boot/efi/EFI/*/shim${efiarch64|lower}.efi ${EFIBOOTDIR}/BOOT${efiarch64}.EFI
+install boot/efi/EFI/*/mm${efiarch64|lower}.efi ${EFIBOOTDIR}/
+install boot/efi/EFI/*/gcd${efiarch64|lower}.efi ${EFIBOOTDIR}/grub${efiarch64|lower}.efi
+%endif
+%if efiarch32:
+install boot/efi/EFI/*/shim${efiarch32|lower}.efi ${EFIBOOTDIR}/BOOT${efiarch32}.EFI
+install boot/efi/EFI/*/mm${efiarch32|lower}.efi ${EFIBOOTDIR}/
+install boot/efi/EFI/*/gcd${efiarch32|lower}.efi ${EFIBOOTDIR}/grub${efiarch32|lower}.efi
+%endif
+install usr/share/grub/unicode.pf2 ${EFIBOOTDIR}/fonts/
+
+## actually make the EFI images
+${make_efiboot("images/efiboot.img")}
+
+## This is kinda gross, but then... so's EFI.
+<%def name="make_efiboot(img, include_kernel=False, disk=False, imgtype='default')">
+    <%
+    kdir = EFIBOOTDIR if include_kernel else KERNELDIR
+    eficonf = "%s/grub.cfg" % (EFIBOOTDIR, )
+    args = "--label=ANACONDA"
+    if disk: args += " --disk"
+    %>
+    %if include_kernel:
+        copy ${KERNELDIR}/vmlinuz ${EFIBOOTDIR}
+        copy ${KERNELDIR}/initrd.img ${EFIBOOTDIR}
+    %endif
+    install ${configdir}/grub2-efi.cfg ${eficonf}
+    replace @PRODUCT@ '${product.name}' ${eficonf}
+    replace @VERSION@ ${product.version} ${eficonf}
+    replace @KERNELNAME@ vmlinuz ${eficonf}
+    replace @KERNELPATH@ /${kdir}/vmlinuz ${eficonf}
+    replace @INITRDPATH@ /${kdir}/initrd.img ${eficonf}
+    replace @ISOLABEL@ '${isolabel}' ${eficonf}
+    replace @EXTRA@ '${extra_boot_args}' ${eficonf}
+    %if disk:
+        replace @ROOT@ root=live:LABEL=ANACONDA ${eficonf}
+    %else:
+        replace @ROOT@ 'root=live:CDLABEL=${isolabel|udev}' ${eficonf}
+    %endif
+    %if efiarch32 == 'IA32':
+        copy ${eficonf} ${EFIBOOTDIR}/BOOT.conf
+    %endif
+    runcmd mkefiboot ${args} ${outroot}/${EFIBOOTDIR} ${outroot}/${img}
+    %if include_kernel:
+        remove ${EFIBOOTDIR}/vmlinuz
+        remove ${EFIBOOTDIR}/initrd.img
+    %endif
+</%def>

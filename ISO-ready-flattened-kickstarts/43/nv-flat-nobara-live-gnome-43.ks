@@ -15,6 +15,8 @@ repo --name="nobara-updates" --baseurl=https://usw.nobaraproject.org/rolling/nob
 repo --name="nvidia-prod" --baseurl=https://usw.nobaraproject.org/rolling/nvidia/prod --cost=98
 repo --name="nobara-appstream" --baseurl=https://usw.nobaraproject.org/rolling/appstream
 repo --name="brave" --baseurl=https://brave-browser-rpm-release.s3.brave.com/$basearch
+repo --name="nobara-media" --baseurl=https://rpm.pika-os.com/nobara/media
+repo --name="nobara-rocm" --baseurl=https://use.nobaraproject.org/rolling/rocm/
 # Root password
 rootpw --iscrypted --lock locked
 # SELinux configuration
@@ -46,7 +48,7 @@ touch /mnt/sysimage/etc/default/grub
 # Enable livesys services
 systemctl enable livesys.service
 systemctl enable livesys-late.service
-systemctl enable akmods
+systemctl enable dkms
 
 # add static hostname
 hostnamectl set-hostname "nobara-live"
@@ -166,8 +168,6 @@ rm -f /etc/xdg/autostart/gnome-software-service.desktop
 
 # nvidia modules, update grub, set sddm theme for nobara official
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
-    - command: "akmods"
-      timeout: 3600
     - command: "dracut -f --regenerate-all"
       timeout: 3600
 EOF
@@ -201,7 +201,6 @@ EOF
 glib-compile-schemas /usr/share/glib-2.0/schemas
 
 # nvidia
-akmods
 dracut -f
 
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
@@ -620,4 +619,9 @@ winehq-staging
 winetricks
 yumex
 zenity
+kdenlive
+obs-studio
+blender
+prismlauncher
+
 %end

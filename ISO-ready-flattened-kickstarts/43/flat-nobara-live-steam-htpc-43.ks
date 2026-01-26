@@ -14,6 +14,8 @@ repo --name="nobara" --baseurl=https://usw.nobaraproject.org/rolling/fedora --co
 repo --name="nobara-updates" --baseurl=https://usw.nobaraproject.org/rolling/nobara-updates --cost=98
 repo --name="nobara-appstream" --baseurl=https://usw.nobaraproject.org/rolling/appstream
 repo --name="brave" --baseurl=https://brave-browser-rpm-release.s3.brave.com/$basearch
+repo --name="nobara-media" --baseurl=https://rpm.pika-os.com/nobara/media
+repo --name="nobara-rocm" --baseurl=https://use.nobaraproject.org/rolling/rocm/
 # Root password
 rootpw --iscrypted --lock locked
 # SELinux configuration
@@ -168,10 +170,18 @@ dracut --regenerate-all --force
 # update grub, set sddm to autolog into gamescope
 cp /usr/share/calamares/modules/shellprocess.conf.htpc /usr/share/calamares/modules/shellprocess.conf
 
+# htpc/handheld specific
+# We auto-create nobara-user so we need to skip user creation in calamares
+# This is done to make the install faster and to avoid users needing a keyboard/mouse for install.
+sed -i '/- *usersq/d' /usr/share/calamares/settings.conf
+
 sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
+
+# dont use steamos-automount in live environment
+mv /usr/lib/udev/rules.d/99-steamos-automount.rules /usr/lib/udev/rules.d/99-steamos-automount.rules.bak
 
 %end
 
@@ -588,4 +598,9 @@ winetricks
 xwaylandvideobridge
 yumex
 zenity
+kdenlive
+obs-studio
+blender
+prismlauncher
+steamos-powerbuttond
 %end

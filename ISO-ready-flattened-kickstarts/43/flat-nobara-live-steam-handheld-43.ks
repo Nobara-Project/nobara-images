@@ -14,12 +14,14 @@ repo --name="nobara" --baseurl=https://usw.nobaraproject.org/rolling/fedora --co
 repo --name="nobara-updates" --baseurl=https://usw.nobaraproject.org/rolling/nobara-updates --cost=98
 repo --name="nobara-appstream" --baseurl=https://usw.nobaraproject.org/rolling/appstream
 repo --name="brave" --baseurl=https://brave-browser-rpm-release.s3.brave.com/$basearch
+repo --name="nobara-media" --baseurl=https://rpm.pika-os.com/nobara/media
+repo --name="nobara-rocm" --baseurl=https://use.nobaraproject.org/rolling/rocm/
 # Root password
 rootpw --iscrypted --lock locked
 # SELinux configuration
 selinux --disabled
 # System services
-services --disabled="sshd,custom-device-pollrates,NetworkManager-wait-online,jupiter-fan-control,jupiter-controller-update" --enabled="NetworkManager,inputplumber,powerstation,falcond"
+services --disabled="sshd,custom-device-pollrates" --enabled="NetworkManager,inputplumber,powerstation,falcond"
 # System timezone
 timezone US/Eastern
 # Use network installation
@@ -39,8 +41,6 @@ part / --fstype="ext4" --size=25600
 # Enable livesys services
 systemctl enable livesys.service
 systemctl enable livesys-late.service
-
-systemctl mask steamos-automount@.service
 
 # add static hostname
 hostnamectl set-hostname "nobara-live"
@@ -163,8 +163,17 @@ Session=plasma.desktop
 EOF
 fi
 
+# Set steamos boot theme
+/usr/bin/plymouth-set-default-theme steamos
+dracut --regenerate-all --force
+
 # update grub, set sddm to autolog into gamescope
 cp /usr/share/calamares/modules/shellprocess.conf.htpc /usr/share/calamares/modules/shellprocess.conf
+
+# htpc/handheld specific
+# We auto-create nobara-user so we need to skip user creation in calamares
+# This is done to make the install faster and to avoid users needing a keyboard/mouse for install.
+sed -i '/- *usersq/d' /usr/share/calamares/settings.conf
 
 sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 
@@ -186,16 +195,15 @@ Name=Orientation Check
 Comment=Run orientation-check script at startup
 EOF
 
-# Set steamos boot theme
-/usr/bin/plymouth-set-default-theme steamos
-dracut --regenerate-all --force
-
-# make sure to set the right permissions and selinux contexts
-chown -R liveuser:liveuser /home/liveuser/
-restorecon -R /home/liveuser/
-
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
+
+# dont use steamos-automount in live environment
+mv /usr/lib/udev/rules.d/99-steamos-automount.rules /usr/lib/udev/rules.d/99-steamos-automount.rules.bak
+mv /usr/lib/systemd/system-preset/96-jupiter-hw-support.preset /usr/lib/systemd/system-preset/96-jupiter-hw-support.preset.bak
+mv /usr/lib/systemd/system/multi-user.target.wants/jupiter-biosupdate.service /usr/lib/systemd/system/multi-user.target.wants/jupiter-biosupdate.service.bak
+mv /usr/lib/systemd/system/multi-user.target.wants/jupiter-controller-update.service /usr/lib/systemd/system/multi-user.target.wants/jupiter-controller-update.service.bak
+
 
 %end
 
@@ -617,4 +625,9 @@ winetricks
 xwaylandvideobridge
 yumex
 zenity
+kdenlive
+obs-studio
+blender
+prismlauncher
+steamos-powerbuttond
 %end

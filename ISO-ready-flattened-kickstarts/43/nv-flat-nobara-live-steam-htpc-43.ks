@@ -14,6 +14,8 @@ repo --name="nobara" --baseurl=https://usw.nobaraproject.org/rolling/fedora --co
 repo --name="nobara-updates" --baseurl=https://usw.nobaraproject.org/rolling/nobara-updates --cost=98
 repo --name="nvidia-prod" --baseurl=https://usw.nobaraproject.org/rolling/nvidia/prod --cost=98
 repo --name="nobara-appstream" --baseurl=https://usw.nobaraproject.org/rolling/appstream
+repo --name="nobara-media" --baseurl=https://rpm.pika-os.com/nobara/media
+repo --name="nobara-rocm" --baseurl=https://use.nobaraproject.org/rolling/rocm/
 repo --name="brave" --baseurl=https://brave-browser-rpm-release.s3.brave.com/$basearch
 # Root password
 rootpw --iscrypted --lock locked
@@ -46,7 +48,7 @@ touch /mnt/sysimage/etc/default/grub
 # Enable livesys services
 systemctl enable livesys.service
 systemctl enable livesys-late.service
-systemctl enable akmods
+systemctl enable dkms
 
 # add static hostname
 hostnamectl set-hostname "nobara-live"
@@ -172,17 +174,24 @@ fi
 # update grub, set sddm to autolog into gamescope
 cp /usr/share/calamares/modules/shellprocess.conf.htpc.nv /usr/share/calamares/modules/shellprocess.conf
 
+# htpc/handheld specific
+# We auto-create nobara-user so we need to skip user creation in calamares
+# This is done to make the install faster and to avoid users needing a keyboard/mouse for install.
+sed -i '/- *usersq/d' /usr/share/calamares/settings.conf
+
 sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 
 # Set steamos boot theme
 /usr/sbin/plymouth-set-default-theme steamos
 
 # nvidia
-akmods
 dracut --regenerate-all --force
 
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
+
+# dont use steamos-automount in live environment
+rm -f /usr/lib/udev/rules.d/99-steamos-automount.rules
 
 %end
 
@@ -616,4 +625,9 @@ winetricks
 xwaylandvideobridge
 yumex
 zenity
+kdenlive
+obs-studio
+blender
+prismlauncher
+steamos-powerbuttond
 %end
