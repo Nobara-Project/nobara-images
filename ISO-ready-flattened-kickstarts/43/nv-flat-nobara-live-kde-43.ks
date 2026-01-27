@@ -12,7 +12,7 @@ network  --bootproto=dhcp --device=link --activate
 shutdown
 repo --name="nobara" --baseurl=https://usw.nobaraproject.org/rolling/fedora --cost=99
 repo --name="nobara-updates" --baseurl=https://usw.nobaraproject.org/rolling/nobara-updates --cost=98
-repo --name="nvidia-prod" --baseurl=https://usw.nobaraproject.org/rolling/nvidia/prod --cost=98
+repo --name="nvidia-prod" --baseurl=https://devbuilds.nobaraproject.org/nvidia-test --cost=98
 repo --name="nobara-appstream" --baseurl=https://usw.nobaraproject.org/rolling/appstream
 repo --name="brave" --baseurl=https://brave-browser-rpm-release.s3.brave.com/$basearch
 repo --name="nobara-media" --baseurl=https://rpm.pika-os.com/nobara/media
@@ -22,7 +22,7 @@ rootpw --iscrypted --lock locked
 # SELinux configuration
 selinux --disabled
 # System services
-services --disabled="sshd,custom-device-pollrates" --enabled="NetworkManager,inputplumber,falcond"
+services --disabled="sshd,custom-device-pollrates" --enabled="NetworkManager,inputplumber,falcond,dkms"
 # System timezone
 timezone US/Eastern
 # Use network installation
@@ -48,7 +48,6 @@ touch /mnt/sysimage/etc/default/grub
 # Enable livesys services
 systemctl enable livesys.service
 systemctl enable livesys-late.service
-systemctl enable dkms
 
 # add static hostname
 hostnamectl set-hostname "nobara-live"
@@ -177,14 +176,9 @@ EOF
 
 sed -i 's|#Current=.*|Current=breeze|g' /etc/sddm.conf
 
-# nvidia
-dracut -f
-
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
-
 %end
-
 
 %packages
 @anaconda-tools
@@ -536,23 +530,6 @@ noopenh264
 nss-mdns.i686
 nss-mdns.x86_64
 numactl
-akmod-nvidia
-nvidia-driver
-libnvidia-ml
-libnvidia-ml.i686
-libnvidia-fbc
-nvidia-driver-cuda
-nvidia-driver-cuda-libs
-nvidia-driver-cuda-libs.i686
-nvidia-driver-libs
-nvidia-driver-libs.i686
-nvidia-kmod-common
-nvidia-libXNVCtrl
-nvidia-modprobe
-nvidia-persistenced
-nvidia-settings
-nvidia-vaapi-driver
-libnvidia-cfg
 nvidia-gpu-firmware
 ocl-icd.i686
 ocl-icd.x86_64
@@ -611,5 +588,31 @@ kdenlive
 obs-studio
 blender
 prismlauncher
+
+# nvidia
+dkms-nvidia
+nvidia-driver
+libnvidia-ml
+libnvidia-ml.i686
+libnvidia-fbc
+nvidia-driver-cuda
+nvidia-driver-cuda-libs
+nvidia-driver-cuda-libs.i686
+nvidia-driver-libs
+nvidia-driver-libs.i686
+nvidia-kmod-common
+nvidia-libXNVCtrl
+nvidia-modprobe
+nvidia-persistenced
+nvidia-settings
+nvidia-vaapi-driver
+libnvidia-cfg
+
+# dkms build deps
+gcc
+make
+perl
+elfutils-libelf-devel
+kernel-devel
 
 %end

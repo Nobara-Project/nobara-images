@@ -25,12 +25,12 @@ KDE:
 
 Steam HTPC:
 ```
-# livemedia-creator --ks flat-nobara-live-steam-htpc-43.ks --no-virt --resultdir ./release --project Nobara --make-iso --volid Nobara-43 --iso-only --iso-name Nobara-43-Steam-HTPC-$(date +%F).iso --releasever 43 --macboot
+# livemedia-creator --ks flat-nobara-live-steam-htpc-43.ks --no-virt --resultdir ./release --project Nobara --make-iso --volid Nobara-43 --iso-only --iso-name Nobara-43-Steam-HTPC-$(date +%F).iso --releasever 43 --macboot --lorax-templates ./lorax-custom
 ```
 
 Steam Handheld:
 ```
-# livemedia-creator --ks flat-nobara-live-steam-handheld-43.ks --no-virt --resultdir ./release --project Nobara --make-iso --volid Nobara-43 --iso-only --iso-name Nobara-43-Steam-Handheld-$(date +%F).iso --releasever 43 --macboot
+# livemedia-creator --ks flat-nobara-live-steam-handheld-43.ks --no-virt --resultdir ./release --project Nobara --make-iso --volid Nobara-43 --iso-only --iso-name Nobara-43-Steam-Handheld-$(date +%F).iso --releasever 43 --macboot --lorax-templates ./lorax-custom
 ```
 
 
@@ -52,7 +52,7 @@ Nvidia KDE:
 
 Nvidia Steam HTPC:
 ```
-# livemedia-creator --ks nv-flat-nobara-live-steam-htpc-43.ks --no-virt --resultdir ./release --project Nobara --make-iso --volid Nobara-43 --iso-only --iso-name Nobara-43-Steam-HTPC-NV-$(date +%F).iso --releasever 43 --macboot
+# livemedia-creator --ks nv-flat-nobara-live-steam-htpc-43.ks --no-virt --resultdir ./release --project Nobara --make-iso --volid Nobara-43 --iso-only --iso-name Nobara-43-Steam-HTPC-NV-$(date +%F).iso --releasever 43 --macboot --lorax-templates ./lorax-custom
 ```
 
 exit
