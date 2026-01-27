@@ -186,9 +186,6 @@ sed -i 's|#Current=.*|Current=sugar-dark|g' /etc/sddm.conf
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
 
-# dont use steamos-automount in live environment
-mv /usr/lib/udev/rules.d/99-steamos-automount.rules /usr/lib/udev/rules.d/99-steamos-automount.rules.bak
-
 %end
 
 %packages
