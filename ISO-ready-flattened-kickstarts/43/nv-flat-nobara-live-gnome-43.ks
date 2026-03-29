@@ -17,6 +17,7 @@ repo --name="nobara-appstream" --baseurl=https://usw.nobaraproject.org/rolling/a
 repo --name="brave" --baseurl=https://brave-browser-rpm-release.s3.brave.com/$basearch
 repo --name="nobara-media" --baseurl=https://rpm.pika-os.com/nobara/media
 repo --name="nobara-rocm" --baseurl=https://use.nobaraproject.org/rolling/rocm/
+repo --name="terra" --metalink="https://tetsudou.fyralabs.com/metalink?repo=terra$releasever&arch=$basearch" --excludepkgs="akmod-xone,akmod-xpad-noone,gamescope,gamescope-session,gamescope-session-steam,flatpost,gpu-screen-recorder,gpu-screen-recorder-debuginfo,gpu-screen-recorder-debugsource,inputplumber,kmod-xone,kmod-xpad-noone,opengamepadui,powerstation,umu-launcher,umu-launcher-debuginfo,umu-launcher-debugsource,v4l2loopback,xone,xpad-noone,apparmor-debuginfo,apparmor-debugsource,apparmor-devel,apparmor-libs,apparmor-libs-debuginfo,apparmor-parser,apparmor-parser-debuginfo,apparmor-profiles,apparmor-utils,apparmor-utils-debuginfo,mod_apparmor,mod_apparmor-debuginfo,pam_apparmor,pam_apparmor-debuginfo,python3-apparmor,python3-LibAppArmor,python3-LibAppArmor-debuginfo,xone-firmware,powerbuttond"
 # Root password
 rootpw --iscrypted --lock locked
 # SELinux configuration
@@ -36,7 +37,7 @@ zerombr
 # Partition clearing information
 clearpart --all
 # Disk partitioning information
-part / --fstype="ext4" --size=25600
+part / --fstype="ext4" --size=30000
 
 #workaround for successful nvidia graphics driver installation
 %pre-install
@@ -130,6 +131,10 @@ rm /home/liveuser/Desktop/RemoteHost.desktop
 rm /home/liveuser/.config/autostart/steam.desktop
 EOF
 
+cp /etc/xdg/autostart/org.dnf.AppCenter.Updater.desktop /home/liveuser/.config/autostart/org.dnf.AppCenter.Updater.desktop
+echo "Hidden=true" >> /home/liveuser/.config/autostart/org.dnf.AppCenter.Updater.desktop
+
+
 # Make the script executable
 chmod +x /home/liveuser/liveuser_clean
 
@@ -193,7 +198,7 @@ EOF
 
 cat << EOF >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override
 [org.gnome.shell]
-favorite-apps=['org.gnome.Settings.desktop', 'com.flatpost.flatpostapp.desktop', 'org.gnome.Nautilus.desktop', 'brave-browser.desktop', 'calamares.desktop']
+favorite-apps=['org.gnome.Settings.desktop', 'org.dnf.AppCenter.desktop', 'org.gnome.Nautilus.desktop', 'brave-browser.desktop', 'calamares.desktop']
 EOF
 
 # rebuild schema cache with any overrides we installed
@@ -201,7 +206,9 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
+
 %end
+
 
 %packages
 @anaconda-tools
@@ -426,7 +433,6 @@ file-roller
 flac-libs.i686
 flac-libs.x86_64
 flatpak
-flatpost
 foomatic
 fuse
 gamemode.i686
@@ -526,8 +532,6 @@ memtest86+
 mesa-libGLU.i686
 mesa-libGLU.x86_64
 mesa-libOpenCL
-mesa-va-drivers
-mesa-va-drivers.i686
 mscore-fonts
 nautilus-admin
 neofetch
@@ -567,8 +571,6 @@ pulseaudio-libs.x86_64
 python3-hid
 python3-vapoursynth
 qemu-device-display-qxl
-rpmfusion-free-release
-rpmfusion-nonfree-release
 ryzenadj
 samba-common-tools.x86_64
 samba-libs.x86_64
@@ -594,7 +596,7 @@ vkBasalt.x86_64
 vulkan-tools
 winehq-staging
 winetricks
-yumex
+dnf-app-center
 zenity
 kdenlive
 obs-studio
@@ -617,7 +619,6 @@ nvidia-libXNVCtrl
 nvidia-modprobe
 nvidia-persistenced
 nvidia-settings
-nvidia-vaapi-driver
 libnvidia-cfg
 
 # dkms build deps

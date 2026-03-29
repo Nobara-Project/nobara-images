@@ -16,12 +16,13 @@ repo --name="nobara-appstream" --baseurl=https://usw.nobaraproject.org/rolling/a
 repo --name="brave" --baseurl=https://brave-browser-rpm-release.s3.brave.com/$basearch
 repo --name="nobara-media" --baseurl=https://rpm.pika-os.com/nobara/media
 repo --name="nobara-rocm" --baseurl=https://use.nobaraproject.org/rolling/rocm/
+repo --name="terra" --metalink="https://tetsudou.fyralabs.com/metalink?repo=terra$releasever&arch=$basearch" --excludepkgs="akmod-xone,akmod-xpad-noone,gamescope,gamescope-session,gamescope-session-steam,flatpost,gpu-screen-recorder,gpu-screen-recorder-debuginfo,gpu-screen-recorder-debugsource,inputplumber,kmod-xone,kmod-xpad-noone,opengamepadui,powerstation,umu-launcher,umu-launcher-debuginfo,umu-launcher-debugsource,v4l2loopback,xone,xpad-noone,apparmor-debuginfo,apparmor-debugsource,apparmor-devel,apparmor-libs,apparmor-libs-debuginfo,apparmor-parser,apparmor-parser-debuginfo,apparmor-profiles,apparmor-utils,apparmor-utils-debuginfo,mod_apparmor,mod_apparmor-debuginfo,pam_apparmor,pam_apparmor-debuginfo,python3-apparmor,python3-LibAppArmor,python3-LibAppArmor-debuginfo,xone-firmware,powerbuttond"
 # Root password
 rootpw --iscrypted --lock locked
 # SELinux configuration
 selinux --disabled
 # System services
-services --disabled="sshd,custom-device-pollrates" --enabled="NetworkManager,inputplumber,falcond"
+services --disabled="sshd,custom-device-pollrates" --enabled="NetworkManager,inputplumber,falcond,plasmalogin"
 # System timezone
 timezone US/Eastern
 # Use network installation
@@ -35,7 +36,7 @@ zerombr
 # Partition clearing information
 clearpart --all
 # Disk partitioning information
-part / --fstype="ext4" --size=25600
+part / --fstype="ext4" --size=28000
 
 %post
 # Enable livesys services
@@ -123,6 +124,9 @@ rm /home/liveuser/Desktop/RemoteHost.desktop
 rm /home/liveuser/.config/autostart/steam.desktop
 EOF
 
+cp /etc/xdg/autostart/org.dnf.AppCenter.Updater.desktop /home/liveuser/.config/autostart/org.dnf.AppCenter.Updater.desktop
+echo "Hidden=true" >> /home/liveuser/.config/autostart/org.dnf.AppCenter.Updater.desktop
+
 # Make the script executable
 chmod +x /home/liveuser/liveuser_clean
 
@@ -147,24 +151,19 @@ restorecon -R /home/liveuser/
 
 # kde specific
 # set up autologin
-if [ -f /etc/sddm.conf ]; then
-sed -i 's/^#User=.*/User=liveuser/' /etc/sddm.conf
-sed -i 's/^#Session=.*/Session=plasma.desktop/' /etc/sddm.conf
+if [ -f /etc/plasmalogin.conf ]; then
+sed -i 's/^#User=.*/User=liveuser/' /etc/plasmalogin.conf
+sed -i 's/^#Session=.*/Session=plasma.desktop/' /etc/plasmalogin.conf
 else
-cat << EOF >> /etc/sddm.conf
+cat << EOF >> /etc/plasmalogin.conf
 [Autologin]
 User=liveuser
 Session=plasma.desktop
 EOF
 fi
 
-# update grub, set sddm theme for nobara official
-cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
-    - command: "sed -i '/\\\[Theme\\\]/a\\\Current=nobara' /etc/sddm.conf"
-      timeout: 3600
-EOF
-
-sed -i 's|#Current=.*|Current=nobara|g' /etc/sddm.conf
+echo "[Greeter][Wallpaper][org.kde.image][General]" >> /etc/plasmalogin.conf
+echo "Image=file:////usr/share/plasmalogin/wallpapers/nobara/nobara-42-1.png" >> /etc/plasmalogin.conf
 
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
@@ -185,10 +184,8 @@ plasma-desktop
 plasma-workspace
 plasma-workspace-wallpapers
 plasma-workspace-wayland
-sddm
-sddm-breeze
-sddm-kcm
-sddm-wayland-plasma
+plasma-login-manager
+kde-nobara-plasmalogin
 NetworkManager-l2tp
 NetworkManager-openconnect
 NetworkManager-pptp
@@ -226,6 +223,7 @@ glibc-all-langpacks
 kaccounts-integration-qt6
 kaccounts-providers
 kcharselect
+kcalc
 kde-connect
 kde-gtk-config
 kde-inotify-survey
@@ -281,7 +279,6 @@ systemd-oomd-defaults
 toolbox
 udisks2
 vlc-plugin-gstreamer
-xwaylandvideobridge
 
 @multimedia
 
@@ -406,7 +403,6 @@ ffmpegthumbs
 flac-libs.i686
 flac-libs.x86_64
 flatpak
-flatpost
 foomatic
 fuse
 gamemode.i686
@@ -441,6 +437,7 @@ json-c.x86_64
 kate
 kde-l10n
 kde-runtime
+kde-nobara
 kernel
 kernel-modules
 kf6-kimageformats
@@ -503,8 +500,6 @@ memtest86+
 mesa-libGLU.i686
 mesa-libGLU.x86_64
 mesa-libOpenCL
-mesa-va-drivers
-mesa-va-drivers.i686
 mscore-fonts
 neofetch
 nobara-browser-policy
@@ -536,10 +531,9 @@ papirus-icon-theme
 papirus-icon-theme-dark
 pavucontrol-qt
 pipewire-jack-audio-connection-kit-libs
-plasma-lookandfeel-nobara
-plasma-lookandfeel-nobara-sddm
 plasma-workspace-wallpapers
 plymouth-plugin-script
+plymouth-scripts
 power-profiles-daemon
 protonplus
 pulseaudio-libs.i686
@@ -547,8 +541,6 @@ pulseaudio-libs.x86_64
 python3-hid
 python3-vapoursynth
 qemu-device-display-qxl
-rpmfusion-free-release
-rpmfusion-nonfree-release
 ryzenadj
 samba-common-tools.x86_64
 samba-libs.x86_64
@@ -557,7 +549,6 @@ samba-winbind-modules.x86_64
 samba-winbind.x86_64
 sane-backends-libs.i686
 sane-backends-libs.x86_64
-sddm-kcm
 sdgyrodsu
 steam
 syslinux
@@ -575,12 +566,10 @@ vkBasalt.x86_64
 vulkan-tools
 winehq-staging
 winetricks
-xwaylandvideobridge
-yumex
+dnf-app-center
 zenity
 kdenlive
 obs-studio
 blender
 prismlauncher
-
 %end

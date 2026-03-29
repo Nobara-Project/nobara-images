@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Download Nobara | Nobara Linux</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Download Nobara Linux in the edition that fits your hardware and your play style." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="img/nobara-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="top-app-bar">
+    <div class="top-app-bar__left">
+      <button class="icon-button nav-menu-button" aria-label="Open navigation menu">
+        <span class="nav-menu-icon"></span>
+      </button>
+      <a href="index.html#hero" class="brand">
+        <img src="img/nobara-icon.png" alt="Nobara logo" class="brand__logo-img" />
+        <span class="brand__text">Nobara Project</span>
+      </a>
+    </div>
+    <nav class="top-app-bar__nav" aria-label="Primary navigation">
+      <a href="index.html#hero" class="nav-link">Overview</a>
+      <a href="download.html" class="nav-link nav-link--active">Downloads</a>
+      <a href="https://wiki.nobaraproject.org" class="nav-link" target="_blank" rel="noreferrer">Wiki</a>
+      <a href="https://wiki.nobaraproject.org/FAQ/FAQ" class="nav-link" target="_blank" rel="noreferrer">FAQ</a>
+      <a href="https://wiki.nobaraproject.org/en/new-user-guide-general-guidelines" class="nav-link" target="_blank" rel="noreferrer">Getting started</a>
+      <a href="https://discord.gg/6y3BdzC" class="nav-link" target="_blank" rel="noreferrer">Community</a>
+      <a href="https://nobara-project-merch-store.printify.me" class="nav-link" target="_blank" rel="noreferrer">Store</a>
+    </nav>
+    <div class="top-app-bar__right">
+      <button class="theme-toggle" aria-label="Toggle dark mode">
+        <span class="theme-toggle__track"></span>
+        <span class="theme-toggle__thumb"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="nav-drawer" aria-hidden="true">
+    <div class="nav-drawer__header">
+      <span>Nobara Project</span>
+      <button class="icon-button nav-drawer__close" aria-label="Close menu">
+        ✕
+      </button>
+    </div>
+    <nav class="nav-drawer__nav">
+      <a href="index.html#hero" class="nav-link nav-drawer__link">Overview</a>
+      <a href="download.html" class="nav-link nav-drawer__link nav-link--active">Downloads</a>
+      <a href="https://wiki.nobaraproject.org" class="nav-link nav-drawer__link" target="_blank" rel="noreferrer">Wiki</a>
+      <a href="https://wiki.nobaraproject.org/FAQ/FAQ" class="nav-link nav-drawer__link" target="_blank" rel="noreferrer">FAQ</a>
+      <a href="https://wiki.nobaraproject.org/en/new-user-guide-general-guidelines" class="nav-link nav-drawer__link" target="_blank" rel="noreferrer">Getting started</a>
+      <a href="https://discord.gg/6y3BdzC" class="nav-link nav-drawer__link" target="_blank" rel="noreferrer">Community</a>
+      <a href="https://nobara-project-merch-store.printify.me" class="nav-link nav-drawer__link" target="_blank" rel="noreferrer">Store</a>
+    </nav>
+  </div>
+  <div class="nav-drawer__backdrop"></div>
+
+  <main>
+    <section id="download-hero" class="section hero">
+      <div class="section-inner hero__inner hero__inner--downloads">
+        <div class="hero__content">
+          <h1 class="hero__title">Download Nobara</h1>
+          <p class="hero__subtitle">
+            Pick your edition, flash your USB, and boot into a gaming-ready desktop in minutes.
+          </p>
+          <div class="hero__actions">
+            <a href="#standard" class="button button--primary">
+              Standard images
+            </a>
+            <a href="#nvidia" class="button button--tonal">
+              NVIDIA images
+            </a>
+          </div>
+          <ul class="hero__bullets">
+            <li>Five editions: Official, GNOME, KDE, Steam-HTPC, and Steam-Handheld.</li>
+            <li>Optional images with pre-installed NVIDIA drivers.</li>
+            <li>Clear guides for USB creation and install steps.</li>
+          </ul>
+        </div>
+        <div class="hero__media">
+          <div class="hero-card hero-card--downloads">
+            <h2>Before you download</h2>
+            <ul>
+              <li>Recommended: <a href="https://www.ventoy.net/en/index.html" target="_blank" rel="noreferrer">Ventoy</a> for multi-ISO USBs.</li>
+              <li>Alternatives: Fedora Media Writer, Rufus (DD mode, GPT).</li>
+              <li>Disable Secure Boot and use UEFI to avoid boot issues.</li>
+            </ul>
+            <a href="https://wiki.nobaraproject.org/en/new-user-guide-general-guidelines" class="chip-link" target="_blank" rel="noreferrer">
+              Read the install guide
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--surface">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2>See the desktop first</h2>
+          <p>Preview each edition before you commit. Every screenshot shows the actual experience.</p>
+        </div>
+        <div class="edition-grid">
+          <article class="card edition-card">
+            <div class="edition-card__media">
+              <img src="img/screenshots/OFFICIAL.png" alt="Nobara Official desktop" loading="lazy" class="lightbox-trigger" />
+            </div>
+            <div class="edition-card__content">
+              <h3>Official</h3>
+              <p>The main Nobara experience. Custom KDE design, tuned for games, creative tools, and daily use.</p>
+            </div>
+          </article>
+
+          <article class="card edition-card">
+            <div class="edition-card__media">
+              <img src="img/screenshots/GNOME.png" alt="Nobara GNOME desktop" loading="lazy" class="lightbox-trigger" />
+            </div>
+            <div class="edition-card__content">
+              <h3>GNOME</h3>
+              <p>Clean GNOME layout with a focus on content. Ideal for laptops and distraction-free workflows.</p>
+            </div>
+          </article>
+
+          <article class="card edition-card">
+            <div class="edition-card__media">
+              <img src="img/screenshots/KDE.png" alt="Nobara KDE desktop" loading="lazy" class="lightbox-trigger" />
+            </div>
+            <div class="edition-card__content">
+              <h3>KDE</h3>
+              <p>Classic KDE experience with deep customization for power users.</p>
+            </div>
+          </article>
+
+          <article class="card edition-card">
+            <div class="edition-card__media">
+              <img src="img/screenshots/diagonal_split.png" alt="Nobara Steam HTPC interface" loading="lazy" class="lightbox-trigger" />
+            </div>
+            <div class="edition-card__content">
+              <h3>Steam-HTPC</h3>
+              <p>Console-like interface for living-room setups with big-screen TVs.</p>
+            </div>
+          </article>
+
+          <article class="card edition-card">
+            <div class="edition-card__media">
+              <img src="img/screenshots/diagonal_split.png" alt="Nobara Steam handheld desktop" loading="lazy" class="lightbox-trigger" />
+            </div>
+            <div class="edition-card__content">
+              <h3>Steam-Handheld</h3>
+              <p>Optimized for Steam Deck-style handheld devices and small displays.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="standard" class="section">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2>Standard downloads</h2>
+          <p>Recommended ISOs for most AMD and Intel systems, or for users who prefer to handle NVIDIA manually.</p>
+        </div>
+        <div class="download-table">
+          <article class="card download-row">
+            <div class="download-row__info">
+              <h3>Official</h3>
+              <p class="download-row__meta">Nobara-43-Official-2026-03-28.iso</p>
+            </div>
+            <div class="download-row__actions">
+              <button class="button button--primary download-btn"
+                data-iso="Nobara-43-Official-2026-03-28.iso"
+                data-url="https://nobara-images.nobaraproject.org/Nobara-43-Official-2026-03-28.iso">
+                Download
+              </button>
+            </div>
+          </article>
+
+          <article class="card download-row">
+            <div class="download-row__info">
+              <h3>GNOME</h3>
+              <p class="download-row__meta">Nobara-43-GNOME-2026-03-28.iso</p>
+            </div>
+            <div class="download-row__actions">
+              <button class="button button--primary download-btn"
+                data-iso="Nobara-43-GNOME-2026-03-28.iso"
+                data-url="https://nobara-images.nobaraproject.org/Nobara-43-GNOME-2026-03-28.iso">
+                Download
+              </button>
+            </div>
+          </article>
+
+          <article class="card download-row">
+            <div class="download-row__info">
+              <h3>KDE</h3>
+              <p class="download-row__meta">Nobara-43-KDE-2026-03-28.iso</p>
+            </div>
+            <div class="download-row__actions">
+              <button class="button button--primary download-btn"
+                data-iso="Nobara-43-KDE-2026-03-28.iso"
+                data-url="https://nobara-images.nobaraproject.org/Nobara-43-KDE-2026-03-28.iso">
+                Download
+              </button>
+            </div>
+          </article>
+
+          <article class="card download-row">
+            <div class="download-row__info">
+              <h3>Steam-HTPC</h3>
+              <p class="download-row__meta">Nobara-43-Steam-HTPC-2026-03-28.iso</p>
+            </div>
+            <div class="download-row__actions">
+              <button class="button button--primary download-btn"
+                data-iso="Nobara-43-Steam-HTPC-2026-03-28.iso"
+                data-url="https://nobara-images.nobaraproject.org/Nobara-43-Steam-HTPC-2026-03-28.iso">
+                Download
+              </button>
+            </div>
+          </article>
+
+          <article class="card download-row">
+            <div class="download-row__info">
+              <h3>Steam-Handheld</h3>
+              <p class="download-row__meta">Nobara-43-Steam-Handheld-2026-03-28.iso</p>
+            </div>
+            <div class="download-row__actions">
+              <button class="button button--primary download-btn"
+                data-iso="Nobara-43-Steam-Handheld-2026-03-28.iso"
+                data-url="https://nobara-images.nobaraproject.org/Nobara-43-Steam-Handheld-2026-03-28.iso">
+                Download
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="nvidia" class="section section--surface">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2>NVIDIA downloads</h2>
+          <p>
+            ISOs with the proprietary NVIDIA driver pre-installed, aimed at getting you to the desktop with fewer extra steps.
+          </p>
+        </div>
+        <div class="nvidia-callout">
+          <ul>
+            <li>First boot may take 1–2 minutes while dkms builds the kernel modules.</li>
+            <li>Only GPUs supported by the current NVIDIA driver are expected to work. Check the supported hardware list before installing.</li>
+          </ul>
+          <a href="https://wiki.nobaraproject.org/graphics/nvidia/supported-gpus" class="chip-link" target="_blank" rel="noreferrer">
+            View supported NVIDIA hardware
+          </a>
+        </div>
+
+        <div class="download-table">
+          <article class="card download-row">
+            <div class="download-row__info">
+              <h3>Official-NV</h3>
+              <p class="download-row__meta">Nobara-43-Official-NV-2026-03-28.iso</p>
+            </div>
+            <div class="download-row__actions">
+              <button class="button button--primary download-btn"
+                data-iso="Nobara-43-Official-NV-2026-03-28.iso"
+                data-url="https://nobara-images.nobaraproject.org/Nobara-43-Official-NV-2026-03-28.iso">
+                Download
+              </button>
+            </div>
+          </article>
+
+          <article class="card download-row">
+            <div class="download-row__info">
+              <h3>GNOME-NV</h3>
+              <p class="download-row__meta">Nobara-43-GNOME-NV-2026-03-28.iso</p>
+            </div>
+            <div class="download-row__actions">
+              <button class="button button--primary download-btn"
+                data-iso="Nobara-43-GNOME-NV-2026-03-28.iso"
+                data-url="https://nobara-images.nobaraproject.org/Nobara-43-GNOME-NV-2026-03-28.iso">
+                Download
+              </button>
+            </div>
+          </article>
+
+          <article class="card download-row">
+            <div class="download-row__info">
+              <h3>KDE-NV</h3>
+              <p class="download-row__meta">Nobara-43-KDE-NV-2026-03-28.iso</p>
+            </div>
+            <div class="download-row__actions">
+              <button class="button button--primary download-btn"
+                data-iso="Nobara-43-KDE-NV-2026-03-28.iso"
+                data-url="https://nobara-images.nobaraproject.org/Nobara-43-KDE-NV-2026-03-28.iso">
+                Download
+              </button>
+            </div>
+          </article>
+
+          <article class="card download-row">
+            <div class="download-row__info">
+              <h3>Steam-HTPC-NV</h3>
+              <p class="download-row__meta">Nobara-43-Steam-HTPC-NV-2026-03-28.iso</p>
+            </div>
+            <div class="download-row__actions">
+              <button class="button button--primary download-btn"
+                data-iso="Nobara-43-Steam-HTPC-NV-2026-03-28.iso"
+                data-url="https://nobara-images.nobaraproject.org/Nobara-43-Steam-HTPC-NV-2026-03-28.iso">
+                Download
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <p class="license-footer">
+          Before downloading any ISO, read the full license text on the official Nobara site. Nobara is a hobby distribution, ships with third-party repositories such as RPMFusion, and comes with no warranty.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2>Helpful documentation</h2>
+          <p>A couple of links to keep open while you download and install.</p>
+        </div>
+        <div class="cards-grid cards-grid--two">
+          <article class="card card--horizontal">
+            <div class="card__content">
+              <h3>Download & install media</h3>
+              <p>
+                How to download the ISO, verify the checksum, and create a bootable USB with Ventoy, Fedora Media Writer, or Rufus.
+              </p>
+              <a href="https://wiki.nobaraproject.org/download/get-an-iso" class="chip-link" target="_blank" rel="noreferrer">
+                Go to download section in the wiki
+              </a>
+            </div>
+          </article>
+          <article class="card card--horizontal">
+            <div class="card__content">
+              <h3>First-boot checklist</h3>
+              <p>
+                System updates, drivers, extra tools, and tips for stable gaming and streaming sessions.
+              </p>
+              <a href="https://wiki.nobaraproject.org/en/new-user-guide-general-guidelines" class="chip-link" target="_blank" rel="noreferrer">
+                Open first-steps guide
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__left">
+        <span>© 2025 Nobara Linux | The Nobara Project</span>
+        <span>Based on Fedora. Independent project, not affiliated with Fedora or Red Hat.</span>
+      </div>
+      <div class="site-footer__right">
+        <a href="https://docs.fedoraproject.org/en-US/fesco/Third_Party_Repository_Policy/" target="_blank" rel="noreferrer">
+          Fedora third-party repository policy
+        </a>
+        <a href="https://rpmfusion.org/FAQ#Free_repository" target="_blank" rel="noreferrer">
+          RPMFusion FAQ
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="download-dialog" aria-hidden="true">
+    <div class="download-dialog__backdrop"></div>
+    <div class="download-dialog__panel" role="dialog" aria-modal="true" aria-labelledby="downloadDialogTitle">
+      <div class="download-dialog__header">
+        <h2 id="downloadDialogTitle">Confirm download</h2>
+      </div>
+      <div class="download-dialog__body">
+        <p class="download-dialog__iso-label">ISO image:</p>
+        <p class="download-dialog__iso-value" data-field="iso"></p>
+        <p class="download-dialog__checksum-label">sha256sum:</p>
+        <pre class="download-dialog__checksum" data-field="sha"></pre>
+        <p class="download-dialog__hint">
+          Verify this checksum after download to make sure your ISO is intact.
+        </p>
+      </div>
+      <div class="download-dialog__actions">
+        <a href="https://www.patreon.com/gloriouseggroll?utm_content=site_sidebar_widget&utm_medium=patron_button_and_widgets_plugin&utm_campaign=&utm_term=&utm_source=https://www.nobaraproject.org" target="_blank" rel="noreferrer" class="button button--outlined download-dialog__donate">
+          Donate
+        </a>
+        <a href="https://ko-fi.com/gloriouseggroll" target="_blank" rel="noreferrer" class="button button--outlined download-dialog__kofi">
+          Ko-fi
+        </a>
+        <button type="button" class="button button--tonal download-dialog__copy">
+          Copy checksum
+        </button>
+        <button type="button" class="button button--primary download-dialog__confirm">
+          Start download
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="lightbox" aria-hidden="true">
+    <div class="lightbox__backdrop"></div>
+    <figure class="lightbox__content">
+      <img src="" alt="" class="lightbox__img" />
+    </figure>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
