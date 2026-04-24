@@ -12,7 +12,7 @@ network  --bootproto=dhcp --device=link --activate
 shutdown
 repo --name="nobara" --baseurl=https://usw.nobaraproject.org/rolling/fedora --cost=99
 repo --name="nobara-updates" --baseurl=https://usw.nobaraproject.org/rolling/nobara-updates --cost=98
-repo --name="nvidia-prod" --baseurl=https://devbuilds.nobaraproject.org/nvidia-test --cost=98
+repo --name="nvidia-prod" --baseurl=https://usw.nobaraproject.org/rolling/nvidia/prod --cost=98
 repo --name="nobara-appstream" --baseurl=https://usw.nobaraproject.org/rolling/appstream
 repo --name="brave" --baseurl=https://brave-browser-rpm-release.s3.brave.com/$basearch
 repo --name="nobara-media" --baseurl=https://rpm.pika-os.com/nobara/media
