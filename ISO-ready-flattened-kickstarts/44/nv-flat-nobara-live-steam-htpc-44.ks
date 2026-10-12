@@ -223,7 +223,6 @@ NetworkManager-adsl
 NetworkManager-config-connectivity-fedora
 NetworkManager-libnm.i686
 PackageKit-command-not-found
-adwaita-gtk2-theme
 akonadi-server
 akonadi-server-mysql
 ark
@@ -489,7 +488,6 @@ libogg.i686
 libogg.x86_64
 libportal
 libportal-gtk4
-libpostproc-free
 libreoffice
 libSM.i686
 libSM.x86_64
