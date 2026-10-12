@@ -25,7 +25,7 @@ services --disabled="sshd,custom-device-pollrates" --enabled="NetworkManager,inp
 # System timezone
 timezone US/Eastern
 # Use network installation
-url --url="https://usw.nobaraproject.org/rolling/fedora"
+url --mirrorlist="https://mirrors.nobaraproject.org/rolling/$basearch/nobara"
 # X Window System configuration information
 xconfig  --startxonboot
 # System bootloader configuration
