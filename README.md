@@ -1,7 +1,7 @@
 Set up mock build environment:
 ```
 sudo mock -r ./nobara-44-x86_64.cfg --clean
-sudo mock -r ./nobara-44-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart sbsigntools kmod zstd xz
+sudo mock -r ./nobara-44-x86_64.cfg --install lorax-lmc-novirt vim-minimal pykickstart sbsigntools openssl kmod findutils grep gzip zstd xz
 sudo cp ISO-ready-flattened-kickstarts/44/* /var/lib/mock/nobara-44-x86_64/root/builddir/
 sudo cp -R lorax-custom lorax-default /var/lib/mock/nobara-44-x86_64/root/builddir/
 sudo install -d -m 700 /var/lib/mock/nobara-44-x86_64/root/builddir/sb
