@@ -18,6 +18,12 @@ install boot/efi/EFI/*/mm${efiarch32|lower}.efi ${EFIBOOTDIR}/
 install boot/efi/EFI/*/gcd${efiarch32|lower}.efi ${EFIBOOTDIR}/grub${efiarch32|lower}.efi
 %endif
 install usr/share/grub/unicode.pf2 ${EFIBOOTDIR}/fonts/
+## Nobara Secure Boot CA. Fedora's shim doesn't trust Nobara's GRUB until this
+## is enrolled, so on first boot with Secure Boot on it opens MokManager:
+## "Enroll key from disk" -> this file in EFI/BOOT on the ISO's EFI partition.
+%if exists("usr/share/nobara/eac/nobara-sb-ca.der"):
+install usr/share/nobara/eac/nobara-sb-ca.der ${EFIBOOTDIR}/ENROLL_THIS_KEY_IN_MOKMANAGER.der
+%endif
 
 ## actually make the EFI images
 ${make_efiboot("images/efiboot.img")}

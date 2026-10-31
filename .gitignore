@@ -1,0 +1,2 @@
+# Local Secure Boot signing configuration (key location), see README.md
+secureboot.env

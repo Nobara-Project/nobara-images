@@ -208,6 +208,112 @@ rm -Rf /tmp/*
 %end
 
 
+# Secure Boot. Runs on the build host (outside the image), so the Nobara
+# signing key never enters the image.
+#  1. Check the boot chain shim -> GRUB -> kernel is signed by Nobara, so the
+#     ISO boots with Secure Boot once the Nobara CA is enrolled in MokManager.
+#  2. Re-sign the modules DKMS/akmods built during compose (NVIDIA) with the
+#     Nobara signer, which Nobara kernels trust, so they load with enforced
+#     signatures without enrolling a key.
+#  3. Remove the DKMS/akmods signing keys generated during compose, so every
+#     install creates its own instead of sharing one private key.
+# Build environment: NOBARA_SB_KEY is the signer key (PEM file or PKCS#11
+# URI); NOBARA_SB_CERT defaults to the image's public signer certificate.
+# NOBARA_SB_ALLOW_UNSIGNED=1 builds a test ISO without signing.
+%post --nochroot --erroronfail
+set -euo pipefail
+root="${ANA_INSTALL_PATH:-/mnt/sysimage}"
+ca_der="$root/usr/share/nobara/eac/nobara-sb-ca.der"
+cert="${NOBARA_SB_CERT:-$root/usr/share/nobara/eac/nobara-sb-signer.crt}"
+key="${NOBARA_SB_KEY:-}"
+unsigned="${NOBARA_SB_ALLOW_UNSIGNED:-0}"
+work=$(mktemp -d)
+trap 'rm -rf "$work"' EXIT
+
+fail() {
+    echo "Secure Boot: $*" >&2
+    if [ "$unsigned" = 1 ]; then
+        echo "Secure Boot: continuing because NOBARA_SB_ALLOW_UNSIGNED=1" >&2
+    else
+        exit 1
+    fi
+}
+
+# 1. Boot chain
+[ -s "$ca_der" ] || fail "nobara-eac-certs is not installed in the image"
+for tool in sbverify modinfo; do
+    command -v "$tool" >/dev/null || fail "$tool is missing on the build host (install sbsigntools and kmod)"
+done
+if [ -s "$ca_der" ] && command -v sbverify >/dev/null; then
+    openssl x509 -inform der -in "$ca_der" -out "$work/ca.pem"
+    for efi in shimx64.efi mmx64.efi; do
+        [ -s "$root/boot/efi/EFI/fedora/$efi" ] || fail "$efi is missing (install shim-x64)"
+    done
+    for image in "$root"/boot/efi/EFI/fedora/grubx64.efi "$root"/boot/efi/EFI/fedora/gcdx64.efi \
+                 "$root"/usr/lib/modules/*/vmlinuz; do
+        sbverify --cert "$work/ca.pem" "$image" >/dev/null 2>&1 ||
+            fail "$image is not signed by the Nobara Secure Boot CA"
+    done
+    for config in "$root"/usr/lib/modules/*/config; do
+        grep -q '^CONFIG_SYSTEM_TRUSTED_KEYS=.*nobara-sb-signer' "$config" ||
+            fail "${config%/config} does not trust the Nobara signer for modules"
+    done
+fi
+
+# 2. Out-of-tree modules
+if [ -z "$key" ]; then
+    fail "NOBARA_SB_KEY is not set, the prebuilt kernel modules would stay unsigned"
+else
+    # Module signatures name the key by issuer and serial number
+    serial=$(openssl x509 -in "$cert" -noout -serial 2>/dev/null ||
+             openssl x509 -inform der -in "$cert" -noout -serial)
+    serial=${serial#serial=}
+    for kdir in "$root"/usr/lib/modules/*/; do
+        kver=$(basename "$kdir")
+        sign_file="$root/usr/src/kernels/$kver/scripts/sign-file"
+        modules=$(find "$kdir/extra" "$kdir/updates" -name '*.ko*' 2>/dev/null || true)
+        [ -n "$modules" ] || continue
+        [ -x "$sign_file" ] || fail "kernel-devel for $kver is not installed in the image"
+        while IFS= read -r module; do
+            plain="$work/module.ko"
+            case "$module" in
+                *.ko.zst) zstd -dcq "$module" > "$plain" ;;
+                *.ko.xz)  xz -dc "$module" > "$plain" ;;
+                *.ko.gz)  gzip -dc "$module" > "$plain" ;;
+                *.ko)     cp "$module" "$plain" ;;
+                *) continue ;;
+            esac
+            # Drop the signature DKMS added with its compose-time key
+            python3 - "$plain" <<'PYEOF'
+import struct, sys
+path = sys.argv[1]
+data = open(path, "rb").read()
+magic = b"~Module signature appended~\n"
+if data.endswith(magic):
+    sig_len = struct.unpack(">I", data[-len(magic) - 4:-len(magic)])[0]
+    data = data[:len(data) - len(magic) - 12 - sig_len]
+    open(path, "wb").write(data)
+PYEOF
+            "$sign_file" sha512 "$key" "$cert" "$plain"
+            sig_key=$(modinfo -F sig_key "$plain" | tr -d ':')
+            [ "$sig_key" = "$serial" ] ||
+                fail "$module is not signed with $cert after signing"
+            case "$module" in
+                *.ko.zst) zstd -qf -19 "$plain" -o "$module" ;;
+                *.ko.xz)  xz -c --check=crc32 --lzma2=dict=1MiB "$plain" > "$module" ;;
+                *.ko.gz)  gzip -9c "$plain" > "$module" ;;
+                *.ko)     cp "$plain" "$module" ;;
+            esac
+            echo "Secure Boot: signed ${module#"$root"}"
+        done <<< "$modules"
+    done
+fi
+
+# 3. Compose-time module signing keys
+rm -f "$root"/var/lib/dkms/mok.key "$root"/var/lib/dkms/mok.pub
+rm -f "$root"/etc/pki/akmods/private/*.priv "$root"/etc/pki/akmods/certs/*.der
+%end
+
 %packages
 @anaconda-tools
 @fonts
@@ -470,6 +576,13 @@ json-c.i686
 json-c.x86_64
 kernel
 kernel-modules
+# Secure Boot: Fedora's shim, Nobara-signed GRUB (including the ISO's
+# CD-boot GRUB) and the Nobara CA for MokManager
+shim-x64
+grub2-efi-x64
+grub2-efi-x64-cdboot
+mokutil
+nobara-eac-certs
 lact
 libaom.i686
 libaom.x86_64
