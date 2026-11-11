@@ -168,6 +168,9 @@ EOF
 # don't autostart gnome-software session service
 rm -f /etc/xdg/autostart/gnome-software-service.desktop
 
+# Set nobara boot theme (livemedia-creator rebuilds the live initramfs after %post)
+/usr/bin/plymouth-set-default-theme nobara
+
 # nvidia modules, update grub, set sddm theme for nobara official
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
     - command: "dracut -f --regenerate-all"
