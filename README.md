@@ -48,25 +48,53 @@ Finished!
 
 ## Secure Boot
 
-The ISOs boot with Secure Boot using Fedora's shim, Nobara's signed GRUB and
-Nobara's signed kernel. Fedora's shim only trusts Nobara's GRUB once the Nobara
-Secure Boot CA is enrolled, so on a computer that hasn't enrolled it yet:
+The ISOs boot with Secure Boot using Fedora's shim and Nobara's signed GRUB and
+kernels. Nobara signs with two CAs, and Fedora's shim only trusts what they sign
+once they're enrolled as MOKs:
 
-1. Shim can't verify GRUB and opens a blue MokManager screen.
-2. Choose **Enroll key from disk**, select the ISO's EFI partition, then
-   `EFI` -> `BOOT` -> `ENROLL_THIS_KEY_IN_MOKMANAGER.der`.
-3. Choose **Continue**, then **Yes**, then **Reboot**. The ISO now boots, and so
-   does the installed system.
+- Nobara EAC CA: GRUB and the Easy Anti-Cheat kernel (`kernel-eac`). Nothing
+  boots with Secure Boot on until it's enrolled.
+- Nobara Secure Boot CA: the normal kernel (`kernel`).
+
+Both are on the ISO's EFI partition. On a computer that hasn't enrolled them
+yet, no password is needed: MokManager only asks for one to confirm keys queued
+from a running system (`mokutil --import`), not for keys enrolled from disk at
+the console.
+
+1. Shim can't verify GRUB ("Verification failed: (0x1A) Security Violation").
+   Press a key; a blue MokManager screen opens.
+2. Choose **Enroll key from disk**, select the ISO's EFI partition (listed as `ANACONDA`), then
+   `EFI` -> `BOOT` -> `1_ENROLL_NOBARA_EAC_KEY.der`. Choose **Continue**, then
+   **Yes**. MokManager returns to its menu.
+3. Choose **Enroll key from disk** again and enroll
+   `2_ENROLL_NOBARA_SECUREBOOT_KEY.der` the same way.
+4. Choose **Reboot**. The ISO now boots, and so does the installed system, with
+   either kernel. The keys are stored in the computer's firmware, not on a disk.
+
+If the firmware refuses to start shim at all (no MokManager screen), its setup
+may have Microsoft's third-party UEFI CA turned off, as some Lenovo
+"Secured-core" and Surface devices ship. Turn on the option named like "Allow
+Microsoft 3rd Party UEFI CA".
 
 Each kickstart's `%post --nochroot` section runs on the build host, outside the
 image, and fails the build unless:
 
-- GRUB (installed and CD-boot) and every kernel are signed by the Nobara CA, and
-  the kernels trust the Nobara signer for modules.
-- `NOBARA_SB_KEY` (the Nobara signer key: a PEM file or a PKCS#11 URI) is set. It
-  re-signs the modules DKMS built during compose (NVIDIA) with that key, which
-  Nobara kernels trust without any enrolled key. `NOBARA_SB_CERT` defaults to
-  the image's `/usr/share/nobara/eac/nobara-sb-signer.crt`.
+- The image has an Easy Anti-Cheat kernel (`kernel-eac`). The ISO boots it
+  (the lorax `x86.tmpl` picks it), so with Secure Boot on the ISO needs only the
+  EAC CA; installs default to it once Secure Boot is on.
+- GRUB (installed and CD-boot) and `kernel-eac` are signed by the Nobara EAC CA
+  and the normal kernel by the Nobara Secure Boot CA, and each kernel trusts its
+  own signer for modules.
+- Every out-of-tree module of `kernel-eac` is signed by the Nobara EAC signer
+  (they come from the `kmod-*-signed` packages), and when NVIDIA is in the image
+  its signed build for `kernel-eac` is there. If `nvidia-signed-kmod-<kver>`
+  lags behind the kernel in the repository, the build fails instead of making
+  an ISO without NVIDIA on the EAC kernel.
+- `NOBARA_SB_KEY` (the Nobara Secure Boot signer key: a PEM file or a PKCS#11
+  URI) is set. It re-signs the modules DKMS built for the normal kernel during
+  compose (NVIDIA) with that key, which the normal kernel trusts without any
+  enrolled key. `NOBARA_SB_CERT` defaults to the image's
+  `/usr/share/nobara/eac/nobara-sb-signer.crt`.
 
 It also deletes the DKMS and akmods signing keys created during compose, so each
 installed system creates its own (`nobara-eac-enroll` enrolls them). The signing

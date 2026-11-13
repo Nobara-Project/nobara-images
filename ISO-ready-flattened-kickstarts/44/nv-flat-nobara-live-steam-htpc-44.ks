@@ -15,7 +15,7 @@ repo --name="nobara" --mirrorlist=https://mirrors.nobaraproject.org/rolling/$bas
 repo --name="nobara-updates" --mirrorlist=https://mirrors.nobaraproject.org/rolling/$basearch/baseos --cost=98
 repo --name="nobara-kernel-lts" --mirrorlist=https://mirrors.nobaraproject.org/rolling/$basearch/kernel-lts --cost=97
 repo --name="nobara-media" --baseurl=https://rpm.pika-os.com/nobara/media/$basearch/
-repo --name="terra" --metalink="https://tetsudou.fyralabs.com/metalink?repo=terra$releasever&arch=$basearch" --excludepkgs="kernel*, akmod-xone, akmod-xpad-noone, gamescope, gamescope-session, gamescope-session-steam, flatpost, inputplumber, kmod-xone, kmod-xpad-noone, umu-launcher, umu-launcher-debuginfo, umu-launcher-debugsource, v4l2loopback, xone, xpad-noone, apparmor-debuginfo, apparmor-debugsource, apparmor-devel, apparmor-libs, apparmor-libs-debuginfo, apparmor-parser, apparmor-parser-debuginfo, apparmor-profiles, apparmor-utils, apparmor-utils-debuginfo, mod_apparmor, mod_apparmor-debuginfo, pam_apparmor, pam_apparmor-debuginfo, python3-apparmor, python3-LibAppArmor, python3-LibAppArmor-debuginfo, xone-firmware, powerbuttond"
+repo --name="terra" --mirrorlist=https://mirrors.nobaraproject.org/rolling/$basearch/terra --excludepkgs="kernel*, akmod-xone, akmod-xpad-noone, gamescope, gamescope-session, gamescope-session-steam, flatpost, inputplumber, kmod-xone, kmod-xpad-noone, umu-launcher, umu-launcher-debuginfo, umu-launcher-debugsource, v4l2loopback, xone, xpad-noone, apparmor-debuginfo, apparmor-debugsource, apparmor-devel, apparmor-libs, apparmor-libs-debuginfo, apparmor-parser, apparmor-parser-debuginfo, apparmor-profiles, apparmor-utils, apparmor-utils-debuginfo, mod_apparmor, mod_apparmor-debuginfo, pam_apparmor, pam_apparmor-debuginfo, python3-apparmor, python3-LibAppArmor, python3-LibAppArmor-debuginfo, xone-firmware, powerbuttond"
 # Root password
 rootpw --lock
 # SELinux configuration
@@ -191,26 +191,41 @@ rm -Rf /tmp/*
 
 
 # Secure Boot. Runs on the build host (outside the image), so the Nobara
-# signing key never enters the image.
-#  1. Check the boot chain shim -> GRUB -> kernel is signed by Nobara, so the
-#     ISO boots with Secure Boot once the Nobara CA is enrolled in MokManager.
-#  2. Re-sign the modules DKMS/akmods built during compose (NVIDIA) with the
-#     Nobara signer, which Nobara kernels trust, so they load with enforced
-#     signatures without enrolling a key.
+# signing key never enters the image. Nobara signs with two CAs:
+#   Nobara EAC CA          GRUB and the Easy Anti-Cheat kernel (kernel-eac),
+#                          which only loads modules signed by the EAC signer
+#   Nobara Secure Boot CA  the normal kernel (kernel), which trusts the
+#                          Nobara Secure Boot signer for modules
+# The ISO boots kernel-eac (lorax x86.tmpl picks it), so with Secure Boot on
+# it boots once the EAC CA is enrolled; the installed system can boot the
+# normal kernel too once the Secure Boot CA is enrolled. Both CAs are on the
+# ISO's EFI partition for MokManager (lorax efi.tmpl).
+#  1. Check the boot chain shim -> GRUB -> kernel is signed by the right CA,
+#     and that there is an EAC kernel for the ISO to boot.
+#  2. Normal kernels: re-sign the modules DKMS/akmods built during compose
+#     (NVIDIA) with the Nobara Secure Boot signer, which those kernels trust,
+#     so they load with enforced signatures without enrolling a key.
+#     EAC kernels: their out-of-tree modules come signed by the EAC signer
+#     from the kmod-*-signed packages; check that, and that NVIDIA's signed
+#     build is there when NVIDIA is in the image.
 #  3. Remove the DKMS/akmods signing keys generated during compose, so every
 #     install creates its own instead of sharing one private key.
-# Build environment: NOBARA_SB_KEY is the signer key (PEM file or PKCS#11
-# URI); NOBARA_SB_CERT defaults to the image's public signer certificate.
-# NOBARA_SB_ALLOW_UNSIGNED=1 builds a test ISO without signing.
+# Build environment: NOBARA_SB_KEY is the Secure Boot signer key (PEM file or
+# PKCS#11 URI); NOBARA_SB_CERT defaults to the image's public signer
+# certificate. NOBARA_SB_ALLOW_UNSIGNED=1 builds a test ISO without signing.
 %post --nochroot --erroronfail
 set -euo pipefail
 root="${ANA_INSTALL_PATH:-/mnt/sysimage}"
-ca_der="$root/usr/share/nobara/eac/nobara-sb-ca.der"
-cert="${NOBARA_SB_CERT:-$root/usr/share/nobara/eac/nobara-sb-signer.crt}"
+certs="$root/usr/share/nobara/eac"
+sb_ca_der="$certs/nobara-sb-ca.der"
+eac_ca_der="$certs/nobara-eac-ca.der"
+eac_signer="$certs/nobara-eac-signer.crt"
+cert="${NOBARA_SB_CERT:-$certs/nobara-sb-signer.crt}"
 key="${NOBARA_SB_KEY:-}"
 unsigned="${NOBARA_SB_ALLOW_UNSIGNED:-0}"
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
+trap 'echo "Secure Boot: the check stopped at line $LINENO (exit $?)" >&2' ERR
 
 fail() {
     echo "Secure Boot: $*" >&2
@@ -221,50 +236,114 @@ fail() {
     fi
 }
 
+# kernel-eac.spec embeds this SBAT entry in the EAC kernel's image
+eac_kernel() {
+    grep -qa '^linux\.nobara-eac,' "$root/usr/lib/modules/$1/vmlinuz"
+}
+
+# Module signatures name the key by issuer and serial number
+cert_serial() {
+    local serial
+    serial=$(openssl x509 -in "$1" -noout -serial 2>/dev/null ||
+             openssl x509 -inform der -in "$1" -noout -serial)
+    echo "${serial#serial=}" | tr a-f A-F
+}
+
+kernels=()
+for kdir in "$root"/usr/lib/modules/*/; do
+    [ -s "$kdir/vmlinuz" ] && kernels+=("$(basename "$kdir")")
+done
+eac_kernels=()
+for kver in "${kernels[@]}"; do
+    eac_kernel "$kver" && eac_kernels+=("$kver")
+done
+
 # 1. Boot chain
-[ -s "$ca_der" ] || fail "nobara-eac-certs is not installed in the image"
+[ -s "$sb_ca_der" ] && [ -s "$eac_ca_der" ] && [ -s "$eac_signer" ] ||
+    fail "nobara-eac-certs (>= 1.2, with both CAs) is not installed in the image"
 for tool in sbverify modinfo; do
     command -v "$tool" >/dev/null || fail "$tool is missing on the build host (install sbsigntools and kmod)"
 done
-if [ -s "$ca_der" ] && command -v sbverify >/dev/null; then
-    openssl x509 -inform der -in "$ca_der" -out "$work/ca.pem"
+[ ${#eac_kernels[@]} -gt 0 ] ||
+    fail "no Easy Anti-Cheat kernel in the image (install kernel-eac): with Secure Boot on, the ISO would need both CAs enrolled"
+if [ -s "$sb_ca_der" ] && [ -s "$eac_ca_der" ] && command -v sbverify >/dev/null; then
+    openssl x509 -inform der -in "$sb_ca_der" -out "$work/sb-ca.pem"
+    openssl x509 -inform der -in "$eac_ca_der" -out "$work/eac-ca.pem"
     for efi in shimx64.efi mmx64.efi; do
         [ -s "$root/boot/efi/EFI/fedora/$efi" ] || fail "$efi is missing (install shim-x64)"
     done
-    for image in "$root"/boot/efi/EFI/fedora/grubx64.efi "$root"/boot/efi/EFI/fedora/gcdx64.efi \
-                 "$root"/usr/lib/modules/*/vmlinuz; do
-        sbverify --cert "$work/ca.pem" "$image" >/dev/null 2>&1 ||
-            fail "$image is not signed by the Nobara Secure Boot CA"
+    for image in "$root"/boot/efi/EFI/fedora/grubx64.efi "$root"/boot/efi/EFI/fedora/gcdx64.efi; do
+        sbverify --cert "$work/eac-ca.pem" "$image" >/dev/null 2>&1 ||
+            fail "$image is not signed by the Nobara EAC CA"
     done
-    for config in "$root"/usr/lib/modules/*/config; do
-        grep -q '^CONFIG_SYSTEM_TRUSTED_KEYS=.*nobara-sb-signer' "$config" ||
-            fail "${config%/config} does not trust the Nobara signer for modules"
+    for kver in "${kernels[@]}"; do
+        image="$root/usr/lib/modules/$kver/vmlinuz"
+        config="$root/usr/lib/modules/$kver/config"
+        if eac_kernel "$kver"; then
+            sbverify --cert "$work/eac-ca.pem" "$image" >/dev/null 2>&1 ||
+                fail "$image (EAC kernel) is not signed by the Nobara EAC CA"
+            grep -q '^CONFIG_SYSTEM_TRUSTED_KEYS=.*nobara-eac-signer' "$config" ||
+                fail "$kver does not trust the Nobara EAC signer for modules"
+        else
+            sbverify --cert "$work/sb-ca.pem" "$image" >/dev/null 2>&1 ||
+                fail "$image is not signed by the Nobara Secure Boot CA"
+            grep -q '^CONFIG_SYSTEM_TRUSTED_KEYS=.*nobara-sb-signer' "$config" ||
+                fail "$kver does not trust the Nobara Secure Boot signer for modules"
+        fi
     done
 fi
 
 # 2. Out-of-tree modules
+plain_module() {
+    case "$1" in
+        *.ko.zst) zstd -dcq "$1" > "$2" ;;
+        *.ko.xz)  xz -dc "$1" > "$2" ;;
+        *.ko.gz)  gzip -dc "$1" > "$2" ;;
+        *.ko)     cp "$1" "$2" ;;
+        *) return 1 ;;
+    esac
+}
+if [ ${#eac_kernels[@]} -gt 0 ] && [ -s "$eac_signer" ]; then
+    eac_serial=$(cert_serial "$eac_signer")
+    for kver in "${eac_kernels[@]}"; do
+        kdir="$root/usr/lib/modules/$kver"
+        if rpm --root "$root" -q --quiet nvidia-kmod-common; then
+            nvidia_ko=$(find "$kdir/extra" "$kdir/updates" -name 'nvidia.ko*' 2>/dev/null | head -n 1 || true)
+            if [ -z "$nvidia_ko" ]; then
+                fail "$kver (EAC kernel) has no NVIDIA modules: the Nobara-signed build for it (nvidia-signed-kmod-$kver) is missing or lags behind the kernel"
+            else
+                # The prod and nf builds both provide nvidia-signed-kmod-<kver>:
+                # the one installed must match the driver in the image
+                driver=$(rpm --root "$root" -q --qf '%{VERSION}' nvidia-kmod-common)
+                plain_module "$nvidia_ko" "$work/nvidia.ko"
+                [ "$(modinfo -F version "$work/nvidia.ko")" = "$driver" ] ||
+                    fail "$kver (EAC kernel) has NVIDIA $(modinfo -F version "$work/nvidia.ko") but the image's driver is $driver"
+            fi
+        fi
+        modules=$(find "$kdir/extra" "$kdir/updates" -name '*.ko*' 2>/dev/null || true)
+        [ -n "$modules" ] || continue
+        while IFS= read -r module; do
+            plain_module "$module" "$work/module.ko" || continue
+            sig_key=$(modinfo -F sig_key "$work/module.ko" | tr -d ':' | tr a-f A-F)
+            [ "$sig_key" = "$eac_serial" ] ||
+                fail "${module#"$root"} is not signed by the Nobara EAC signer; the EAC kernel won't load it"
+        done <<< "$modules"
+    done
+fi
 if [ -z "$key" ]; then
     fail "NOBARA_SB_KEY is not set, the prebuilt kernel modules would stay unsigned"
 else
-    # Module signatures name the key by issuer and serial number
-    serial=$(openssl x509 -in "$cert" -noout -serial 2>/dev/null ||
-             openssl x509 -inform der -in "$cert" -noout -serial)
-    serial=${serial#serial=}
-    for kdir in "$root"/usr/lib/modules/*/; do
-        kver=$(basename "$kdir")
+    serial=$(cert_serial "$cert")
+    for kver in "${kernels[@]}"; do
+        eac_kernel "$kver" && continue
+        kdir="$root/usr/lib/modules/$kver"
         sign_file="$root/usr/src/kernels/$kver/scripts/sign-file"
         modules=$(find "$kdir/extra" "$kdir/updates" -name '*.ko*' 2>/dev/null || true)
         [ -n "$modules" ] || continue
         [ -x "$sign_file" ] || fail "kernel-devel for $kver is not installed in the image"
         while IFS= read -r module; do
             plain="$work/module.ko"
-            case "$module" in
-                *.ko.zst) zstd -dcq "$module" > "$plain" ;;
-                *.ko.xz)  xz -dc "$module" > "$plain" ;;
-                *.ko.gz)  gzip -dc "$module" > "$plain" ;;
-                *.ko)     cp "$module" "$plain" ;;
-                *) continue ;;
-            esac
+            plain_module "$module" "$plain" || continue
             # Drop the signature DKMS added with its compose-time key
             python3 - "$plain" <<'PYEOF'
 import struct, sys
@@ -277,7 +356,7 @@ if data.endswith(magic):
     open(path, "wb").write(data)
 PYEOF
             "$sign_file" sha512 "$key" "$cert" "$plain"
-            sig_key=$(modinfo -F sig_key "$plain" | tr -d ':')
+            sig_key=$(modinfo -F sig_key "$plain" | tr -d ':' | tr a-f A-F)
             [ "$sig_key" = "$serial" ] ||
                 fail "$module is not signed with $cert after signing"
             case "$module" in
@@ -484,7 +563,6 @@ psacct
 quota
 realmd
 rsync
-rsyslog
 smartmontools
 sos
 sssd-proxy
@@ -569,8 +647,13 @@ kde-runtime
 kde-steamdeck
 kernel
 kernel-modules
+# The Easy Anti-Cheat kernel: the ISO boots it (one MokManager key with Secure
+# Boot on), and installs default to it once Secure Boot is on. It pulls in the
+# Nobara-signed builds of the installed drivers (nvidia-signed-kmod-<kver>)
+kernel-eac
+nobara-eac
 # Secure Boot: Fedora's shim, Nobara-signed GRUB (including the ISO's
-# CD-boot GRUB) and the Nobara CA for MokManager
+# CD-boot GRUB) and both Nobara CAs for MokManager
 shim-x64
 grub2-efi-x64
 grub2-efi-x64-cdboot
