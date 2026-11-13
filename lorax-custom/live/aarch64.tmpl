@@ -28,9 +28,18 @@ install ${runtime_img} ${LIVEDIR}/squashfs.img
 treeinfo stage2 mainimage ${LIVEDIR}/squashfs.img
 
 ## install kernels
+## The image has two kernels, which would both be installed as vmlinuz (the
+## last one found wins). As on x86_64 (x86.tmpl), boot the Easy Anti-Cheat
+## kernel (kernel-eac, ".eac." in its version) when there is one: it's signed
+## by the Nobara EAC CA, like GRUB, so with Secure Boot on the ISO boots once
+## that one key is enrolled. Otherwise the newest normal kernel.
+<%
+plain_kernels = sorted(kernels, key=lambda k: k.version, reverse=True)
+eac_kernels = [k for k in plain_kernels if '.eac.' in k.version]
+boot_kernels = (eac_kernels or plain_kernels)[:1]
+%>
 mkdir ${KERNELDIR}
-%for kernel in kernels:
-    ## normal aarch64
+%for kernel in boot_kernels:
     installkernel images-${basearch} ${kernel.path} ${KERNELDIR}/vmlinuz
     installinitrd images-${basearch} ${kernel.initrd.path} ${KERNELDIR}/initrd.img
 %endfor
