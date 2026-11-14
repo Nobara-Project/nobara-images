@@ -13,14 +13,18 @@ shutdown
 repo --name="nvidia-prod" --mirrorlist=https://mirrors.nobaraproject.org/rolling/$basearch/nvp --cost=98
 repo --name="nobara" --mirrorlist=https://mirrors.nobaraproject.org/rolling/$basearch/nobara --cost=99
 repo --name="nobara-updates" --mirrorlist=https://mirrors.nobaraproject.org/rolling/$basearch/baseos --cost=98
-repo --name="nobara-kernel-mainline" --mirrorlist=https://mirrors.nobaraproject.org/rolling/$basearch/kernel-mainline --cost=97
+# TESTING: the kernel, kernel-eac and nobara-signed-kmods come from the
+# gloriouseggroll/aarch64 COPR (unsigned, test with Secure Boot off) until
+# the aarch64 kernel works; switch back to nobara-kernel-mainline after
+repo --name="nobara-aarch64-test" --baseurl=https://download.copr.fedorainfracloud.org/results/gloriouseggroll/aarch64/fedora-44-aarch64/ --cost=90
+repo --name="nobara-kernel-mainline" --mirrorlist=https://mirrors.nobaraproject.org/rolling/$basearch/kernel-mainline --cost=97 --excludepkgs="kernel*,kmod-*-signed-*,nobara-signed-kmods*"
 repo --name="terra" --mirrorlist=https://mirrors.nobaraproject.org/rolling/$basearch/terra --excludepkgs="kernel*, akmod-xone, akmod-xpad-noone, gamescope, gamescope-session, gamescope-session-steam, flatpost, inputplumber, kmod-xone, kmod-xpad-noone, umu-launcher, umu-launcher-debuginfo, umu-launcher-debugsource, v4l2loopback, xone, xpad-noone, apparmor-debuginfo, apparmor-debugsource, apparmor-devel, apparmor-libs, apparmor-libs-debuginfo, apparmor-parser, apparmor-parser-debuginfo, apparmor-profiles, apparmor-utils, apparmor-utils-debuginfo, mod_apparmor, mod_apparmor-debuginfo, pam_apparmor, pam_apparmor-debuginfo, python3-apparmor, python3-LibAppArmor, python3-LibAppArmor-debuginfo, xone-firmware, powerbuttond"
 # Root password
 rootpw --lock
 # SELinux configuration
 selinux --disabled
 # System services
-services --disabled="sshd,custom-device-pollrates" --enabled="NetworkManager,inputplumber,falcond,plasmalogin,dkms"
+services --disabled="sshd,custom-device-pollrates" --enabled="NetworkManager,inputplumber,falcond,tessel-login,dkms"
 # System timezone
 timezone US/Eastern
 # Use network installation
@@ -106,8 +110,19 @@ cat > /root/.config/gtk-3.0/settings.ini << EOF
 gtk-theme-name = Adwaita-dark
 EOF
 
-# set livesys session type
-sed -i 's/^livesys_session=.*/livesys_session="kde"/' /etc/sysconfig/livesys
+# Live session: livesys has no Tessel session script, so log liveuser in
+# through its "extra" hook, which livesys-main runs at every live boot before
+# the display manager (tessel-login, a greetd instance). Installed systems get
+# this file too, but livesys only runs with rd.live.image (live media).
+mkdir -p /var/lib/livesys
+cat > /var/lib/livesys/livesys-session-extra << 'EOF'
+cat >> /etc/greetd/tessel-config.toml << TESSEL_EOF
+
+[initial_session]
+user = "liveuser"
+command = "/usr/lib/tessel/tessel-session-launch"
+TESSEL_EOF
+EOF
 
 # Make the calamares run on login
 mkdir -p /home/liveuser/.config/autostart
@@ -153,31 +168,51 @@ EOF
 chown -R liveuser:liveuser /home/liveuser/
 restorecon -R /home/liveuser/
 
-# kde specific
-# set up autologin
-if [ -f /etc/plasmalogin.conf ]; then
-sed -i 's/^#User=.*/User=liveuser/' /etc/plasmalogin.conf
-sed -i 's/^#Session=.*/Session=plasma.desktop/' /etc/plasmalogin.conf
-else
-cat << EOF >> /etc/plasmalogin.conf
-[Autologin]
-User=liveuser
-Session=plasma.desktop
-EOF
-fi
-
-
 # Set nobara boot theme (livemedia-creator rebuilds the live initramfs after %post)
 /usr/bin/plymouth-set-default-theme nobara
 
-# nvidia modules, update grub, set plasmalogin theme for nobara official
+# nvidia modules, update grub
 cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
     - command: "dracut -f --regenerate-all"
       timeout: 3600
 EOF
 
-echo "[Greeter][Wallpaper][org.kde.image][General]" >> /etc/plasmalogin.conf
-echo "Image=file:////usr/share/plasmalogin/wallpapers/nobara/nobara-winds1.webp" >> /etc/plasmalogin.conf
+# Lenovo ThinkPad T14s Gen 6 (Snapdragon X Elite): the installed system's
+# kernels need clk_ignore_unused pd_ignore_unused too (the live ISO's GRUB
+# adds them itself). Run by the installer in the new system; a no-op on
+# other machines
+cat << 'EOF' > /usr/libexec/nobara-board-kernel-args
+#!/bin/sh
+dmi=/sys/class/dmi/id
+model="$(cat $dmi/product_version $dmi/product_family 2>/dev/null) $(cat $dmi/product_name 2>/dev/null)"
+case "$model" in
+    *"ThinkPad T14s Gen 6"*|*21N1*|*21N2*) args="clk_ignore_unused pd_ignore_unused" ;;
+    *) exit 0 ;;
+esac
+grubby --update-kernel=ALL --args="$args"
+if [ -f /etc/kernel/cmdline ]; then
+    for a in $args; do
+        grep -qw -- "$a" /etc/kernel/cmdline || sed -i "s/\$/ $a/" /etc/kernel/cmdline
+    done
+fi
+EOF
+chmod 755 /usr/libexec/nobara-board-kernel-args
+cat << EOF >> /usr/share/calamares/modules/shellprocess.conf
+    - command: "/usr/libexec/nobara-board-kernel-args"
+      timeout: 60
+EOF
+
+# Calamares' displaymanager module only knows a fixed list of desktops, which
+# has no Tessel. Without a desktop its greetd setup fails (it reads the
+# desktop's executable unconditionally) and the install stops there. Name
+# Tessel's session. Its greetd setup writes greetd's own config.toml, which
+# Tessel's login screen (tessel-config.toml) does not use.
+cat << EOF >> /usr/share/calamares/modules/displaymanager.conf
+
+defaultDesktopEnvironment:
+    executable: "/usr/lib/tessel/tessel-session-launch"
+    desktopFile: "tessel"
+EOF
 
 # empty tmp files so unmount doesn't fail when unmounting /tmp due to kernel modules being installed
 rm -Rf /tmp/*
@@ -375,13 +410,8 @@ rm -f "$root"/etc/pki/akmods/private/*.priv "$root"/etc/pki/akmods/certs/*.der
 @fonts
 @hardware-support
 
-# @^kde-desktop group manually added for package cherry picking
-plasma-desktop
-plasma-workspace
-plasma-workspace-wallpapers
-plasma-workspace-wayland
-plasma-login-manager
-kde-nobara-plasmalogin
+# Desktop: Tessel (labwc, greetd login screen, Ptyxis, its own apps)
+tessel-meta
 NetworkManager-l2tp
 NetworkManager-openconnect
 NetworkManager-pptp
@@ -399,76 +429,13 @@ NetworkManager-ppp
 NetworkManager-adsl
 NetworkManager-config-connectivity-fedora
 PackageKit-command-not-found
-akonadi-server
-akonadi-server-mysql
-ark
-audiocd-kio
-bluedevil
-breeze-icon-theme
-colord-kde
 cups-pk-helper
-dolphin
-ffmpegthumbs
-filelight
 firewall-config
-flatpak-kcm
 fprintd-pam
 glibc-all-langpacks
-kaccounts-integration-qt6
-kaccounts-providers
-kcharselect
-kcalc
-kde-connect
-kde-gtk-config
-kde-inotify-survey
-kde-partitionmanager
-kde-settings-pulseaudio
-kdebugsettings
-kdegraphics-thumbnailers
-kdenetwork-filesharing
-kdeplasma-addons
-kdialog
-kdnssd
-kf6-baloo-file
-kfind
-khelpcenter
-kinfocenter
-kio-admin
-kjournald
-kmenuedit
-konsole
-krdp
-kscreen
-kscreenlocker
-ksshaskpass
-kwalletmanager5
-kwebkitpart
-kwin
 libappindicator-gtk3
-pam-kwallet
-phonon-qt6-backend-vlc
-pinentry-qt
-plasma-breeze
-plasma-desktop-doc
-plasma-disks
-plasma-drkonqi
-plasma-nm
-plasma-nm-l2tp
-plasma-nm-openconnect
-plasma-nm-openswan
-plasma-nm-openvpn
-plasma-nm-pptp
-plasma-nm-vpnc
-plasma-pa
-plasma-print-manager
-plasma-systemmonitor
-plasma-thunderbolt
-plasma-vault
-plasma-workspace-geolocation
-polkit-kde
+pinentry-gnome3
 samba-usershares
-signon-kwallet-extension
-spectacle
 systemd-oomd-defaults
 toolbox
 udisks2
@@ -578,7 +545,6 @@ apparmor-parser
 apparmor-utils
 apr
 apr-util
-ark
 chromium-widevine-helper
 bsdtar
 calamares
@@ -587,9 +553,8 @@ dnfdaemon
 dracut-live
 ds-inhibit
 falcond
-nobara-release-kde
+nobara-release-workstation
 fedora-repos
-ffmpegthumbs
 flac-libs
 flatpak
 foomatic
@@ -614,10 +579,6 @@ inkscape
 inputplumber
 isomd5sum
 json-c
-kate
-kde-l10n
-kde-runtime
-kde-nobara
 kernel
 kernel-modules
 # The Easy Anti-Cheat kernel. The normal kernel recommends it and
@@ -631,7 +592,6 @@ grub2-efi-aa64
 grub2-efi-aa64-cdboot
 mokutil
 nobara-eac-certs
-kf6-kimageformats
 lact
 libaom
 libasyncns
@@ -687,7 +647,6 @@ nss-mdns
 numactl
 nvidia-gpu-firmware
 ocl-icd
-okular
 opengamepadui
 openrgb
 openssl
@@ -697,7 +656,6 @@ papirus-icon-theme
 papirus-icon-theme-dark
 pavucontrol-qt
 pipewire-jack-audio-connection-kit-libs
-plasma-workspace-wallpapers
 plymouth-plugin-script
 plymouth-scripts
 power-profiles-daemon
@@ -724,7 +682,6 @@ vkBasalt
 vulkan-tools
 dnf-app-center
 zenity
-kdenlive
 blender
 prismlauncher
 
@@ -750,4 +707,11 @@ perl
 elfutils-libelf-devel
 kernel-devel
 
+# KDE extras the Qt/KF6 libraries recommend; Tessel uses none of them
+-kio-extras
+-plasma-activities
+-plasma-activities-stats
+-kaccounts-providers
+-kaccounts-integration-qt6
+-signon-kwallet-extension
 %end

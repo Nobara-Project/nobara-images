@@ -42,6 +42,12 @@ mkdir ${KERNELDIR}
 %for kernel in boot_kernels:
     installkernel images-${basearch} ${kernel.path} ${KERNELDIR}/vmlinuz
     installinitrd images-${basearch} ${kernel.initrd.path} ${KERNELDIR}/initrd.img
+    ## Snapdragon X laptops boot only with their device tree, which GRUB loads
+    ## (grub2-efi.cfg); the kernel package ships them in /boot/dtb-<version>
+    %if exists("boot/dtb-%s/qcom" % kernel.version):
+    mkdir ${KERNELDIR}/dtb/qcom
+    install boot/dtb-${kernel.version}/qcom/x1*.dtb ${KERNELDIR}/dtb/qcom/
+    %endif
 %endfor
 
 #FIXME: this will need adjusted when we have a real bootloader.
@@ -83,8 +89,17 @@ mkdir ${KERNELDIR}
 
 %if exists("boot/efi/EFI/*/gcdaa64.efi"):
 ## make boot.iso
+## Also bootable from a USB stick it is written to: efiboot.img is appended
+## as a GPT EFI system partition, which UEFI firmware boots from on a disk
+## (El Torito alone only works on optical media), as x86.tmpl does
 runcmd xorrisofs ${isoargs} -o ${outroot}/images/boot.iso \
-       ${efiargs} -R -J -V '${isolabel}' \
+       -R -J -V '${isolabel}' \
+       -partition_offset 16 \
+       -appended_part_as_gpt \
+       -append_partition 2 C12A7328-F81F-11D2-BA4B-00A0C93EC93B ${outroot}/images/efiboot.img \
+       -iso_mbr_part_type EBD0A0A2-B9E5-4433-87C0-68B6B72699C7 \
+       -c boot.cat --boot-catalog-hide \
+       -e '--interval:appended_partition_2:all::' -no-emul-boot \
        -graft-points \
        ${KERNELDIR}=${outroot}/${KERNELDIR} \
        ${LIVEDIR}=${outroot}/${LIVEDIR} \

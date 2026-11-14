@@ -53,6 +53,7 @@ ${make_efiboot("images/efiboot.img")}
     replace @KERNELNAME@ vmlinuz ${eficonf}
     replace @KERNELPATH@ /${kdir}/vmlinuz ${eficonf}
     replace @INITRDPATH@ /${kdir}/initrd.img ${eficonf}
+    replace @DTBPATH@ /${kdir}/dtb ${eficonf}
     replace @ISOLABEL@ '${isolabel}' ${eficonf}
     replace @EXTRA@ '${extra_boot_args}' ${eficonf}
     %if disk:
